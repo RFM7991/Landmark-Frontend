@@ -1,0 +1,1 @@
+census = new CensusModule("28a04efd887ab5cf335f99aabcde1978452de2cf"); //Create and activate an instance of the module
