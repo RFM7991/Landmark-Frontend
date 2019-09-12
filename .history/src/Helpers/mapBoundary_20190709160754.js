@@ -1,0 +1,18 @@
+
+export function getBoundaries(state, zip) {
+    var data = getStateBounds(state)
+    var boundary;
+    for(var i = 0; i < data.features.length; i++) {
+        var obj = data.features[i].properties.ZCTA5CE10;
+        if (obj == zip) {
+          console.log(data.features[i]);
+          boundary = data.features[i]
+          break;
+        }
+    } 
+}
+
+function getStateBounds(state) {
+    var data = require('../map-data/'+ state.toLowerCase() +'_zipcodes.json'); 
+    return data
+}
