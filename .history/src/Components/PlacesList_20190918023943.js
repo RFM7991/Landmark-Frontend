@@ -29,9 +29,9 @@ class PlacesList extends React.Component {
     this.onUpdateActivePlace(event.target.value)
   }
   render() {
-    let places
+
     if (this.props.places !== undefined) {
-       places = this.props.places.map((place, i) => {
+      let places = this.props.places.map((place, i) => {
         return (
           <tr
             key={i}
@@ -44,7 +44,7 @@ class PlacesList extends React.Component {
         );
       })
     } else {
-       places = <div></div>
+      let places = <div></div>
     }
 
     return (

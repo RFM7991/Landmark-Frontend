@@ -36,18 +36,16 @@ class SimpleMap extends Component {
       markers : new Map(),
       place_details : new Map(),
       place_photos : new Map(),
-      places_cache : new Map(),
-      places_count : 20,
       address_line : this.props.address.street + ', ' + this.props.address.city + ' ' + this.props.address.state + ', ' + this.props.address.zip,
       boundaries : getPoints(this.props.center, 0.804),
       cartography : {},
       display_cartography: true,
-      business_type: this.props.business_type,
     }  
   
     this.onUpdatePlaces = this.onUpdatePlaces.bind(this);
     this.onUpdateActivePlace = this.onUpdateActivePlace.bind(this);
     this.onUpdateTract = this.onUpdateTract.bind(this)
+    this.loadMorePlaces = this.loadMorePlaces.bind(this);
     this.lessPlaces = this.lessPlaces.bind(this);
     this.loadAllPlaces = this.loadAllPlaces.bind(this);
     this.loadMorePlaces = this.loadMorePlaces.bind(this);
@@ -68,7 +66,6 @@ class SimpleMap extends Component {
     this.checkIsCity = this.checkIsCity.bind(this)
     this.onPlacesCountChange = this.onPlacesCountChange.bind(this)
     this.updateRadii =this.updateRadii.bind(this)
-    this.initCache = this.initCache.bind(this)
 
     // to-do create function updateInfoWindow
     setInterval( () => {
@@ -86,7 +83,6 @@ class SimpleMap extends Component {
   }
 
   async componentDidMount() {
-    this.initCache()
     this.loadDefaultPlaces()
     let isCity = await this.checkIsCity()
     this.setState({ isCity : isCity})
@@ -124,16 +120,6 @@ class SimpleMap extends Component {
     }
   }
 
-  initCache() {
-    let business_types = [ 'restaurant', 'establishment', 'bar', 'cafe', 'beauty_salon',
-     'clothing_store', 'convenvience_store', 'locksmith', 'bakery',
-     'car_dealer', 'supermarket']
-
-     for (let type of business_types) {
-       this.state.places_cache.set(type, new Map())
-     }
-     console.log('init cache', this.state.places_cache)
-  }
   async checkIsCity() {
     let data = await getPopulation(this.props.center.lat, this.props.center.lng).then(res => res)
       .catch(err => console.error('city error', err))
@@ -182,15 +168,11 @@ class SimpleMap extends Component {
   }
     
   async loadDefaultPlaces() {
-    console.log(this.state.places_cache)
+    console.log('Loading places')
     let response = await getNearby(this.props.address, this.props.business_type, (data, token) => {
+      console.log('places data', data)
       var morePlaces = this.props.places.concat(data)
       this.setState({places: morePlaces})
-      for (let place of morePlaces) {
-        if (!this.state.places_cache.get(this.state.business_type).has(place.place_id)) {
-          this.state.places_cache.get(this.state.business_type).set(place.place_id, place)
-        } 
-      }
       this.setState({token: token}, () => {
         this.onUpdatePlaces(data)
       })
@@ -219,28 +201,12 @@ class SimpleMap extends Component {
     })
   }
 
-  loadMorePlaces(index, hasCallback, callback) {
-        let cached_places = Array.from(this.state.places_cache.get(this.state.business_type).values())
-        if (cached_places.length > index) {
-          console.log('pull from cache', index, cached_places.length)
-          var morePlaces = this.props.places.concat(cached_places.slice(index, index + 20))
-          this.setState({places: morePlaces}, () => {
-            this.onUpdatePlaces(morePlaces)
-            if (hasCallback) { callback() }
-          })
-        } else {
-          console.log('load more',index, cached_places.length)
+  loadMorePlaces() {
+      if (this.props.places.length < 60) {
         getPages(this.state.token, (data, token) => {
-          this.setState({ token : token })
         var morePlaces = this.props.places.concat(data)
-        for (let place of morePlaces) {
-          if (!this.state.places_cache.get(this.state.business_type).has(place.place_id)) {
-            this.state.places_cache.get(this.state.business_type).set(place.place_id, place)
-          } 
-        }
         this.setState({places: morePlaces}, () => {
           this.onUpdatePlaces(morePlaces)
-          if (hasCallback) { callback() }
         })
       })
     }
@@ -254,47 +220,67 @@ class SimpleMap extends Component {
     }
   }
   onBusinessFormChange(event) {
-    this.setState({ places_count : 20 })
+    console.log(this.state)
     this.setState({[event.target.name]: event.target.value})
     this.loadPlaceType(event.target.value)
   }
   // to do clean up & cache ffs
   onPlacesCountChange(event) {
+    console.log(this.state)
     this.setState({places_count: event.target.value})
-      switch (event.target.value) {
-        case '20':
-            var places = this.props.places
-            places = places.slice(0, 20)
-            this.setState({places: places})
-            this.onUpdatePlaces(places)
-            break;
 
-        case '40':
-            if (this.props.places.length < 40) {
-              this.loadMorePlaces(20, false)
-            } else {
-              var places = this.props.places
-              places = places.slice(0, 40)
-              this.setState({places: places})
-              this.onUpdatePlaces(places)
-            }
-            break;
+    if (event.target.value == 20) {
+      var places = this.props.places
+      places = places.slice(0, 20)
+      this.setState({places: places})
+      this.onUpdatePlaces(places)
+    } else if (event.target.value == 40) {
+      if (this.props.places.length < 40) {
+        console.log('rfm', '< 40')
+          getPages(this.state.token, (data, token) => {
+            var morePlaces = this.props.places.concat(data)
+            this.setState({places: morePlaces}, () => {
+              this.onUpdatePlaces(morePlaces)
+            })
+          })
+        } else {
+          console.log('rfm', '>= 40')
+          var places = this.props.places
+          places = places.slice(0, 40)
+          console.log(places.length)
+          this.setState({places: places})
+          this.onUpdatePlaces(places)
+        }
 
-        case '60':
-            if (this.props.places.length < 40) {
-              this.loadMorePlaces(20, true, ()=> this.loadMorePlaces(40, false))
-              
-            } else if (this.state.places.length == 40) {
-              this.loadMorePlaces(40, false)
-            }
-            else {
-              var places = this.props.places
-              places = places.slice(0, 60)
-              this.setState({places: places})
-              this.onUpdatePlaces(places)
-            }
-            break;
+    } else if (event.target.value == 60) {
+      if (this.props.places.length < 40) {
+        getPages(this.state.token, (data, token) => {
+          var morePlaces = this.props.places.concat(data)
+          this.setState({places: morePlaces}, () => {
+            this.onUpdatePlaces(morePlaces)
+          })
+        })
+        getPages(this.state.token, (data, token) => {
+          var morePlaces = this.props.places.concat(data)
+          this.setState({places: morePlaces}, () => {
+            this.onUpdatePlaces(morePlaces)
+          })
+        })
+      } else if (this.state.places.length == 40) {
+        getPages(this.state.token, (data, token) => {
+          var morePlaces = this.props.places.concat(data)
+          this.setState({places: morePlaces}, () => {
+            this.onUpdatePlaces(morePlaces)
+          })
+        })
       }
+     else {
+        var places = this.props.places
+        places = places.slice(0, 60)
+        this.setState({places: places})
+        this.onUpdatePlaces(places)
+      }
+    }
   }
   onUpdatePlaces(data) {
     this.props.onUpdatePlaces(data)
@@ -337,8 +323,6 @@ class SimpleMap extends Component {
     
    // markers
   updateMarkers = (map) =>  {
-    let markerMap = this.state.markers
-    let count = 0;
     Array.from(this.props.places).map((place, i) => {
     var id= place.id
     var img = ''
@@ -349,11 +333,9 @@ class SimpleMap extends Component {
     } else {
       img = YELLOW_MARKER
     }
-    count += 1
     let marker = renderMarker(i, place.geometry.location, map, place.name, img)
-    markerMap.set(id, {marker: marker, place: place})
+  this.state.markers.set(id, {marker: marker, place: place})
   })
-  this.setState({ markers : markerMap})
   this.updateInfoWindow(map)
 }
 // Array.from(p, ([key, value]) => value * value)
@@ -464,11 +446,8 @@ handleSwitch = (checked) => {
           <p style={{textAlign: 'center', marginBottom: '-3%'}}> Zone</p>
          <SliderSwitch switchFunction={this.handleSwitch}></SliderSwitch>
          </div>
-         <div style = {{ marginLeft: '5%'}}>
-          <p style={{textAlign: 'center', marginBottom: '0%'}}> Business Type</p>
-         <Form.Control textAlign={'center'} value={this.state.business_type} as="select" name="business_type" onChange={this.onBusinessFormChange} style={{width: '200px', textAlign: 'center', display: 'inline', marginLeft: '75px', marginRight: '75px'}}>
+         <Form.Control value={this.state.business_type} as="select" name="business_type" onChange={this.onBusinessFormChange} style={{width: '200px', textAlign: 'center', display: 'inline', marginLeft: '75px', marginRight: '75px'}}>
                         <option>restaurant</option>
-                        <option>establishment</option>
                         <option>bar</option>
                         <option>cafe</option>
                         <option>beauty_salon</option>
@@ -479,16 +458,17 @@ handleSwitch = (checked) => {
                         <option>car_dealer</option>
                         <option>supermarket</option>
           </Form.Control>
-          </div>
-         
-          <div style = {{ marginLeft: '5%'}}>
-          <p style={{textAlign: 'center', marginBottom: '0%'}}> Results</p>
-          <Form.Control textAlign={'center'} value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange} style={{width: '100px', textAlign: 'center', display: 'inline', float: 'right'}}>
+          <button className='map-control_button' onClick={this.loadDefaultPlaces} className='map_buttons' style={{float: 'right' }}>
+           Competition
+          </button> 
+          <button className='map-control_button' onClick={this.loadAllPlaces} className='map_buttons' style={{float: 'right' }}>
+           All
+          </button> 
+          <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange} style={{width: '100px', textAlign: 'center', display: 'inline', float: 'right'}}>
                         <option>20</option>
                         <option>40</option>
                         <option>60</option>
           </Form.Control>
-          </div>
          </div>
  
     return (

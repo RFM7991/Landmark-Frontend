@@ -87,7 +87,7 @@ class App extends React.Component {
           <div style={{ margin: 'auto'}}>
         <StaticGoogleMap size="2200x800"  
           maptype='satellite' 
-          zoom = '18'
+          zoom = '22'
            apiKey={GOOGLE_KEY}>
             <Marker.Group label="You" color="brown">
               <Marker location={this.props.address.coords}/>

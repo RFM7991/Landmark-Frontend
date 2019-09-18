@@ -29,24 +29,6 @@ class PlacesList extends React.Component {
     this.onUpdateActivePlace(event.target.value)
   }
   render() {
-    let places
-    if (this.props.places !== undefined) {
-       places = this.props.places.map((place, i) => {
-        return (
-          <tr
-            key={i}
-            onClick={() =>  this.onUpdateActivePlace(place)}
-          >
-            <td>{i+1}</td>
-            <td>{place.name}</td>
-            <td>{<img src={place.icon}style={{width: '32px', height: '32px'}} ></img>}</td>
-          </tr>
-        );
-      })
-    } else {
-       places = <div></div>
-    }
-
     return (
       <div className='places-list'>
       <br></br>

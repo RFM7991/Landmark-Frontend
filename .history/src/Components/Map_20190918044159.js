@@ -461,12 +461,12 @@ handleSwitch = (checked) => {
   <div className='map-control_bar'>
     
          <div style = {{ marginLeft: '5%'}}>
-          <p style={{textAlign: 'center', marginBottom: '-3%'}}> Zone</p>
+          <p style={{textAlign: 'center', marginBottom: '-0%'}}> Zone</p>
          <SliderSwitch switchFunction={this.handleSwitch}></SliderSwitch>
          </div>
          <div style = {{ marginLeft: '5%'}}>
           <p style={{textAlign: 'center', marginBottom: '0%'}}> Business Type</p>
-         <Form.Control textAlign={'center'} value={this.state.business_type} as="select" name="business_type" onChange={this.onBusinessFormChange} style={{width: '200px', textAlign: 'center', display: 'inline', marginLeft: '75px', marginRight: '75px'}}>
+         <Form.Control value={this.state.business_type} as="select" name="business_type" onChange={this.onBusinessFormChange} style={{width: '200px', textAlign: 'center', display: 'inline', marginLeft: '75px', marginRight: '75px'}}>
                         <option>restaurant</option>
                         <option>establishment</option>
                         <option>bar</option>
@@ -483,7 +483,7 @@ handleSwitch = (checked) => {
          
           <div style = {{ marginLeft: '5%'}}>
           <p style={{textAlign: 'center', marginBottom: '0%'}}> Results</p>
-          <Form.Control textAlign={'center'} value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange} style={{width: '100px', textAlign: 'center', display: 'inline', float: 'right'}}>
+          <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange} style={{width: '100px', textAlign: 'center', display: 'inline', float: 'right'}}>
                         <option>20</option>
                         <option>40</option>
                         <option>60</option>

@@ -1,0 +1,58 @@
+import { API } from '../Constants'
+const GEO_CODE = 'https://maps.googleapis.com/maps/api/geocode/json?';
+export const KEY = 'AIzaSyAApJlSsL7fsf9ElKRHLLOhEM2pZM00-ho';
+
+// to-do find out whether this is best done through express backen
+export function getGeoCode(street, city, state, callback) {
+    var f_street = street.replace(/ /g, '+')
+    var f_city = city.replace(/ /g, '+')
+    var f_state = state.replace(/ /g, '+')
+    let f_address = f_street + ',' + '+'+f_city + ',' + '+'+f_state
+
+    fetch(GEO_CODE + 'address=' + f_address +'&key=' + KEY)
+        .then(response => response.json())
+        .then(data =>  callback(data));
+}
+
+export const getNearby = (address, type) => {
+    const lat = address.coords.lat
+    const lng = address.coords.lng
+    return new Promise((resolve, reject) => {
+        fetch(API + 'places/nearby/' 
+            + lat +'/'
+            + lng + '/' 
+            + type,
+            {
+                method: 'GET',
+                credentials: "same-origin", //include, same-origin
+                headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+            })
+            .then(response => resolve(response))
+            .catch(error => console.error('Error:', error))
+        }) 
+}
+
+export const getPages = (token) => {
+    if (token != null) {
+            return fetch(API + 'places/pages/' + token, {
+                method: 'GET',
+                credentials: "same-origin", //include, same-origin
+                headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+            })
+            .then(response => response)
+            .catch(error => console.error('Error:', error))
+    }
+}
+
+export function getPhoto(ref, width, height, callback) {
+    fetch(API + 'places/photos/' + ref + '/' + width + '/' + height,
+    {
+        method : 'GET',
+        credentials: "same-origin",
+        headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+    })
+    .then(response =>  response.json())
+    .then(data => callback(data))
+    .catch(error => console.error('Photo fetch error:', error))
+}
+

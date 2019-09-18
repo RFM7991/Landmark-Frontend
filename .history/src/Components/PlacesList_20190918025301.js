@@ -30,6 +30,7 @@ class PlacesList extends React.Component {
   }
   render() {
     let places
+    console.log('props places', this.props.places)
     if (this.props.places !== undefined) {
        places = this.props.places.map((place, i) => {
         return (
