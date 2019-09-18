@@ -5,13 +5,13 @@ import App from './Components/App';
 import * as serviceWorker from './Redux/serviceWorker';
 import { Provider } from 'react-redux'
 import store from './Redux/store'
-
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 const rootElement = document.getElementById('root')
 ReactDOM.render(
     <Provider store={store}>
-    <App />
+    <Router basename={process.env.PUBLIC_URL}>< App /></Router>
     </Provider>,
      rootElement
 )

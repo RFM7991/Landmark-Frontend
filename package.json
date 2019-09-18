@@ -1,5 +1,6 @@
 {
   "name": "project_landmark",
+  "homepage": "https://RFM7991.github.io/Landmark-Frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,6 +21,7 @@
     "react-google-map-street-view": "^1.1.0",
     "react-places-autocomplete": "^7.2.1",
     "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-static-google-map": "^0.5.2",
     "react-streetview": "^1.1.1",
@@ -35,7 +37,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node-env-run server --exec nodemon | pino-colada",
-    "dev": "run-p server start"
+    "dev": "run-p server start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
