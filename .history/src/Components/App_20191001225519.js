@@ -59,6 +59,7 @@ class App extends React.Component {
               <Marker location={this.props.address.coords}/>
             </Marker.Group>
           </StaticGoogleMap>
+          <DoughnutChart></DoughnutChart>
           <ReactStreetview 
             height = '200px'
             width = '600px'
@@ -91,6 +92,7 @@ class App extends React.Component {
               <Marker location={this.props.address.coords}/>
             </Marker.Group>
           </StaticGoogleMap>
+      
           </div>
           </div>
        <PlacesList></PlacesList>

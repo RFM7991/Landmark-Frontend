@@ -4,22 +4,14 @@ import NavigationBar from './NavigationBar'
 import LookUpForm from './LookUpForm'
 import DemographicsPanel from './DemographicsPanel'
 import { connect } from 'react-redux'
-import store from '../Redux/store' ///Users/mcphersonr1/Documents/React/project_landmark/src/StateContainer/store.js
 import SimpleMap from './Map'
 import PlacesList from './PlacesList'
-
+import * as selectors from '../Reducers/selectors'
 import ReactStreetview from 'react-streetview';
-
-import {
-  StaticGoogleMap,
-  Marker,
-  Path,
-} from 'react-static-google-map';
-
+import { StaticGoogleMap, Marker} from 'react-static-google-map';
 import { createSelector } from 'reselect';
-
-const KEY = 'AIzaSyAApJlSsL7fsf9ElKRHLLOhEM2pZM00-ho'; 
-
+import { GOOGLE_KEY } from '../Constants'
+import DoughnutChart from './DoughnutChart'
 
 class App extends React.Component { 
 
@@ -32,7 +24,7 @@ class App extends React.Component {
 
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
-    if (this.props.address.toString().length > 0) {
+    if (this.props.ready) {
 
       const streetViewPanoramaOptions = {
         position: this.props.address.coords,
@@ -40,7 +32,6 @@ class App extends React.Component {
         zoom: 1
       };
 
-      
       var map = 
       <div>
       <div className="results-container">
@@ -55,7 +46,7 @@ class App extends React.Component {
           orientation = {"demographics-list-vertical "}>
         </DemographicsPanel>
        
-       <SimpleMap address={this.props.address} center={this.props.address.coords} zoom={15} business_type={this.props.business_type}/>
+       <SimpleMap height={'75vh'} address={this.props.address} center={this.props.address.coords} zoom={15} business_type={this.props.business_type}/>
        
        <PlacesList></PlacesList>
       </div>
@@ -63,7 +54,7 @@ class App extends React.Component {
         <StaticGoogleMap size="600x200"  
           maptype='satellite' 
           zoom = '18'
-           apiKey={KEY}>
+           apiKey={GOOGLE_KEY}>
             <Marker.Group label="You" color="brown">
               <Marker location={this.props.address.coords}/>
             </Marker.Group>
@@ -71,9 +62,45 @@ class App extends React.Component {
           <ReactStreetview 
             height = '200px'
             width = '600px'
-            apiKey={KEY}
+            apiKey={GOOGLE_KEY}
             streetViewPanoramaOptions={streetViewPanoramaOptions}
           />
+        </div>
+    </div>
+
+      var mapTest = 
+      <div>
+      <div className="results-container">
+        <DemographicsPanel 
+          business_type={this.props.business_type} 
+          street = {this.props.address.street}
+          city = {this.props.address.city}
+          state = {this.props.address.state}
+          zip = {this.props.address.zip}
+          lat = {this.props.address.coords.lat}
+          lng = {this.props.address.coords.lng}
+          orientation = {"demographics-list-vertical "}>
+        </DemographicsPanel>
+        <div style={{  width: "80%", backgroundColor : 'black', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{ margin: 'auto'}}>
+        <StaticGoogleMap size="2200x800"  
+          maptype='satellite' 
+          zoom = '18'
+           apiKey={GOOGLE_KEY}>
+            <Marker.Group label="You" color="brown">
+              <Marker location={this.props.address.coords}/>
+            </Marker.Group>
+          </StaticGoogleMap>
+          </div>
+          </div>
+       <PlacesList></PlacesList>
+      </div>
+      <div style={{display: 'flex',  alignItems: 'center', justifyContent: 'center'}}>
+        
+          <div style={{ width: '20%', height: '10%'}}>
+       <SimpleMap height={'25vh'} address={this.props.address} center={this.props.address.coords} zoom={15} business_type={this.props.business_type}/>
+       </div>
+          
         </div>
     </div>
       var panel = 
@@ -94,46 +121,27 @@ class App extends React.Component {
     return (
       <div>
         <NavigationBar/>
-       
+        {map}
         <div className="App">
         <header className="App-header">
           <LookUpForm/>
-          {map}
         </header>
       </div>
       </div>
     );
   }
 }
-const userSelector = createSelector (
-  state => state.user,
-  user => user
-);
-
-const addressSelector = createSelector (
-  state => state.address,
-  address => address
-);
-
-const businessTypeSelector = createSelector (
-  state => state.business_type,
-  business_type => business_type
-);
-
-const placesSelector = createSelector (
-  state => state.places,
-  places => places
-)
 
 const mapStateToProps = createSelector(
-  userSelector,
-  addressSelector,
-  businessTypeSelector,
-  placesSelector,
-  (user, address, business_type) => ({
+  selectors.userSelector,
+  selectors.addressSelector,
+  selectors.businessTypeSelector,
+  selectors.readySelector,
+  (user, address, business_type, ready) => ({
       user,
       address,
-      business_type
+      business_type,
+      ready
   })
 );
 

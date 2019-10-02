@@ -91,6 +91,7 @@ class App extends React.Component {
               <Marker location={this.props.address.coords}/>
             </Marker.Group>
           </StaticGoogleMap>
+          <DoughnutChart></DoughnutChart>
           </div>
           </div>
        <PlacesList></PlacesList>

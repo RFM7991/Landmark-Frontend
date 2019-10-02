@@ -59,6 +59,7 @@ class App extends React.Component {
               <Marker location={this.props.address.coords}/>
             </Marker.Group>
           </StaticGoogleMap>
+          <DoughnutChart></DoughnutChart>
           <ReactStreetview 
             height = '200px'
             width = '600px'
@@ -83,14 +84,8 @@ class App extends React.Component {
         </DemographicsPanel>
         <div style={{  width: "80%", backgroundColor : 'black', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{ margin: 'auto'}}>
-        <StaticGoogleMap size="2200x800"  
-          maptype='satellite' 
-          zoom = '18'
-           apiKey={GOOGLE_KEY}>
-            <Marker.Group label="You" color="brown">
-              <Marker location={this.props.address.coords}/>
-            </Marker.Group>
-          </StaticGoogleMap>
+       
+      
           </div>
           </div>
        <PlacesList></PlacesList>

@@ -11,7 +11,7 @@ import ReactStreetview from 'react-streetview';
 import { StaticGoogleMap, Marker} from 'react-static-google-map';
 import { createSelector } from 'reselect';
 import { GOOGLE_KEY } from '../Constants'
-import DoughnutChart from './DoughnutChart'
+import Graph from '../Components/Graph'
 
 class App extends React.Component { 
 
@@ -91,6 +91,7 @@ class App extends React.Component {
               <Marker location={this.props.address.coords}/>
             </Marker.Group>
           </StaticGoogleMap>
+          <Graph></Graph>
           </div>
           </div>
        <PlacesList></PlacesList>
