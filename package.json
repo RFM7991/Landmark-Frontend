@@ -24,6 +24,7 @@
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-spinners": "^0.6.1",
     "react-static-google-map": "^0.5.2",
     "react-streetview": "^1.1.1",
     "react-switch": "^5.0.1",
@@ -67,5 +68,12 @@
     "npm-run-all": "^4.1.5",
     "pino-colada": "^1.4.4",
     "redux-devtools": "^3.5.0"
-  }
+  },
+  "presets": [
+    "@babel/preset-react",
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "emotion"
+  ]
 }
