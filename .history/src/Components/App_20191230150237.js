@@ -196,7 +196,7 @@ class App extends React.Component {
                   backgroundSize: '100%', 
                   opacity: '1',
                 }}>
-                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
+                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0.0)', zIndex: 1}}></div>
 
                     <Register/>
                 </header>
