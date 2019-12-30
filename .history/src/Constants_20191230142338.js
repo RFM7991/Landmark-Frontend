@@ -1,5 +1,5 @@
-//  export const API =  'https://landmark-backend-252701.appspot.com/'
-  export const API = 'http://localhost:8080/';
+  export const API =  'https://landmark-backend-252701.appspot.com/'
+//  export const API = 'http://localhost:8080/';
 
  export const GOOGLE_KEY = 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU'; 
  export const google = window.google;
@@ -37,14 +37,11 @@
 };
 
 export const BUSINESS_TYPES = [
-  'Restaurant',
-  'bar',
-  'convenience_store',
-  'store',
   'accounting',
   'art_gallery',
   'bakery',
   'bank',
+  'bar',
   'beauty_salon',
   'bicycle_store',
   'book_store',
@@ -55,6 +52,7 @@ export const BUSINESS_TYPES = [
   'car_repair',
   'car_wash',
   'clothing_store',
+  'convenience_store',
   'dentist',
   'department_store',
   'doctor',
@@ -68,7 +66,7 @@ export const BUSINESS_TYPES = [
   'gym',
   'hardware_store',
   'home_goods_store',
-  'hotels / lodging',
+  'hotels /lodging',
   'insurance_agency',
   'jewelry_store',
   'laundry',
@@ -85,6 +83,8 @@ export const BUSINESS_TYPES = [
   'physiotherapist',
   'plumber',
   'real_estate_agency',
+  'residential',
+  'restaurant',
   'roofing_contractor',
   'shoe_store',
   'spa',

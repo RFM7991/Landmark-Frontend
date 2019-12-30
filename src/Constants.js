@@ -1,5 +1,5 @@
-//  export const API =  'https://landmark-backend-252701.appspot.com/'
-  export const API = 'http://localhost:8080/';
+  export const API =  'https://landmark-backend-252701.appspot.com/'
+//  export const API = 'http://localhost:8080/';
 
  export const GOOGLE_KEY = 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU'; 
  export const google = window.google;
