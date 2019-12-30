@@ -175,7 +175,7 @@ class App extends React.Component {
                   backgroundSize: '100%', 
                   opacity: '1',
                 }}>
-                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
+                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0.4)', zIndex: 1}}></div>
 
                     <Login/>
                 </header>
@@ -218,7 +218,7 @@ class App extends React.Component {
                   backgroundSize: '100%', 
                   opacity: '1',
                 }}>
-                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 00)', zIndex: 1}}></div>
+                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0.4)', zIndex: 1}}></div>
                   <h1 style={{zIndex: 2, fontSize: '58px', fontWeight: 'bold', fontFamily: 'Tahoma, Geneva, sans-serif' }}>Landmark</h1>
                   <br></br>
                   <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
