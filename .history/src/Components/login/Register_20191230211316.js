@@ -83,7 +83,7 @@ class Register extends React.Component {
             if (isValid) {
                 let results = await registerUser(this.state)
                 console.log(results)
-                this.props.history.push('/landmark-frontend/login')
+                this.props.history.push('/login')
             }
         }
         

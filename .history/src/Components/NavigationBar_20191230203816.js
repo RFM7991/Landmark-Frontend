@@ -31,11 +31,11 @@ class NavigationBar extends React.Component {
     render() {
         let button;
         if (this.props.user._id == -1) {
-             button = <Button  onClick={(e) => window.location='/Landmark-Frontend/login'} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>Login</Button>
+             button = <Button  onClick={(e) => window.location='/project-landmark/login'} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>Login</Button>
         } else {
              button = 
              <Button  onClick={(e) => {
-                 window.location='/Landmark-Frontend/login'
+                 window.location='/project-landmark/login'
                  let user = {_id: -1, username: 'guest', is_admin: false}
                  this.onUpdateUser(user)
                  localStorage.setItem('user', JSON.stringify(user))

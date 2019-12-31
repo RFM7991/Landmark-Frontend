@@ -83,7 +83,7 @@ class Register extends React.Component {
             if (isValid) {
                 let results = await registerUser(this.state)
                 console.log(results)
-                this.props.history.push('/landmark-frontend/login')
+                this.props.history.push('/login')
             }
         }
         
@@ -204,7 +204,7 @@ class Register extends React.Component {
                 </div>
             </Form>
                 <span style={{fontSize: '20px', color: lightBg}}>Already have an account?</span>
-                <a style={{fontSize: '20px'}} href='/landmark-frontend/login'> Login here</a>
+                <a style={{fontSize: '20px'}} href='/landmark-frontend-login'> Login here</a>
 
             </div>
           

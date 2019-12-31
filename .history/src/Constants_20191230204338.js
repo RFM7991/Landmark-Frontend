@@ -1,4 +1,4 @@
-  // export const API ='https://landmark-express.appspot.com/'
+  export const API = // 'https://landmark-express.appspot.com/'
   export const API = 'http://localhost:8080/';
 
  export const GOOGLE_KEY = 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU'; 

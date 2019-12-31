@@ -46,7 +46,7 @@ class Login extends React.Component {
             console.log('LOGIN RESULTS', results.res.length)
             if (results.res.length > 0) {
                 await this.onUpdateUser(results.res[0])
-                this.props.history.push('/Landmark-Frontend/')
+                this.props.history.push('/')
             }
         }
     }

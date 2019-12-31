@@ -174,7 +174,7 @@ class LookUpForm extends React.Component {
             let url = '/' + address + '/' + business_type + '/' + this.state.distance
             this.props.history.push('landmark-frontend'+url)
         }
-        else {
+        else 
             this.onUpdateReady(false)
         }
     }
