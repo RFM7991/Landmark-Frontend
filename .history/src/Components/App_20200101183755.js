@@ -207,7 +207,7 @@ class App extends React.Component {
         </Route>
 
         <Route
-           path={'/Landmark-Frontend/'}
+           path={'/'}
           render={(({match}) => {
             return <div>
                 <NavigationBar/>
@@ -221,7 +221,7 @@ class App extends React.Component {
                   <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
                   <h1 style={{zIndex: 2, fontSize: '58px', fontWeight: 'bold', fontFamily: 'Tahoma, Geneva, sans-serif' }}>Landmark</h1>
                   <br></br>
-                  <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
+                  <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All test</h3>
                     <LookUpForm/>
                 </header>
               </div>
