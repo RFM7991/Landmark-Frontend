@@ -143,7 +143,6 @@ class DemographicsPanel extends React.Component {
                                 let entry = data[0]
                                 if (name == 'Income') {
                                   
-                                
                                     if (i > 1) {
                                         entry = entry.replace(/_/g, '-')
                                         let num1 = entry.substring(1, entry.lastIndexOf('-')).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
