@@ -172,7 +172,7 @@ class LookUpForm extends React.Component {
             let address = encodeURI(JSON.stringify(this.props.address.formatted))
             let business_type = encodeURI(this.props.business_type.type)
             let url = '/' + address + '/' + business_type + '/' + this.state.distance
-            this.props.history.push('/Landmark-Frontend'+url)
+            this.props.history.push(url)
         }
         else {
             this.onUpdateReady(false)
@@ -180,6 +180,7 @@ class LookUpForm extends React.Component {
     }
 
     onUpdateAddress = async (address) => {
+        console.log('ADDRESS', address)
         // check for location from db 
         let results = await getLocation(address.place.place_id)
         console.log('CHECK FOR LOCATION', address.place.place_id, results)

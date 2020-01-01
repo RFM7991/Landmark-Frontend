@@ -171,8 +171,8 @@ class LookUpForm extends React.Component {
             }
             let address = encodeURI(JSON.stringify(this.props.address.formatted))
             let business_type = encodeURI(this.props.business_type.type)
-            let url = '/' + address + '/' + business_type + '/' + this.state.distance
-            this.props.history.push('/Landmark-Frontend'+url)
+            let url = '/Landmark-Frontend/' + address + '/' + business_type + '/' + this.state.distance
+            this.props.history.push('landmark-frontend'+url)
         }
         else {
             this.onUpdateReady(false)
