@@ -92,8 +92,8 @@ class Login extends React.Component {
                     Submit
                 </Button>
                 <br></br>
-                <span style={{fontSize: '20px', color: lightBg}}>New User?	&nbsp;</span>
-                <Link style={{fontSize: '20px'}} to="/register">Create an Account</Link> 
+                <span style={{fontSize: '20px', color: lightBg}}>New User?</span>
+                <a style={{fontSize: '20px'}} href='/Landmark-Frontend/register'> Create an Account</a>
             </Form>
             </div>
           

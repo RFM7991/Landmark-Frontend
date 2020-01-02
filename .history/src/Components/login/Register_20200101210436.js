@@ -204,7 +204,7 @@ class Register extends React.Component {
                 </div>
             </Form>
                 <span style={{fontSize: '20px', color: lightBg}}>Already have an account? &nbsp;</span>
-                <Link style={{fontSize: '20px'}} to="/login">Login here</Link> 
+                <Link style={{fontSize: '20px'}} to="/register">Login here</Link> 
 
             </div>
           
