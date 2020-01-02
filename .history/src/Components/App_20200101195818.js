@@ -207,7 +207,7 @@ class App extends React.Component {
         </Route>
 
         <Route
-          exact path={'/landmark-frontend/'}
+            path={'/'}
           render={(({match}) => {
             return <div>
                 <NavigationBar/>
