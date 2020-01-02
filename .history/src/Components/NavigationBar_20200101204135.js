@@ -31,7 +31,7 @@ class NavigationBar extends React.Component {
     render() {
         let button;
         if (this.props.user._id == -1) {
-             button = <Button  onClick={(e) => this.props.history.push('/login')} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>Login</Button>
+             button = <Button  onClick={(e) => window.location='/Landmark-Frontend/login'} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>Login</Button>
         } else {
              button = 
              <Button  onClick={(e) => {
