@@ -632,6 +632,8 @@ updateMarker = (marker) => {
   } else {
     img = YELLOW_MARKER
   }
+  console.log(this.props.business_type.type != 'residential')
+  console.log(this.props.business_type.type == this.state.business_type, this.props.business_type.type, this.state.business_type)
   marker.marker.setIcon(img)
 }
 

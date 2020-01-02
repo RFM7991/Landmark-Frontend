@@ -46,7 +46,7 @@
 .map-control_bar {
   display: flex;
   width: 100%;
-  font-size: 12px;
+  fontSize: 12px;
   border-radius: .25rem;
   align-items: center;
   justify-content: space-between

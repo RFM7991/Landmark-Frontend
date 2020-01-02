@@ -620,14 +620,13 @@ getOpen = (opening_hours) => {
   }
 }
 updateMarker = (marker) => {
-  
   var img = ''
   if (marker.place.place_id == this.props.address.place.place_id) {
     img = BLUE_MARKER
   }
   else if (marker.place.id === this.props.active_place.id) {
     img = GREEN_MARKER
-  } else if (this.props.business_type.type != 'residential' && this.props.business_type.type == this.state.business_type){
+  } else if (!this.props.business_type.type == 'residential' && this.props.business_type.type == this.state.business_type){
     img = RED_MARKER
   } else {
     img = YELLOW_MARKER
@@ -728,6 +727,7 @@ generateHeading = () => {
       this.loadDefaultPlaces()
       this.loadNearbySubways()
     }
+    
 
   const MapButtons = () => 
   <div className='map-control_bar'>

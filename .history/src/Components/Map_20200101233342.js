@@ -627,11 +627,12 @@ updateMarker = (marker) => {
   }
   else if (marker.place.id === this.props.active_place.id) {
     img = GREEN_MARKER
-  } else if (this.props.business_type.type != 'residential' && this.props.business_type.type == this.state.business_type){
+  } else if (!this.props.business_type.type == 'residential' && this.props.business_type.type == this.state.business_type){
     img = RED_MARKER
   } else {
     img = YELLOW_MARKER
   }
+  console.log(!this.props.business_type.type == 'residential' && this.props.business_type.type == this.state.business_type, img)
   marker.marker.setIcon(img)
 }
 
