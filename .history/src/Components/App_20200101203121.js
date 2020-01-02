@@ -164,7 +164,7 @@ class App extends React.Component {
         </Route>
 
         <Route
-           path={'/login'}
+           path={'login'}
           render={(({match}) => {
             return <div>
                 <NavigationBar/>
@@ -185,7 +185,7 @@ class App extends React.Component {
           })}>
         </Route>
         <Route
-            path={'/register'}
+            path={'/Landmark-Frontend/register'}
           render={(({match}) => {
             return <div>
                 <NavigationBar/>
@@ -207,7 +207,7 @@ class App extends React.Component {
         </Route>
 
         <Route
-           path={'/'}
+          exact path={'/'}
           render={(({match}) => {
             return <div>
                 <NavigationBar/>
