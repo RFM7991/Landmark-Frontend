@@ -241,11 +241,14 @@ class SimpleMap extends Component {
       // render cartography
       if (this.props.data_range == ZIP) {
         if (this.state.cartography.zip !== undefined)
+        console.log('ZIP', this.state.cartography)
           this.state.cartography.zip.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
       } 
       else if (this.props.data_range == TRADE_ZONE) {
-        if (this.state.cartography.tradezone !== undefined) {
-          this.state.cartography.tradezone.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
+        if (this.state.cartography.tradezone !== undefined) {8
+          this.state.cartography.tradezone.forEach(featureSets => {
+            featureSets.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
+          })
        } else {
          setTimeout(() => this.renderCartography(), 100)
        }

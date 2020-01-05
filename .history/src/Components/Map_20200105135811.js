@@ -245,7 +245,11 @@ class SimpleMap extends Component {
       } 
       else if (this.props.data_range == TRADE_ZONE) {
         if (this.state.cartography.tradezone !== undefined) {
-          this.state.cartography.tradezone.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
+          this.state.cartography.tradezone.forEach(featureSets => {
+
+          console.log('TZCART', featureSets.geometry)
+            featureSets.geometry.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
+          })
        } else {
          setTimeout(() => this.renderCartography(), 100)
        }

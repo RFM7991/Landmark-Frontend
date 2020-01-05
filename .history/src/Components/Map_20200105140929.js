@@ -241,6 +241,7 @@ class SimpleMap extends Component {
       // render cartography
       if (this.props.data_range == ZIP) {
         if (this.state.cartography.zip !== undefined)
+        console.log('ZIP', this.state.cartography)
           this.state.cartography.zip.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
       } 
       else if (this.props.data_range == TRADE_ZONE) {
