@@ -263,7 +263,6 @@ class DemographicsPanel extends React.Component {
                 <LoadingButton click={this.onUpdateDataRange} buffer={this.checkForTradeZone} buttonVariant={this.state.tzVariant}/>
                 </div>
             </div>
-           
             <div style={{ flexGrow: 1, overflowY: 'auto', backgroundColor: lightBg}}>
                <Accordion defaultActiveKey='0'>
                 <Card style={{backgroundColor: lightBg}}>
@@ -279,7 +278,11 @@ class DemographicsPanel extends React.Component {
                              </tr><tr>
                              <td>Address</td><td>{ this.props.address.formatted}</td>
                              </tr>
-                           <tr>
+                             <tr>
+                             <td>City</td><td>{ this.props.city}</td>
+                             </tr><tr>
+                             <td>Street</td><td>{this.props.street}</td>
+                             </tr><tr>
                             <td>Population</td><td>{social_data.summary.population != undefined && formatCommas(social_data.summary.population)}
                                 {social_data.summary.population == undefined && 'loading...'}
                             </td>
@@ -542,12 +545,3 @@ const mapActionsToProps = {
 };
 
 export default connect(mapStateToProps, mapActionsToProps) (DemographicsPanel);
-
-
-/**
- *   <tr>
-                             <td>City</td><td>{ this.props.city}</td>
-                             </tr><tr>
-                             <td>Street</td><td>{this.props.street}</td>
-                             </tr>
- */

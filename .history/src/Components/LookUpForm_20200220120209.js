@@ -131,7 +131,7 @@ class LookUpForm extends React.Component {
                 let alreadyInAddress = false
 
                 Object.entries(addressState).forEach(([label, value]) => {
-                    console.log('STREET_XXX', label, value, firstPart)
+                    console.log('XXX', label, value, firstPart)
                     if (value == firstPart) {
                         alreadyInAddress = true
                     }
@@ -143,17 +143,17 @@ class LookUpForm extends React.Component {
             // handle no city
             if (addressState.city == undefined) {
                 let secondPart = address.substring(address.indexOf(',')+1, address.length)
-                secondPart = secondPart.substring(0, secondPart.indexOf(','))
-                let alreadyInAddress2 = false
+                secondPart = secondPart.substring(0, secondPart.indexOf(',')
+                let alreadyInAddress = false
 
                 Object.entries(addressState).forEach(([label, value]) => {
-                    console.log('CITY_XXX', label, value, secondPart)
-                    if (value == secondPart) {
-                        alreadyInAddress2 = true
+                    console.log('XXX', label, value, firstPart)
+                    if (value == firstPart) {
+                        alreadyInAddress = true
                     }
                 })
-                if (!alreadyInAddress2)
-                    addressState.city = secondPart
+                if (!alreadyInAddress)
+                    addressState.street = firstPart
             }
 
         

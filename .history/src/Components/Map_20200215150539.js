@@ -734,7 +734,6 @@ onHandleSite = (checked) => {
 
 
 handleChange = (event) => {
-  console.log('CHANGE_444', event )
   this.setState({ center : event.center})
 }
 

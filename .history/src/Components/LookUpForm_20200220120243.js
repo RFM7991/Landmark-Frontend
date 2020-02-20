@@ -131,7 +131,7 @@ class LookUpForm extends React.Component {
                 let alreadyInAddress = false
 
                 Object.entries(addressState).forEach(([label, value]) => {
-                    console.log('STREET_XXX', label, value, firstPart)
+                    console.log('STEET_XXX', label, value, firstPart)
                     if (value == firstPart) {
                         alreadyInAddress = true
                     }

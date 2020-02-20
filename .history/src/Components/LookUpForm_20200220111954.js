@@ -118,44 +118,14 @@ class LookUpForm extends React.Component {
             let addressState = {}
             addressState.formatted = address
             addressState.street = number + ' ' + street
-           
+            if (addressState.street == "") {
+                addressState.street = address.substring(0, address.indexOf(','))
+            }
             addressState.city = city
             addressState.state = state
             addressState.zip = zip
             addressState.coords = geoCode
             addressState.place = place
-            
-            // handle no street
-            if (addressState.street == " ") {
-                let firstPart = address.substring(0, address.indexOf(','))
-                let alreadyInAddress = false
-
-                Object.entries(addressState).forEach(([label, value]) => {
-                    console.log('STREET_XXX', label, value, firstPart)
-                    if (value == firstPart) {
-                        alreadyInAddress = true
-                    }
-                })
-                if (!alreadyInAddress)
-                    addressState.street = firstPart
-            }
-
-            // handle no city
-            if (addressState.city == undefined) {
-                let secondPart = address.substring(address.indexOf(',')+1, address.length)
-                secondPart = secondPart.substring(0, secondPart.indexOf(','))
-                let alreadyInAddress2 = false
-
-                Object.entries(addressState).forEach(([label, value]) => {
-                    console.log('CITY_XXX', label, value, secondPart)
-                    if (value == secondPart) {
-                        alreadyInAddress2 = true
-                    }
-                })
-                if (!alreadyInAddress2)
-                    addressState.city = secondPart
-            }
-
         
             console.log(addressState)
             await this.setState({address: addressState})
