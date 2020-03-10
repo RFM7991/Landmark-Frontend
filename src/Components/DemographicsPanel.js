@@ -4,7 +4,7 @@ import Accordion from 'react-bootstrap/Accordion'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Card from 'react-bootstrap/Card'
 import { getAge, getIncome, getSocial, getZipStats, getZipAgeStats  } from '../Requests/city-requests' 
-import { getTradeZoneStats, getLoadedTradeZoneStats, getTradeZoneBounds } from '../Requests/tradezone-requests'
+import { getTradeZoneStats, getLoadedTradeZoneStats, getTradeZoneBounds, getTradeZoneBlockStats } from '../Requests/tradezone-requests'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import { updateDataRange } from '../Actions/dataRange-actions'
@@ -103,7 +103,8 @@ class DemographicsPanel extends React.Component {
     async getTradeZoneData() {
         console.log('GET TZ DATA', this.props.address.isNewEntry, this.props.tradeZone_bounds )
         // load tz stats from db if not a new entry 
-        if (this.props.address.isNewEntry) {
+   //     if (this.props.address.isNewEntry) {
+       if (true) {
            this.loadNewTradeZoneStats()
         } else {
             let range = 'driving'
@@ -129,11 +130,13 @@ class DemographicsPanel extends React.Component {
     loadNewTradeZoneStats = async () => {
         console.log('LOAD NEW STATS', this.props.tradeZone_bounds, this.props.isCity)
         // check if bounds have been loaded
-            await getTradeZoneBounds(this.props.isCity, this.props.address.coords)
-            .then(res => this.onUpdateTradeZoneBounds(res))
+        await getTradeZoneBounds(this.props.isCity, this.props.address.coords)
+        .then(res => this.onUpdateTradeZoneBounds(res))
         
-        
-        let data = await getTradeZoneStats(this.props.tradeZone_bounds)
+        let data = (this.props.isCity) // this.props.isCity
+            ? await getTradeZoneBlockStats(this.props.tradeZone_bounds)
+            : await getTradeZoneStats(this.props.tradeZone_bounds)
+
         // set internal state
         this.setState({tradeZoneStats : data, statsLoaded : true,  
             accordianKeys : {...this.state.accordianKeys, tradeZone: ['0', '1', '2', '3']}
@@ -164,7 +167,10 @@ class DemographicsPanel extends React.Component {
         })
     }
 
-    onUpdateTradeZoneBounds = tradeZone_bounds => this.props.onUpdateTradeZoneBounds(tradeZone_bounds)
+    onUpdateTradeZoneBounds = tradeZone_bounds => {
+        console.log('NEW_BOUNDS_DEMO')
+        this.props.onUpdateTradeZoneBounds(tradeZone_bounds)
+    }
       
 
     setModalShow = (flag) => {
@@ -313,11 +319,11 @@ class DemographicsPanel extends React.Component {
                     <Accordion.Collapse eventKey="1">
                     <Card.Body>
                         <Accordion defaultActiveKey="0">
-                        <NestedCard name={"Ethnicity"} data={social_data.race} key_i={"0"}></NestedCard>
-                        <NestedCard name={"Nativity"} data={social_data.nativity} key_i={"1"}></NestedCard>
-                        <NestedCard name={"Education (Ages 25+)"} data={social_data.education} key_i={"2"}></NestedCard>
-                        <NestedCard name={"Marital Status (Ages 15+)"} data={social_data.marital_status} key_i={"3"}></NestedCard>
-                        <NestedCard name={"Transportation (for work)"} data={social_data.transportation} key_i={"4"}></NestedCard>
+                        { !(this.props.data_range == TRADE_ZONE) && <NestedCard name={"Ethnicity"} data={social_data.race} key_i={"0"}></NestedCard> }
+                        { !(this.props.data_range == TRADE_ZONE) &&  <NestedCard name={"Nativity"} data={social_data.nativity} key_i={"1"}></NestedCard> }
+                        { !(this.props.data_range == TRADE_ZONE) && <NestedCard name={"Education (Ages 25+)"} data={social_data.education} key_i={"2"}></NestedCard> }
+                        <NestedCard name={"Marital Status (Ages 15+)"} data={social_data.marital_status} key_i={"3"}></NestedCard> 
+                        { !(this.props.data_range == TRADE_ZONE) && <NestedCard name={"Transportation (for work)"} data={social_data.transportation} key_i={"4"}></NestedCard> }
                         </Accordion>
                     </Card.Body>
                     </Accordion.Collapse>

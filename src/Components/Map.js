@@ -27,6 +27,7 @@ import { createTradeZoneCartography } from '../Requests/locations-requests'
 import FadeLoader from './UI/FadeLoader'
 import GridLoader from './UI/GridLoader'
 import { getSubwayTotals, getSubwayLines } from '../Requests/subway-requests';
+import { getBlockGroups } from '../Helpers/geojsonReader'
 
 const infoWindow =  new google.maps.InfoWindow()
 class SimpleMap extends Component {
@@ -154,7 +155,6 @@ class SimpleMap extends Component {
   async componentDidMount() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     this.initCache()
-    await this.loadTradeZoneCartography()
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -207,22 +207,34 @@ class SimpleMap extends Component {
     // reload subways on address change
     if (prevProps.address != this.props.address) {
       console.log("ADDRESS CHANGE")
+      this.onUpdateTradeZoneBounds([])
+      this.clearCartography()
     }
 
     // show subways on transportation change
     if (prevProps.transportation.showSubways != this.props.transportation.showSubways) {
           this.updatePlacesFromRedux('subway_station', 'subway station', 4)
     }
+
+
+    // updated tz bounds from demo panel
+    if (prevProps.tradeZone_bounds != this.props.tradeZone_bounds) {
+      if (this.props.tradeZone_bounds.length > 0) {
+        this.loadTradeZoneCartography()
+      }
+    }
   }
 
   onUpdateTradeZoneBounds(tradeZone_bounds) {
+    console.log('NEW_BOUNDS_CART', tradeZone_bounds)
     this.props.onUpdateTradeZoneBounds(tradeZone_bounds)
   }
 
   async loadTradeZoneCartography() {
     if (!this.state.cartographyLoaded) {
       // if address is new entry, calculate bounds, else fetch cartography from db 
-      if (this.props.address.isNewEntry) {
+  //    if (this.props.address.isNewEntry) {
+    if (true) { // DISABLE CACHE
         this.loadNewTradeZoneCart()
       } else {
         let range = 'driving'
@@ -249,19 +261,22 @@ class SimpleMap extends Component {
   }
 
   loadNewTradeZoneCart = async () => {
-    console.log('isCity', this.props.isCity)
-    await getTradeZoneBounds(this.props.isCity, this.props.address.coords).then(res => this.onUpdateTradeZoneBounds(res))
-        await getTradeZoneCartography(this.props.address.state.toLowerCase(), this.props.tradeZone_bounds).then( async (data) => {
-          let mCartography = Object.assign({}, this.state.cartography)
-          mCartography.tradezone = data
-          await this.setState({ cartography : mCartography, cartographyLoaded : true, loadingCart : {...this.state.loadingCart, [TRADE_ZONE] : false } })
-          this.renderCartography()
-          // upload new location tz cartography
-          let range = 'driving'
-          if (this.props.isCity) range = 'walking'
-          let tzCartUploadResults = await createTradeZoneCartography(this.props.address.place.place_id, data, range)
-          console.log('tzCartUploadResults', tzCartUploadResults)
-        })
+    // get tz bounds and push to redux
+  console.log('CURRENT_BOUNDS', this.props.tradeZone_bounds, typeof this.props.tradeZone_bounds)
+
+    // get new tz cart with bounds 
+      let data = (this.props.isCity)  //this.props.isCity
+        ? getBlockGroups(this.props.tradeZone_bounds, this.props.address.state)
+        : await getTradeZoneCartography(this.props.address.state.toLowerCase(), this.props.tradeZone_bounds)
+      let mCartography = Object.assign({}, this.state.cartography)
+      mCartography.tradezone = data
+      await this.setState({ cartography : mCartography, cartographyLoaded : true, loadingCart : {...this.state.loadingCart, [TRADE_ZONE] : false } })
+      this.renderCartography()
+      // upload new location tz cartography
+      let range = 'driving'
+      if (this.props.isCity) range = 'walking'
+      let tzCartUploadResults = await createTradeZoneCartography(this.props.address.place.place_id, data, range)
+      console.log('tzCartUploadResults', tzCartUploadResults)
   }
 
   initCache() {
@@ -279,7 +294,7 @@ class SimpleMap extends Component {
   renderCartography() {
     // clear data layer 
       this.clearCartography()
-      console.log('RENDER CART', this.state.loadingCart, this.props.data_range)
+     
       // render cartography
       if (this.props.data_range == ZIP) {
         if (this.state.cartography.zip !== undefined)
@@ -292,6 +307,7 @@ class SimpleMap extends Component {
          setTimeout(() => this.renderCartography(), 100)
        }
     }
+    
   }
 
    loadCartography() {
@@ -532,6 +548,7 @@ class SimpleMap extends Component {
             break;
       }
   }
+
   onUpdatePlaces(data) {
     if (this.props.address.place.types.includes('establishment')) {
       let updatedData = [this.state.addressPlace]
@@ -555,25 +572,30 @@ class SimpleMap extends Component {
 
   updateRadii() {
       if (this.props.isCity) {
-        let circle1Distance = 804 // 0.25 mi
-        let circle2Distance = 1608 // 0.5 mi
+        let circle1Distance = 402 // 0.25 mi
+        let circle2Distance = 804 // 0.5 mi
          const circle1 = renderCircle(circle1Distance, "#ffff00", this.state.map, this.state.center) 
          const circle2 = renderCircle(circle2Distance, "#0000ff", this.state.map, this.state.center) 
           // to-do cleanup, add label
-        let points = getPoints(this.state.center, 0.804, 1)
+        let points = getPoints(this.state.center, 0.402, 1)
         renderComplexMarker('circle1', points[0], this.state.map, '0.25 mi', YELLOW_DOT_25, new google.maps.Point(60, 60))
-        points = getPoints(this.state.center, 1.604, 1)
+        points = getPoints(this.state.center, 0.804, 1)
         renderComplexMarker('circle2', points[0], this.state.map, '0.5 mi', BLUE_DOT_05, new google.maps.Point(60, 60))
-     /* 
-        let points1 = getPoints(this.state.center, 0.5, 15)
-        let points2 = getPoints(this.state.center, 0.375, 12)
-        let points3 = getPoints(this.state.center, 0.25, 9)
-        let points4 = getPoints(this.state.center, 0.125, 6)
-        let testPoints = points1.concat(points2).concat(points3).concat(points4)
-        testPoints.forEach((e, i) => {
+      
+         points = getPoints(this.state.center, 0.08, 5)
+                .concat(getPoints(this.state.center, 0.15, 10))
+                .concat(getPoints(this.state.center, 0.25, 25))
+                .concat(getPoints(this.state.center, 0.35, 40))
+                
+        points.forEach((e, i) => {
           renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
         })
-      */
+
+        let outerRing = getPoints(this.state.center, .800, 50)
+        outerRing.forEach((e,i) => {
+          renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
+        })
+      
       } else if (!this.props.isCity) {
         let circle1Distance = 4828 // 3 mi
         let circle2Distance = 8046 // 5 mi
@@ -584,20 +606,29 @@ class SimpleMap extends Component {
           renderComplexMarker('circle1', points[0], this.state.map, '3 mi', YELLOW_DOT_3, new google.maps.Point(60, 60))
           points = getPoints(this.state.center, 8.046, 1)
           renderComplexMarker('circle2', points[0], this.state.map, '5 mi', BLUE_DOT_5, new google.maps.Point(60, 60))
+      
+      
+      points = getPoints(this.state.center, 4.8225, 1)
+      let center = this.state.center
+      let counter = 1;
+      let divisor = 12;
+      let increment = 6 / divisor
+      for (let i=1; i <= divisor; i++) {
+          points = points.concat(getPoints(center, i*increment, counter*10 ))
+          counter+=1
       }
-    /*  
-      let points1 = getPoints(this.state.center, 1.60940, 15)
-      let points2 = getPoints(this.state.center, 1.35, 30)
-      let points3 = getPoints(this.state.center, 1.07, 20)
-      let points4 = getPoints(this.state.center, 0.8, 25)
-      let points5 = getPoints(this.state.center, 0.534, 15)
-      let points6 = getPoints(this.state.center, 0.267, 6)
-      let points = points1.concat(points2).concat(points3).concat(points4).concat(points5).cartography.zipconcat(points6)
+
       console.log(points)
       points.forEach((e, i) => {
-        renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
+    //    renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
       })
-    */
+    
+
+      let outerRing = getPoints(this.state.center, 10, 80)
+      outerRing.forEach((e,i) => {
+      //  renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
+      })
+    }
   }
 
   onHandleCenter= () => {

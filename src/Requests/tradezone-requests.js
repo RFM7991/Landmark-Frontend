@@ -55,6 +55,28 @@ export function getTradeZoneStats(bounds) {
         })
 }
 
+export function getTradeZoneBlockStats(bounds) {
+
+    var formBody = {
+        'bounds': bounds
+    };
+    
+    return fetch(API + 'demo/stats/tradezone/blocks',
+    {
+        method : 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify(formBody)
+    })
+        .then(response => response.json())
+        .catch(error => {
+            showError()
+            console.error('Trade Zone Stats Error:', error)
+        })
+}
+
+
 export function getLoadedTradeZoneStats(pid, data_range) {
 
     var formBody = {
