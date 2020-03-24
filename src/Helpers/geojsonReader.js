@@ -35,7 +35,7 @@ export const getBlockGroups = (tzBounds, state) => {
 
     return results;
 }
-
+/*
 // tracts
 export const getTracts = (tzBounds, state) => {
     let bounds = tzBounds
@@ -67,7 +67,7 @@ export const getTracts = (tzBounds, state) => {
 
     return results;
 }
-
+*/
 // zip codes
 export const getZipCodes = (tzBounds, state) => {
     let bounds = tzBounds
