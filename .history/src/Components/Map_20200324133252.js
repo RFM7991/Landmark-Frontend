@@ -265,9 +265,15 @@ class SimpleMap extends Component {
   console.log('CURRENT_BOUNDS', this.props.tradeZone_bounds, typeof this.props.tradeZone_bounds)
 
     // get new tz cart with bounds 
-      let data = await getTradeZoneCartography(this.props.address.state, this.props.geo_unit, this.props.tradeZone_bounds)
-      console.log("TZ_CART_RES", this.props.address.state, this.props.geo_unit, this.props.tradeZone_bounds, data)
-
+    let data;
+    switch (this.props.geo_unit) {
+      case 'zip' : data = await getZipCodes(this.props.tradeZone_bounds, this.props.address.state); break;
+      case 'tract' : data =  await getTracts(this.props.tradeZone_bounds, this.props.address.state); break;
+      //data = await getTradeZoneCartography(this.props.address.state.toLowerCase(), this.props.tradeZone_bounds); break;
+      case 'block' : data = await getBlockGroups(this.props.tradeZone_bounds, this.props.address.state); break;
+      default : break;
+  }
+     
       let mCartography = Object.assign({}, this.state.cartography)
       mCartography.tradezone = data
       await this.setState({ cartography : mCartography, cartographyLoaded : true, loadingCart : {...this.state.loadingCart, [TRADE_ZONE] : false } })
@@ -275,8 +281,8 @@ class SimpleMap extends Component {
       // upload new location tz cartography
       let range = 'driving'
       if (this.props.isCity) range = 'walking'
-  //    let tzCartUploadResults = await createTradeZoneCartography(this.props.address.place.place_id, data, range)
-  //    console.log('tzCartUploadResults', tzCartUploadResults)
+      let tzCartUploadResults = await createTradeZoneCartography(this.props.address.place.place_id, data, range)
+      console.log('tzCartUploadResults', tzCartUploadResults)
   }
 
   initCache() {
@@ -294,7 +300,7 @@ class SimpleMap extends Component {
   renderCartography() {
     // clear data layer 
       this.clearCartography()
-     console.log("CART_TEST", this.props.data_range, this.state.cartography.zip)
+     console.log("CART_TEST", this.props.data_range)
       // render cartography
       if (this.props.data_range == ZIP) {
         if (this.state.cartography.zip !== undefined)
@@ -313,8 +319,7 @@ class SimpleMap extends Component {
 
    async loadCartography() {
    //  getZipCartography(this.props.address.state.toString().toLowerCase(), this.props.address.zip).then(async (data) => {
-     let zipQuery = [[{['zip-code-tabulation-area'] : this.props.address.zip.toString()} ]]
-     let data = await getTradeZoneCartography(this.props.address.state, 'zip', zipQuery)
+     let data = await getDefaultZip(this.props.address.zip, this.props.address.state.toString().toLowerCase())
        console.log('444', data, this.props.address.state.toString().toLowerCase(), this.props.address.zip)
        let mCartography = Object.assign({}, this.state.cartography)
 
@@ -643,16 +648,16 @@ class SimpleMap extends Component {
         })
       
       } else if (!this.props.isCity) {
-        // Brooklyn, Staten Island, Bronx    
+        // DRIVING    
         let circle1Distance = 804  // 0.5 mi
-        let circle2Distance =  4828 // 3 mi
+        let circle2Distance =  1608 // 3 mi
         const circle1 = renderCircle(circle1Distance, "#0000ff", this.state.map, this.state.center) 
-        const circle2 = renderCircle(circle2Distance, "#ffff00", this.state.map, this.state.center) 
+      const circle2 = renderCircle(circle2Distance, "#ffff00", this.state.map, this.state.center) 
         // to-do cleanup, add label
         let points = getPoints(this.state.center, 0.804, 1)
         renderComplexMarker('circle1', points[0], this.state.map, '0.5 mi', BLUE_DOT_05, new google.maps.Point(60, 60))
-        points = getPoints(this.state.center, 4.828, 1)
-        renderComplexMarker('circle1', points[0], this.state.map, '3 mi', YELLOW_DOT_3, new google.maps.Point(60, 60))
+        let points = getPoints(this.state.center, 4.828, 1)
+          renderComplexMarker('circle1', points[0], this.state.map, '3 mi', YELLOW_DOT_3, new google.maps.Point(60, 60))
  
         // render test points
         points = getPoints(this.state.center, 4.8225, 1)
