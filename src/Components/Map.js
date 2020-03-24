@@ -27,7 +27,7 @@ import { createTradeZoneCartography } from '../Requests/locations-requests'
 import FadeLoader from './UI/FadeLoader'
 import GridLoader from './UI/GridLoader'
 import { getSubwayTotals, getSubwayLines } from '../Requests/subway-requests';
-import { getBlockGroups, getZipCodes, getTracts, getDefaultZip } from '../Helpers/geojsonReader'
+import { getTracts, getBlockGroups, getZipCodes, getDefaultZip } from '../Helpers/geojsonReader'
 
 const infoWindow =  new google.maps.InfoWindow()
 class SimpleMap extends Component {
@@ -267,10 +267,10 @@ class SimpleMap extends Component {
     // get new tz cart with bounds 
     let data;
     switch (this.props.geo_unit) {
-      case 'zip' : data = getZipCodes(this.props.tradeZone_bounds, this.props.address.state); break;
-      case 'tract' : data = getTracts(this.props.tradeZone_bounds, this.props.address.state); break;
+      case 'zip' : data = await getZipCodes(this.props.tradeZone_bounds, this.props.address.state); break;
+      case 'tract' : data =  await getTracts(this.props.tradeZone_bounds, this.props.address.state); break;
       //data = await getTradeZoneCartography(this.props.address.state.toLowerCase(), this.props.tradeZone_bounds); break;
-      case 'block' : data = getBlockGroups(this.props.tradeZone_bounds, this.props.address.state); break;
+      case 'block' : data = await getBlockGroups(this.props.tradeZone_bounds, this.props.address.state); break;
       default : break;
   }
      
@@ -308,6 +308,7 @@ class SimpleMap extends Component {
       } 
       else if (this.props.data_range == TRADE_ZONE) {
         if (this.state.cartography.tradezone !== undefined) {
+          console.log("CHESS", this.state.cartography.tradezone)
           this.state.cartography.tradezone.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
        } else {
          setTimeout(() => this.renderCartography(), 100)
@@ -318,7 +319,7 @@ class SimpleMap extends Component {
 
    async loadCartography() {
    //  getZipCartography(this.props.address.state.toString().toLowerCase(), this.props.address.zip).then(async (data) => {
-     let data = getDefaultZip(this.props.address.zip, this.props.address.state.toString().toLowerCase())
+     let data = await getDefaultZip(this.props.address.zip, this.props.address.state.toString().toLowerCase())
        console.log('444', data, this.props.address.state.toString().toLowerCase(), this.props.address.zip)
        let mCartography = Object.assign({}, this.state.cartography)
 
