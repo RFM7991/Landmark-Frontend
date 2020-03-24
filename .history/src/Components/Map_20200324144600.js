@@ -291,9 +291,9 @@ class SimpleMap extends Component {
       this.state.map.data.remove(feature)
     })
   }
-  renderCartography() {
+  renderCartography(dontClear) {
     // clear data layer 
-      this.clearCartography()
+      if (!dontClear) this.clearCartography()
      console.log("CART_TEST", this.props.data_range, this.state.cartography.zip)
       // render cartography
       if (this.props.data_range == ZIP) {
@@ -305,7 +305,7 @@ class SimpleMap extends Component {
           console.log("CHESS", this.state.cartography.tradezone)
           this.state.cartography.tradezone.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
        } else {
-         setTimeout(() => this.renderCartography(), 100)
+         setTimeout(() => this.renderCartography(true), 100)
        }
     }
     

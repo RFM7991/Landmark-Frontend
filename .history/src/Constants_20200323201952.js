@@ -1,12 +1,12 @@
-   export const API ='https://landmark-frontend-266001.appspot.com/'
- // export const API = 'http://localhost:8080/';
+  // export const API ='https://landmark-frontend-266001.appspot.com/'
+  export const API = 'http://localhost:8080/';
 
  export const GOOGLE_KEY = 'AIzaSyDTz-MY1p0ZWQ1NAMquwhklde8dV-hy2mY'; ////AIzaSyA1pIYVWQVgnMzierQOHw0PDe17A9kF3ls 
  // 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU' - good 
  export const google = window.google;
  export const GOOGLE_SECRET = 'lpkXmFKRjuqOM9YXgLIrGRlPWIA=';
 //export const URL = 'http://localhost:3000/#/'
-export const URL = 'https://rfm7991.github.io'
+export const URL = 'https://landmark-frontend-266001.appspot.com/#/'
  export const mapOptions =  {
     streetViewControl: true,
     scaleControl: true,

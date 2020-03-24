@@ -1,5 +1,5 @@
    export const API ='https://landmark-frontend-266001.appspot.com/'
- // export const API = 'http://localhost:8080/';
+//  export const API = 'http://localhost:8080/';
 
  export const GOOGLE_KEY = 'AIzaSyDTz-MY1p0ZWQ1NAMquwhklde8dV-hy2mY'; ////AIzaSyA1pIYVWQVgnMzierQOHw0PDe17A9kF3ls 
  // 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU' - good 

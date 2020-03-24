@@ -266,8 +266,7 @@ class SimpleMap extends Component {
 
     // get new tz cart with bounds 
       let data = await getTradeZoneCartography(this.props.address.state, this.props.geo_unit, this.props.tradeZone_bounds)
-      console.log("TZ_CART_RES", this.props.address.state, this.props.geo_unit, this.props.tradeZone_bounds, data)
-
+   console.log("TZ_CART_RES", data)
       let mCartography = Object.assign({}, this.state.cartography)
       mCartography.tradezone = data
       await this.setState({ cartography : mCartography, cartographyLoaded : true, loadingCart : {...this.state.loadingCart, [TRADE_ZONE] : false } })
@@ -294,7 +293,7 @@ class SimpleMap extends Component {
   renderCartography() {
     // clear data layer 
       this.clearCartography()
-     console.log("CART_TEST", this.props.data_range, this.state.cartography.zip)
+     console.log("CART_TEST", this.props.data_range)
       // render cartography
       if (this.props.data_range == ZIP) {
         if (this.state.cartography.zip !== undefined)
@@ -313,8 +312,7 @@ class SimpleMap extends Component {
 
    async loadCartography() {
    //  getZipCartography(this.props.address.state.toString().toLowerCase(), this.props.address.zip).then(async (data) => {
-     let zipQuery = [[{['zip-code-tabulation-area'] : this.props.address.zip.toString()} ]]
-     let data = await getTradeZoneCartography(this.props.address.state, 'zip', zipQuery)
+     let data = await getDefaultZip(this.props.address.zip, this.props.address.state.toString().toLowerCase())
        console.log('444', data, this.props.address.state.toString().toLowerCase(), this.props.address.zip)
        let mCartography = Object.assign({}, this.state.cartography)
 
