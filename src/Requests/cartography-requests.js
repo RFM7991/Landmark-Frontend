@@ -23,11 +23,11 @@ export function fetchZipCartography(lat, lng) {
         })
 }
 
-export function getTradeZoneCartography(state, bounds) {
+export function getTradeZoneCartography(state, geounit) {
 
     var formBody = {
         'state': state,
-        'bounds': bounds
+        'geounit': geounit
     };
     
     return fetch(API + 'cart/tradezone',

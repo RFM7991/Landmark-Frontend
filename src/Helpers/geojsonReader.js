@@ -1,12 +1,15 @@
+import { getTradeZoneCartography} from "../Requests/cartography-requests" 
+
 // block groups
-export const getBlockGroups = (tzBounds, state) => {
+export const getBlockGroups = async  (tzBounds, state) => {
     let bounds = tzBounds
     let results = []
+    state = state.toLowerCase()
 
     // get correct state
-    const data = require('../geojson/block-groups/block-group-'+state.toLowerCase()+'.json')
+    const data = await getTradeZoneCartography(state, 'block')
     console.log('GEO_DATA', data, bounds)
-    for (let i=0; i < data.features.length; i++) {
+    for (let i=0; i < data.length; i++) {
 
         // check if matching bounds 
         for (let j = 0; j < bounds.length; j++) {
@@ -14,21 +17,21 @@ export const getBlockGroups = (tzBounds, state) => {
           //  console.log('TEST', data.features[i].properties.COUNTYFP == bounds[j][0].county,  data.features[i].properties.COUNTYFP, bounds[j][0].county)
 
             // county
-            if (data.features[i].properties.COUNTYFP != bounds[j][0].county) {
+            if (data[i].properties.COUNTYFP != bounds[j][0].county) {
                 continue;
             }
            
             // tract
-            if (data.features[i].properties.TRACTCE != bounds[j][0].tract) {
+            if (data[i].properties.TRACTCE != bounds[j][0].tract) {
                 continue;
             }
 
             // Block
-            if (data.features[i].properties.BLKGRPCE != bounds[j][0]['block-group']) {
+            if (data[i].properties.BLKGRPCE != bounds[j][0]['block-group']) {
                 continue;
             }
-            console.log('MATCH', data.features[i].properties, bounds[j][0])
-            results.push(data.features[i])
+            console.log('MATCH', data[i].properties, bounds[j][0])
+            results.push(data[i])
         } 
     }
     console.log('RESULTS', results)
@@ -37,30 +40,32 @@ export const getBlockGroups = (tzBounds, state) => {
 }
 
 // tracts
-export const getTracts = (tzBounds, state) => {
+export const getTracts = async (tzBounds, state) => {
     let bounds = tzBounds
     let results = []
+    state = state.toLowerCase()
 
+    
     // get correct state
-    const data = require('../geojson/tracts/tract-'+state.toLowerCase()+'.json')
+    const data = await getTradeZoneCartography(state, 'tract')
     console.log('GET_ZIP_GEO_DATA', data, bounds)
-    for (let i=0; i < data.features.length; i++) {
+    for (let i=0; i < data.length; i++) {
 
         // check if matching bounds 
         for (let j = 0; j < bounds.length; j++) {
 
             // county
-            if (data.features[i].properties.COUNTYFP != bounds[j][0].county) {
+            if (data[i].properties.COUNTYFP != bounds[j][0].county) {
                 continue;
             }
            
             // tract
-            if (data.features[i].properties.TRACTCE != bounds[j][0].tract) {
+            if (data[i].properties.TRACTCE != bounds[j][0].tract) {
                 continue;
             }
 
-            console.log('MATCH', data.features[i].properties, bounds[j][0])
-            results.push(data.features[i])
+            console.log('MATCH', data[i].properties, bounds[j][0])
+            results.push(data[i])
         } 
     }
     console.log('RESULTS', results)
@@ -69,24 +74,25 @@ export const getTracts = (tzBounds, state) => {
 }
 
 // zip codes
-export const getZipCodes = (tzBounds, state) => {
+export const getZipCodes = async(tzBounds, state) => {
     let bounds = tzBounds
     let results = []
+    state = state.toLowerCase()
 
     // get correct state
-    const data = require('../geojson/zip/zip-'+state.toLowerCase()+'.json')
+    const data = await getTradeZoneCartography(state, 'zip')
     console.log('GET_ZIP_GEO_DATA', data, bounds)
-    for (let i=0; i < data.features.length; i++) {
+    for (let i=0; i < data.length; i++) {
 
         // check if matching bounds 
         for (let j = 0; j < bounds.length; j++) {
 
             // Block
-            if (data.features[i].properties.ZCTA5CE10 != bounds[j][0]['zip-code-tabulation-area']) {
+            if (data[i].properties.ZCTA5CE10 != bounds[j][0]['zip-code-tabulation-area']) {
                 continue;
             }
-            console.log('MATCH', data.features[i].properties, bounds[j][0])
-            results.push(data.features[i])
+            console.log('MATCH', data[i].properties, bounds[j][0])
+            results.push(data[i])
         } 
     }
     console.log('RESULTS', results)
@@ -95,17 +101,18 @@ export const getZipCodes = (tzBounds, state) => {
 }
 
 // zip codes
-export const getDefaultZip = (zip, state) => {
+export const getDefaultZip = async (zip, state) => {
     let results = []
+    state = state.toLowerCase()
 
     // get correct state
-    const data = require('../geojson/zip/zip-'+state.toLowerCase()+'.json')
-    for (let i=0; i < data.features.length; i++) {
+    const data = await getTradeZoneCartography(state, 'zip')
+    for (let i=0; i < data.length; i++) {
         // Block
-        if (data.features[i].properties.ZCTA5CE10 != zip) {
+        if (data[i].properties.ZCTA5CE10 != zip) {
             continue;
         }
-        results.push(data.features[i])
+        results.push(data[i])
 
     }
     console.log('RESULTS', results)
