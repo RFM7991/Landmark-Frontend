@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9875efe4e0338cf61ed4fb16db09a501",
+    "revision": "1f74d77b79d3193a5a4b75ac5ff2402f",
     "url": "/Landmark-Frontend/index.html"
   },
   {
-    "revision": "d0cce426a28cd380a6a0",
-    "url": "/Landmark-Frontend/static/css/main.40cade75.chunk.css"
+    "revision": "09360719b1855fc1f4f4",
+    "url": "/Landmark-Frontend/static/css/main.0f79d1f2.chunk.css"
   },
   {
-    "revision": "ad53b73758a96e7f88f2",
-    "url": "/Landmark-Frontend/static/js/2.72d047f9.chunk.js"
+    "revision": "d95951250e803e2311bb",
+    "url": "/Landmark-Frontend/static/js/2.243c3eaa.chunk.js"
   },
   {
-    "revision": "d0cce426a28cd380a6a0",
-    "url": "/Landmark-Frontend/static/js/main.00fe6b2e.chunk.js"
+    "revision": "09360719b1855fc1f4f4",
+    "url": "/Landmark-Frontend/static/js/main.3beceb6d.chunk.js"
   },
   {
     "revision": "b78dacf903343343309f",
@@ -22,10 +22,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "c06bf52fe899ab8b9833594358634792",
     "url": "/Landmark-Frontend/static/media/modern-skyline.c06bf52f.jpg"
-  },
-  {
-    "revision": "d79dad4c1a95b7ebb8a456ac11a5fa63",
-    "url": "/Landmark-Frontend/static/media/skyline_background.d79dad4c.png"
   },
   {
     "revision": "8915c788018f33044d168490d47d410a",
