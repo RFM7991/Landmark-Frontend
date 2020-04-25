@@ -1,0 +1,21 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: aqua
+}
+
+label  {
+    font-size: 18px;
+    padding-right: 1em;
+}
+
+input {
+    margin-left: 10px;
+    align-self: center;
+}
+
+.inputGroup {
+    background-color: aquamarine;
+
+}
