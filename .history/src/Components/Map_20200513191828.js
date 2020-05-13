@@ -988,18 +988,18 @@ navigateToListing = () => {
           </button>
       }
   <div className='map-control_bar'>
-    <div style={{ display : 'flex',flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', height: '7.5vh', paddingLeft: '1em'}}>
+    <div style={{ backgroundColor: 'red', display : 'flex', alignItems: 'center',height: '7.5vh'}}>
     <Button style={{ fontSize: 12, marginRight: '0.25em',}} onClick={this.props.runJoyRideTutorial}>?</Button>
       <Button style={{ fontSize: 12, marginRight: '0.25em'}} variant="light" onClick={this.onHandleCenter}> 
         Ctr
       </Button>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',  marginTop: '1em', marginLeft: '1em' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',  marginTop: '1em', marginLeft: '10px'}}>
          <div style={{display: 'flex', flexDirection: 'column', alignItems:'center'}}>
           <p style={{textAlign: 'center', marginBottom: '0', color: 'whitesmoke'}}> Street View</p>
          <SliderSwitch checked={this.state.siteView} switchFunction={this.onHandleSite}></SliderSwitch>
          </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1em', }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '1em',  marginLeft: '10px'}}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems:'center'}}>
           <p style={{textAlign: 'center', marginBottom: '0', color: 'whitesmoke'}}> Overlay</p>
          <SliderSwitch checked={true} switchFunction={this.handleSwitch}></SliderSwitch>
@@ -1021,7 +1021,7 @@ navigateToListing = () => {
           </div>
           <div>
           <p style={{textAlign: 'center', marginBottom: '0%', color: 'whitesmoke'}}> Places of Interest</p>
-         <Form.Control value={this.state.poi} as="select" name="poi" onChange={this.onPoiFormChange} style={{flex: 1, textAlign: 'center', display: 'inline'}}>
+         <Form.Control value={this.state.poi} as="select" name="poi" onChange={this.onPoiFormChange} style={{width: '150px', textAlign: 'center', display: 'inline'}}>
                        <option>none</option>
                        <option>all</option>
                        {POI_TYPES.map((e, i) => {

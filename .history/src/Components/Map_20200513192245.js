@@ -988,7 +988,7 @@ navigateToListing = () => {
           </button>
       }
   <div className='map-control_bar'>
-    <div style={{ display : 'flex',flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', height: '7.5vh', paddingLeft: '1em'}}>
+    <div style={{ display : 'flex', backgroundColor: 'red', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', height: '7.5vh', paddingLeft: '1em'}}>
     <Button style={{ fontSize: 12, marginRight: '0.25em',}} onClick={this.props.runJoyRideTutorial}>?</Button>
       <Button style={{ fontSize: 12, marginRight: '0.25em'}} variant="light" onClick={this.onHandleCenter}> 
         Ctr

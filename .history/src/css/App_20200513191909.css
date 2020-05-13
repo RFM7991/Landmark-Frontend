@@ -29,7 +29,6 @@
   width: 40%;
   z-index: 2;
   flex-direction: column;
-  background-color: green
 }
 
 .results-container {
@@ -46,11 +45,11 @@
 
 .map-control_bar {
   display: flex;
-  width: 100%;
+  flex: 1;
   font-size: 12px;
   border-radius: .25rem;
   align-items: center;
-  justify-content: space-between
+  justify-content: center
 }
 
 .map-control_button {
