@@ -167,6 +167,7 @@ class SimpleMap extends Component {
     // active place change
     if (this.props.active_place && this.props.active_place !== prevProps.active_place) 
       if (this.props.active_place.toString().length > 0) {
+        console.log("liks", this.props.active_place.geometry.location)
         this.setState({center : this.props.active_place.geometry.location})
         // highlight marker on map
         if (prevProps.active_place.toString().length > 0) {

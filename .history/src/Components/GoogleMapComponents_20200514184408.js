@@ -58,7 +58,11 @@ export function renderInfoContent(place) {
   let icon;
   if (place.place_id == this.props.address.place.place_id) {
     header = <h3>Your Location</h3>
-  } 
+ 
+  } else  {
+  }
+
+
   let price;
     if (place.price_level != undefined) {
       price = place.price_level + ' / 4'

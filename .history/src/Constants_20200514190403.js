@@ -5,8 +5,8 @@
  // 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU' - good 
  export const google = window.google;
  export const GOOGLE_SECRET = 'lpkXmFKRjuqOM9YXgLIrGRlPWIA=';
-//export const URL = 'http://localhost:3000/#/'
-export const URL = 'https://rfm7991.github.io'
+export const URL = 'http://localhost:3000/#/'
+//export const URL = 'https://rfm7991.github.io'
  export const mapOptions =  {
     streetViewControl: true,
     scaleControl: true,

@@ -13,7 +13,7 @@ import Form from 'react-bootstrap/Form'
 import { getPoints } from '../Helpers/TradeZone'
 import { ZIP, TRADE_ZONE} from '../Components/DemographicsPanel'
 import { GOOGLE_KEY, google, BUSINESS_TYPES, POI_TYPES } from '../Constants.js'
-import { renderCircle, renderMarker, renderComplexMarker, renderLargeMarker, renderInfoContent, BLUE_MARKER, YELLOW_MARKER, GREEN_MARKER, RED_MARKER, BLUE_DOT_05, YELLOW_DOT_25, YELLOW_DOT_3, BLUE_DOT_5 } from './GoogleMapComponents'
+import { renderCircle, renderMarker, renderComplexMarker, renderInfoContent, BLUE_MARKER, YELLOW_MARKER, GREEN_MARKER, RED_MARKER, BLUE_DOT_05, YELLOW_DOT_25, YELLOW_DOT_3, BLUE_DOT_5 } from './GoogleMapComponents'
 import { activeSelector, addressSelector, businessTypeSelector, dataRangeSelector, placesSelector, stateSelector, tractSelector, zipSelector, isCitySelector, tradeZoneBoundsSelector, transportationSelector, geoUnitSelector } from '../Reducers/selectors'
 import SliderSwitch from './UI/SliderSwitch'
 import Button from 'react-bootstrap/Button';
@@ -29,7 +29,6 @@ import { getListingByAddress } from "../Requests/listings-requests"
 import { Link, withRouter } from 'react-router-dom'
 
 const infoWindow =  new google.maps.InfoWindow()
-
 class SimpleMap extends Component {
   static defaultProps = {
     defaultCenter: {
@@ -148,7 +147,6 @@ class SimpleMap extends Component {
             img = YELLOW_MARKER
           }
           infoWindow.marker.marker.setIcon(img)
-          this.onUpdateActivePlace(false)
         }
     }, 500);
   }
@@ -165,7 +163,7 @@ class SimpleMap extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     // active place change
-    if (this.props.active_place && this.props.active_place !== prevProps.active_place) 
+    if (this.props.active_place !== prevProps.active_place) 
       if (this.props.active_place.toString().length > 0) {
         this.setState({center : this.props.active_place.geometry.location})
         // highlight marker on map
@@ -698,25 +696,28 @@ class SimpleMap extends Component {
    // markers
   updateMarkers = (map, markers_to_keep) =>  {
     let markerMap = this.state.markers
-    
+    let blueMarker;
     Array.from(this.props.places).map((place, i) => {
       var id= place.id
       var img = ''
-      var marker;
 
       // filter preexisting places
       if (!markers_to_keep.has(id)) { 
-
-          if (this.props.business_type.type != 'residential' && this.props.business_type.type == this.state.business_type) {
+          if (place.place_id == this.props.address.place.place_id) {
+            blueMarker = place
+          }
+          else if (this.props.business_type.type != 'residential' && this.props.business_type.type == this.state.business_type) {
             img = RED_MARKER
           } else {
             img = YELLOW_MARKER
           }
-            marker = renderMarker(i, place.geometry.location, map, place.name, img)
-            markerMap.set(id, {marker: marker, place: place})
+          let marker = renderMarker(i, place.geometry.location, map, place.name, img)
+          markerMap.set(id, {marker: marker, place: place})
       }
     })
 
+    // add blue marker
+  //  renderMarker(this.props.places.length-1, blueMarker.geometry.location, map, place.name, BLUE_MARKER)
   this.setState({ markers : markerMap})
   this.updateInfoWindow(map)
 }
@@ -819,6 +820,7 @@ onHandleSite = (checked) => {
 
 
 handleChange = (event) => {
+  console.log('CHANGE_444', event )
   this.setState({ center : event.center})
 }
 

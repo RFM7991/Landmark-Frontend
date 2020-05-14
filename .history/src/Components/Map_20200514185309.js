@@ -29,7 +29,6 @@ import { getListingByAddress } from "../Requests/listings-requests"
 import { Link, withRouter } from 'react-router-dom'
 
 const infoWindow =  new google.maps.InfoWindow()
-
 class SimpleMap extends Component {
   static defaultProps = {
     defaultCenter: {
@@ -148,7 +147,6 @@ class SimpleMap extends Component {
             img = YELLOW_MARKER
           }
           infoWindow.marker.marker.setIcon(img)
-          this.onUpdateActivePlace(false)
         }
     }, 500);
   }
@@ -165,7 +163,7 @@ class SimpleMap extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     // active place change
-    if (this.props.active_place && this.props.active_place !== prevProps.active_place) 
+    if (this.props.active_place !== prevProps.active_place) 
       if (this.props.active_place.toString().length > 0) {
         this.setState({center : this.props.active_place.geometry.location})
         // highlight marker on map

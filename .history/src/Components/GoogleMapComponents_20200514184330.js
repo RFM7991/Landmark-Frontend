@@ -31,7 +31,7 @@ export const renderMarker = (key, position, map, title, icon, label) =>  new goo
     icon: {
       url: icon,
       scaledSize: new google.maps.Size(40, 40),
-      anchor : new google.maps.Point(0, 50)
+      anchor : new google.maps.Point(10, 20)
     },
     labelContent : label
   });
@@ -58,7 +58,11 @@ export function renderInfoContent(place) {
   let icon;
   if (place.place_id == this.props.address.place.place_id) {
     header = <h3>Your Location</h3>
-  } 
+ 
+  } else  {
+  }
+
+
   let price;
     if (place.price_level != undefined) {
       price = place.price_level + ' / 4'

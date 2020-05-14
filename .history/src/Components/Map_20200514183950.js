@@ -29,7 +29,6 @@ import { getListingByAddress } from "../Requests/listings-requests"
 import { Link, withRouter } from 'react-router-dom'
 
 const infoWindow =  new google.maps.InfoWindow()
-
 class SimpleMap extends Component {
   static defaultProps = {
     defaultCenter: {
@@ -148,7 +147,6 @@ class SimpleMap extends Component {
             img = YELLOW_MARKER
           }
           infoWindow.marker.marker.setIcon(img)
-          this.onUpdateActivePlace(false)
         }
     }, 500);
   }
@@ -165,7 +163,7 @@ class SimpleMap extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     // active place change
-    if (this.props.active_place && this.props.active_place !== prevProps.active_place) 
+    if (this.props.active_place !== prevProps.active_place) 
       if (this.props.active_place.toString().length > 0) {
         this.setState({center : this.props.active_place.geometry.location})
         // highlight marker on map
@@ -702,18 +700,26 @@ class SimpleMap extends Component {
     Array.from(this.props.places).map((place, i) => {
       var id= place.id
       var img = ''
+      var sameAddress = false
       var marker;
 
       // filter preexisting places
       if (!markers_to_keep.has(id)) { 
-
+          if (place.place_id == this.props.address.place.place_id) {
+            sameAddress = true 
+          }
           if (this.props.business_type.type != 'residential' && this.props.business_type.type == this.state.business_type) {
             img = RED_MARKER
           } else {
             img = YELLOW_MARKER
           }
-            marker = renderMarker(i, place.geometry.location, map, place.name, img)
-            markerMap.set(id, {marker: marker, place: place})
+          if (sameAddress) {
+             marker = renderLargeMarker(i, place.geometry.location, map, place.name, img)
+          } else {
+             marker = renderMarker(i, place.geometry.location, map, place.name, img)
+          }
+          
+          markerMap.set(id, {marker: marker, place: place})
       }
     })
 
@@ -819,6 +825,7 @@ onHandleSite = (checked) => {
 
 
 handleChange = (event) => {
+  console.log('CHANGE_444', event )
   this.setState({ center : event.center})
 }
 
