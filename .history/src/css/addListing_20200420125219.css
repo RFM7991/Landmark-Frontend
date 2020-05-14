@@ -1,0 +1,16 @@
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aqua
+}
+
+label  {
+    font-size: 18px;
+    padding-right: 1em;
+}
+
+input {
+    margin-left: 10px;
+    align-self: center;
+}
