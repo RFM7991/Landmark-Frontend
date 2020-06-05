@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6f1874a2baa248393a7ab7bfb2f136a9",
+    "revision": "00415ed0edb1c3df570fb0fe88ed9b4d",
     "url": "/Landmark-Frontend/index.html"
   },
   {
-    "revision": "cb631735c4235b85b2ce",
+    "revision": "2125950f0d2a297c304c",
     "url": "/Landmark-Frontend/static/css/2.e61fc129.chunk.css"
   },
   {
-    "revision": "49371c69e4a01230e2f5",
-    "url": "/Landmark-Frontend/static/css/main.ae0cdd72.chunk.css"
+    "revision": "1f72bab5040aad1be198",
+    "url": "/Landmark-Frontend/static/css/main.30293154.chunk.css"
   },
   {
-    "revision": "cb631735c4235b85b2ce",
-    "url": "/Landmark-Frontend/static/js/2.779499e6.chunk.js"
+    "revision": "2125950f0d2a297c304c",
+    "url": "/Landmark-Frontend/static/js/2.289d8054.chunk.js"
   },
   {
-    "revision": "49371c69e4a01230e2f5",
-    "url": "/Landmark-Frontend/static/js/main.c9ef6570.chunk.js"
+    "revision": "1f72bab5040aad1be198",
+    "url": "/Landmark-Frontend/static/js/main.6bdf27af.chunk.js"
   },
   {
     "revision": "b78dacf903343343309f",
