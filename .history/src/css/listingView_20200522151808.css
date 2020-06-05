@@ -1,0 +1,59 @@
+#blurImage {
+    -webkit-filter: blur(5px); 
+    filter: blur(5px);
+}
+
+#noBlur {
+    -webkit-filter: blur(0px); 
+    filter: blur(0px);
+}
+
+#listingHeader {
+    border-bottom: 1px solid rgba(70,70,70,0.5);
+}
+
+.listingDataTable {
+    table-layout: fixed;
+    font-size: 18px;
+    border-top: 2px solid rgba(70,70,70,0.3);
+    text-align: left;
+}
+
+.listingTableHeader {
+     text-align : left; 
+     margin-left: '0.45em';
+     font-size: '22px'; 
+     font-weight: bold;
+     color: 'white';
+}
+
+.tableValue {
+    font-weight: bold;
+    width: 65%;
+}
+
+#contact_info_panel {
+    border-left: 1px solid rgba(70,70,70,0.3);
+}
+
+.listingCard:hover {
+    cursor: pointer;
+    opacity: 0.65;
+}
+
+.listingCard {
+
+    opacity: 1;
+}
+
+#previewHeader {
+    border-bottom: 1px solid rgba(250,250,250,0.5);
+}
+
+#listingViewBottom {
+    border-top: 1px solid rgba(70,70,70,0.3);
+}
+.listingItem {
+    border-bottom: 1px solid rgba(70,70,70,0.5);
+    border-top: 1px solid rgba(70,70,70,0.5);
+}

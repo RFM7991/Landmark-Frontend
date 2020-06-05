@@ -1,0 +1,4 @@
+#blurImage {
+    -webkit-filter: blur(5px) grayscale(90%);
+    filter: blur(5px) grayscale(90%);
+}
