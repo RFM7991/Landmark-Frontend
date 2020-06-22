@@ -9,7 +9,7 @@
 export const URL = 'https://rfm7991.github.io'
  export const mapOptions =  {
     streetViewControl: true,
-    scaleControl: true,
+    scaleControl: true, 
     fullscreenControl: false,
     styles: [{
         featureType: "poi.business",

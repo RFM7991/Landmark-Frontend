@@ -49,7 +49,8 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "thunk": "0.0.1"
+    "thunk": "0.0.1",
+    "universal-cookie": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
