@@ -1,6 +1,5 @@
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useState } from 'react';
 import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import '../css/App.css';
 import { updateBusinessType} from '../Actions/business-actions'
@@ -8,23 +7,19 @@ import { updateReady } from '../Actions/ready-actions'
 import { updateIsCity } from '../Actions/isCity-actions'
 import { updateDataRange } from '../Actions/dataRange-actions'
 import { updateGeoUnit } from '../Actions/geoUnit-actions'
-import { clearData } from '../Actions/root-actions'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
-import { BUSINESS_TYPES } from '../Constants'
 import AutoCompleteBar from './AutoCompleteBar'
 import * as selectors from '../Reducers/selectors'
 import { updateAddress} from '../Actions/address-actions'
 import { Link, withRouter } from 'react-router-dom'
 import {AiOutlineInfoCircle} from 'react-icons/ai'
-import ReactTooltip from 'react-tooltip'
 import Modal from 'react-bootstrap/Modal'
 import  {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { getLocation, createLocation } from '../Requests/locations-requests';
-import { compose } from '../../../../../../Library/Caches/typescript/3.4.5/node_modules/redux';
+import { getLocation  } from '../Requests/locations-requests';
 const ZIP = 'zip code tabulation area'
 const TRADE_ZONE = 'tradeZone'
 const darkBg = 'rgb(26,28,41)'
