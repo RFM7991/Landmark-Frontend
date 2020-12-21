@@ -31,23 +31,28 @@ class ListingsBrowse extends React.Component {
     }
 
     async componentDidMount() {
+<<<<<<< HEAD
         let err;
 
         let data = await getRecents().catch(e => err = true)
 
         if (err) return;
 
+=======
+        let data = await getRecents()
+        data = data.concat(data)
+>>>>>>> parent of ace0f6c... host
         let triplets = [[]]
         let tripletIndex = 0
-
-        console.log("DATA", data)
         for (let i=0; i < data.length; i++) {
             if (triplets[tripletIndex].length == 3) {
                 tripletIndex += 1
                 triplets.push([])
             }
 
-            triplets[tripletIndex].push(data[i])   
+            else if (triplets[tripletIndex].length < 3) {
+                triplets[tripletIndex].push(data[i])
+            }
         }
 
         console.log("LISITNGS", triplets)

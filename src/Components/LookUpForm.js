@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, {useState } from 'react';
+=======
+import React, {useState} from 'react';
+>>>>>>> parent of ace0f6c... host
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../css/App.css';
@@ -55,9 +59,6 @@ class LookUpForm extends React.Component {
     }
 
     async componentDidMount() {
-
-
-        console.log("LOOK UP", this.props.urlParams)
         if (this.props.urlParams) {
             let type = this.props.urlParams.business_type
             if (type == 'lodging') type = 'hotels /lodging'
@@ -127,7 +128,6 @@ class LookUpForm extends React.Component {
             addressState.coords = geoCode
             addressState.place = place
 
-            console.log("ADDRESS_STATE", addressState)
             // handle no zip
             if (addressState.zip == undefined) {
                 this.setState({ error : true, errorMessage : "Address is too general, please try another"})
@@ -314,49 +314,34 @@ class LookUpForm extends React.Component {
                 <div style={{ display: 'flex',  minHeight: '64px', justifyContent: 'center', alignItems: 'center' }}>
                     {this.state.error && <div style={{ color: 'red', fontSize: 16}}>{this.state.errorMessage}</div>}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'row', }}>
-
+                <div style={{ display: 'flex', flexDirection: 'row'}}>
         
-                            
-                            
-                            <MyVerticallyCenteredModal
-                                show={this.state.showModal}
-                                onHide={() => this.setState({showModal:false})}
-                            />          
-                 
-                        </div>   
-                <div style={{ width: '100%',  display: 'flex', marginLeft: '2em'}}>
-                    <div style={{ flex: 1, display: 'flex',    }}>
-                        <h3 color="black" style={{color: textPrimary, fontSize: '22px', textAlign: 'left', marginLeft: '1em'}}>Address</h3> 
+                    <div style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
+                        <Form.Label color="black" style={{color: textPrimary, fontSize: '22px'}}>Address</Form.Label> 
                     </div>
-                
-                    <div style={{flex: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em', marginRight: '2.5em', }}>
-                        <div style={{ fontSize: '16px', marginRight: '0.5em', color: 'white'}}>How to use</div>
+                    <div style={{ marginBottom: '0.5em'}}>
                         <InfoButton  clickFunction={()=>this.setModalShow(true)}/>    
+                        <MyVerticallyCenteredModal
+                            show={this.state.showModal}
+                            onHide={() => this.setState({showModal:false})}
+                        />          
                     </div>
+                </div>   
+                <div style={{ display: 'flex', flexDirection: 'row', width: '100%'}}>
+                    <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress}/>
                 </div>
-
-                <div style={{ width: '100%',  display: 'flex'}}>
-                    <div style={{ display: 'flex', flexDirection: 'row', width: '80%', marginLeft: '2em' }}>
-                        <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress}/>
-                    </div>
-                    <div style={{ width: '20%'}}>
-                        <Form style={{ flexDirection : 'row', justifyContent: 'flex-start', marginLeft: '1em'}}>
-                            {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>
-                                Go</Button>
-                            }
-                            {this.state.address == undefined && <Button  variant="primary" onClick={this.onHandleAddressWarning} style={{backgroundColor:'#00d4ff', fontWeight: 'bold', opacity: 0.75}}>
-                                Go</Button>
-                            }
-                        </Form>
-                    </div>
-           
-                </div>
-                
-                <div style={{ marginTop: '2em', backgroundColor: 'rgba(1,1,1,0.6', width: '70%', alignSelf: 'center'}}>
-                        <p style={{ fontSize: 18, color: 'whitesmoke', margin: 'auto'}}>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York USA</p>
-                </div>
-  
+                <br></br>
+            <Form style={{ flexDirection : 'row', justifyContent: 'center'}}>
+                {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>
+                    Submit</Button>
+                }
+                {this.state.address == undefined && <Button  variant="primary" onClick={this.onHandleAddressWarning} style={{backgroundColor:'#00d4ff', fontWeight: 'bold', opacity: 0.75}}>
+                    Submit</Button>
+                }
+            </Form>
+            <div style={{ marginTop: '2em', backgroundColor: 'rgba(1,1,1,0.6'}}>
+                      <p style={{ fontSize: 18, color: 'whitesmoke', padding: 5, margin: 'auto'}}>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, USA</p>
+            </div>
         </div>
         );
     }
@@ -395,19 +380,29 @@ const MyVerticallyCenteredModal = (props) => {
         </Modal.Header>
         <Modal.Body>
           <h3 style={{fontSize: '20px'}}>
-            Start typing a street address* or the name of a business and select from the autofill results.
+            1. Start typing a street address* or the name of a business and select from the autofill results.
           </h3>
           <p>
-              <ul>
-                  <li><span><strong>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York USA</strong> </span> </li>
-                  <li><span> For intersections type the first street then '&amp;' or 'and' then the next street.</span><br></br> <span>
+                <span><strong>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island</strong> </span>   
+              <br></br>
+              <span> For intersections type the first street then '&amp;' or 'and' then the next street.</span>   
+              <br></br>
+            <span>
             For example, '3rd Ave &amp; 11th St, New York, NY'
-            </span>   </li>
-              </ul>
-                  
-            
+            </span>
           </p>
-          
+          <h3 style={{fontSize: '20px'}}>
+            2. Select your new business type. This will be used to determine local competitors
+          </h3>
+          <p>
+              <span> For 'Residential' business types, nearby establishments will be displayed instead of competitors</span>   
+          </p>
+          <h3 style={{fontSize: '20px'}}>
+            3. Select your customer base, walking or driving. This will help determine your site's Retail Trade Zone
+          </h3>
+          <p>
+              <span>Typically, 'Driving' works best for suburban areas and 'Walking' for urban areas</span>   
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

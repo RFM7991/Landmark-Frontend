@@ -41,10 +41,11 @@ export async function getListingById(listingId) {
         })
 }
 
-export async function getListingByPlaceId(place_id) {
+export async function getListingByAddress(address) {
 
-    let body = { "place_id" : place_id }
-    return fetch(API + 'listings/place_id',
+    let body = { "address" : address }
+    console.log("get_listings_body", body )
+    return fetch(API + 'listings/address',
     {
         method : 'POST',
         headers: {
@@ -85,63 +86,7 @@ export function getListings(start, limit) {
     .catch(err => console.log("Get Listings error", err))
 }
 
-// search near by
-export function getNearbyListings(zip, distance) {
-    let body = {
-        "zip" : String(zip),
-        "distance" : Number(distance)
-    }
 
-    return fetch(API + 'listings/nearby', 
-    {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify(body)
-    })
-    .then(res => res.json())
-    .catch(err => console.log("Get Nearby Listings error", err))
-}
-
-// get by user_id
-export function getListingByUserId(user_id) {
-    let body = {
-        "user_id" : String(user_id),
-    }
-
-    return fetch(API + 'listings/user_id', 
-    {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify(body)
-    })
-    .then(res => res.json())
-    .catch(err => console.log("Get Listings by user_id error", err))
-}
-
-// delete lisitng
-export async function deleteListing(listingId) {
-
-    let body = {
-        "listingId" : listingId
-    }
-
-    return fetch(API + 'listings/delete',
-    {
-        method : 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify(body)
-    })
-        .then(response => response.json())
-        .catch(error => {
-            console.error('Create listing error:', error)
-        })
-}
 
 /**
  *     locked = true 

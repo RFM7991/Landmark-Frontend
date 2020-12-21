@@ -38,7 +38,6 @@ class ListingView extends React.Component {
             top: 0,
             behavior: 'smooth',
         })
-        
         // get listing info from url params
         if (this.props.urlParams) {
 
@@ -183,7 +182,7 @@ class ListingView extends React.Component {
                                             </div>
                                         </Link>
                                     </div>
-                                    <h2 style={{ flex: 5, color: 'white', textDecorationLine: 'underline',}}>{this.state.listingData.location.formatted}</h2>
+                                    <h2 style={{ flex: 3, color: 'white', textDecorationLine: 'underline',}}>{this.state.listingData.location.formatted}</h2>
                                     
                                     <div style={{ display: 'flex', flex: 1}}/>
                                 </div>
@@ -204,7 +203,7 @@ class ListingView extends React.Component {
                                       
                                         </GoogleMapReact>
                                     </div>
-                                  <Slideshow width={'60%'} height={'400px'} photos={this.state.listingData.photos.cover_photos.concat(this.state.listingData.photos.site_photos)}/>
+                                  <Slideshow width={'60%'} height={'400px'} photos={this.state.listingData.photos.site_photos}/>
                                 </div>
                             
                             <div id="listingViewBottom "style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -219,7 +218,7 @@ class ListingView extends React.Component {
                                         </tr>
                                         <tr>
                                         <td>Asking price</td>
-                                        <td className="tableValue">{(data.pricingInfo.askingPrice != undefined) ? `$ ${data.pricingInfo.askingPrice}` : "Unavailable"}</td>
+                                        <td className="tableValue">${data.pricingInfo.askingPrice}</td>
                                         </tr>
                                         <tr>
                                         <td>For Sale?</td>
@@ -233,31 +232,9 @@ class ListingView extends React.Component {
                                 </Table>
                                 
                                 <h3 className="listingTableHeader" style={{ color: 'white'}}>Location Details</h3>
-                                {Object.entries(data.locationDetails).length == 0 && <p style={{ color: 'white', textAlign: 'left'}}>This information is unavailable or has not been provided yet</p>}
                                 <Table  className="listingDataTable" striped bordered hover variant="light" >
                                         <tbody>
                                             {Object.entries(data.locationDetails).map(([key, value], i) => {
-
-                                                // C/O
-                                                if (key == "hasOccupancyCert") {
-                                                    return (
-                                                        <tr>
-                                                            <td>{"Has CO"}</td>
-                                                            <td className="tableValue">{capitalizeFirst(value)}</td>
-                                                        </tr>
-                                                    )
-                                                }
-
-                                                // ingress
-                                                if (key == "ingressInfo") {
-                                                    return (
-                                                        <tr>
-                                                            <td>{"Means of Ingress/Egress"}</td>
-                                                            <td className="tableValue">{capitalizeFirst(value)}</td>
-                                                        </tr>
-                                                    )
-                                                }
-
                                                 return (
                                                     <tr>
                                                         <td>{formatKeys(key)}</td>
@@ -270,7 +247,6 @@ class ListingView extends React.Component {
                                 </Table>
 
                                 <h3 className="listingTableHeader" style={{ color: 'white'}}>Pricing Info</h3>
-                                {Object.entries(data.pricingInfo).length == 0 && <p style={{ color: 'white', textAlign: 'left'}}>This information is unavailable or has not been provided yet</p>}
                                 <Table  className="listingDataTable" striped bordered hover variant="light" >
                                         <tbody>
                                             {Object.entries(data.pricingInfo).map(([key, value], i) => {
@@ -288,15 +264,12 @@ class ListingView extends React.Component {
                             </div>
 
                             <div id="contact_info_panel" style={{ display: 'flex', flex: 1, height: '100%', flexDirection: 'column', alignItems:'center' }}>
-                                <h3 style={{ marginTop: '0.5em', marginBottom: '0.5em', color: 'white'}}>Contact Information</h3>
-                                {data.photos.contact_photos.length > 0 &&
-                                    <div style={{ width: '200px', height: '200px', marginBottom: '0.5em'}}>
-                                        <Image src={S3_BASE+ data.photos.contact_photos[0]}  roundedCircle style={{ width: '100%', height: '100%'}}/> 
-                                    </div>
-                                }
-                                <p style={{ marginTop: '0.5em', marginBottom: '0.5em', fontWeight: 'bold', color: 'white'}}>
-                                { (data.contactInfo.relationship != 'other') ? capitalizeFirst(data.contactInfo.relationship) : 'Other (non broker/landlord)' }
-                                </p>
+                                <h3 style={{ marginTop: '0.5em', marginBottom: '0.5em'}}>Contact Information</h3>
+                                
+                                <div style={{ width: '60%', marginBottom: '0.5em'}}>
+                                    <Image src={S3_BASE+ data.photos.contact_photos[0]}  roundedCircle style={{ maxHeight: "200px"}}/>
+                                </div>
+                                <p style={{ marginTop: '0.5em', marginBottom: '0.5em', fontWeight: 'bold', color: 'white'}}>{capitalizeFirst(data.contactInfo.relationship)}</p>
                                 <div style={{ padding: '0.5em'}}>
                                     <p style={{ color: 'white'}}>{data.contactInfo.ownershipDetails}</p>
                                 </div>

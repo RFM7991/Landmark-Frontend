@@ -2,7 +2,6 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import '../../css/addListing.css';
 import SubwayIcon from '../../images/subway.png'
 import Table from 'react-bootstrap/Table'
 import ReactTableContainer from "react-table-container";
@@ -15,10 +14,6 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import {editUser} from '../../Requests/users-requests'
 import { updateUser } from '../../Actions/user-actions';
-import { uploadProfilePic } from '../../Requests/users-requests'
-import PhotoUploader from "../AddListing/PhotoUploader"
-
-const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'
@@ -37,8 +32,7 @@ class ProfilePanel extends React.Component {
             username: { value: this.props.user.username, isValid: true, message: '' },
             email: { value: this.props.user.email, isValid: true, message: '' },
             validated: false,
-            editMode : false,
-            photos : []
+            editMode : false
         }
     }
 
@@ -54,7 +48,8 @@ class ProfilePanel extends React.Component {
 
     componentDidUpdate(prevProps) {
     }
-    
+
+
     onFormChange = (e) => {
         let update = { ...this.state[e.target.name]}
 
@@ -145,34 +140,13 @@ class ProfilePanel extends React.Component {
         })
     }
 
-
-    handleUploadProfile = async () => {
-
-        let error = false 
-        let errormessage = ""
-        let formData = new FormData();
-        formData.append("profile", this.state.photos[0])
-        formData.append("user_id", this.props.user_id)
-    
-        let res = await uploadProfilePic(formData).catch(e => { error = true; errormessage = e })
-        console.log("UPLOAD_PHOTO", res)
-
-    }
-
-    handleSetPhotos = (photos ) => {
-        console.log("PHOTOTS", photos)
-        this.setState({ photos : photos })
-    }
-
     render() {
         return (
-            <div style={{ width: '100%', height: '100vh',
-            display: 'columns', alignItems: 'center',  justifyContent: 'center' }}>
-                <div style={{ marginTop: '2em', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                  <img src={(this.state.photos.length > 0) ? URL.createObjectURL(this.state.photos[0]) : S3_BASE + "users/" + this.props.user_id+ "/profile.png"} 
+            <div style={{ width: '100%', height: '100%',
+            display: 'columns', alignItems: 'center',  justifyContent: 'center', backgroundColor: 'whitesmoke'}}>
+                <div style={{ marginTop: '4em'}}>
+                  <img src={'https://media-exp1.licdn.com/dms/image/C4E03AQGIviyGnEnlyQ/profile-displayphoto-shrink_200_200/0?e=1586390400&v=beta&t=RIDnoFwrm22DeH-yGzlaZvLewKS6MDXIza6YrWK5GOQ'} 
                     width={100} height={100} style={{borderRadius: 45}}/>
-
-        {this.state.editMode &&  <PhotoUploader setPhotos={this.handleSetPhotos}/> }
                 </div>
                 <div style={{ fontSize: 16, color: 'black',  width: '50%', margin: 'auto', marginTop: '2em'}}>
                 <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
@@ -291,24 +265,21 @@ class ProfilePanel extends React.Component {
                              {this.state.email.message}
                           </span>
                 </Form.Group>
-                <div style={{ display: 'flex', width: '100%', justifyContent: 'center'}}>
                 {!this.state.editMode &&
                     <Button variant="primary" onClick={this.handleEdit} style={{ color: 'whitesmoke', fontSize: '20px'}}>
                         Edit
                     </Button>
                 }
-               
                 {this.state.editMode &&
                     <Button variant="danger" onClick={this.handleCancel} style={{ color: 'whitesmoke', fontSize: '20px'}}>
                         Cancel
                     </Button>
                 }
                 {this.state.editMode &&
-                <Button variant="primary" type="submit" style={{ marginLeft: '2em', color: 'whitesmoke', fontSize: '20px'}} onClick={this.handleUploadProfile}>
+                <Button variant="primary" type="submit" style={{ marginLeft: '2em', color: 'whitesmoke', fontSize: '20px'}}>
                     Submit
                 </Button>
                 }
-                </div>
             </Form>
                 </div>
                 

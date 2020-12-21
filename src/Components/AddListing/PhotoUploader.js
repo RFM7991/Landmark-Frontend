@@ -19,15 +19,13 @@ export default class PhotoUploader extends React.Component {
  
     render() {
         return (
-            <div style={{ width:'20em'}}>
-                <ImageUploader
-                    withIcon={true}
-                    buttonText='Choose images'
-                    onChange={this.onDrop}
-                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                    maxFileSize={5242880}
-                />
-            </div>
+            <ImageUploader
+                withIcon={true}
+                buttonText='Choose images'
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+            />
         );
     }
 }

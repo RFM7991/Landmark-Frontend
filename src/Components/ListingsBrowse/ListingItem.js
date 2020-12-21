@@ -9,7 +9,6 @@ import Image from "react-bootstrap/Image"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 
-
 const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
@@ -50,25 +49,25 @@ class ListingItem extends React.Component {
     render() {
       
         return (
-            <div className="listingItem" style={{ backgroundColor: lightBg, padding: '1em',  width: '100%', height: '200px',  display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            <div className="listingItem" style={{ backgroundColor: lightBg, padding: '1em',  width: '100%', height: '20%',  display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
 
-                <div style={{ width: '175px', height: '150px', backgroundColor : 'rgba(1,1,1,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <div style={{ width: '33%', height: '80%'}}>
                     <Image 
                         onClick={this.navigateToListing}
                         className="listingCard"
-                        src={S3_BASE + this.props.listing.photos.cover_photos[0]}
-                        style={{ width: '100%', height: '100%'}}
+                        src={S3_BASE + this.props.listing.photos.site_photos[0]}
                         fluid
                     />
                 </div>
 
-                <div style={{ height: '100%', width: '66%', color: 'white',  alignItems: 'center', display: 'flex', justifyContent: 'center', padding: '0 5em 0 5em', display: 'flex', flexDirection: 'column' }}>
-                    <Link style={{   textDecorationLine: 'underline', color: 'white', fontSize: '18px', fontWeight: 'bold'}}to={this.getUrl}>
-                        <span style={{ fontSize: '20px',  textAlign: 'left'}}>{this.props.listing.location.formatted}</span>
-                    </Link>
-                    
+                <div style={{ height: '100%', width: '66%', color: 'white'}}>
+                <Link style={{   textDecorationLine: 'underline', color: 'white', fontSize: '18px', fontWeight: 'bold'}}to={this.getUrl}>
+                <span style={{ fontSize: '24px'}}>{this.props.listing.location.formatted}</span></Link>
                     <br></br>
-                    {(this.props.listing.pricingInfo.askingPrice != undefined) && <p style={{ fontWeight: 'bold' }}>${this.props.listing.pricingInfo.askingPrice}</p>}
+                    <br></br>
+                    <p style={{ fontWeight: 'bold' }}>${this.props.listing.pricingInfo.askingPrice}</p>
+                 
                 </div>
                 <div style={{ height: '100%', width: '20%'}}>
                     <Link style={{  color: 'white', fontSize: '18px', fontWeight: 'bold'}}to={this.getMapUrl}>
@@ -80,6 +79,7 @@ class ListingItem extends React.Component {
                     </Link>
                 </div>
                 
+              </div>
             </div>
        )
     }
@@ -93,9 +93,4 @@ class ListingItem extends React.Component {
     })
  )
 
- 
-
  export default withRouter(connect(mapStateToProps)(ListingItem))
-
-
-
