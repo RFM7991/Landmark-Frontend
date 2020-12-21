@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, {useState } from 'react';
-=======
 import React, {useState} from 'react';
->>>>>>> parent of ace0f6c... host
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import '../css/App.css';
