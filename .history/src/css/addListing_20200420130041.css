@@ -1,0 +1,19 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label  {
+    font-size: 18px;
+    padding-right: 1em;
+}
+
+input {
+    margin-left: 10px;
+    align-self: center;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: row;
+}

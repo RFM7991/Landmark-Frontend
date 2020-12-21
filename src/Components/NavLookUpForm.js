@@ -24,7 +24,6 @@ import  {
   getLatLng,
 } from 'react-places-autocomplete';
 import { getLocation, createLocation } from '../Requests/locations-requests';
-import { compose } from '../../../../../../Library/Caches/typescript/3.4.5/node_modules/redux';
 const ZIP = 'zip code tabulation area'
 const TRADE_ZONE = 'tradeZone'
 const darkBg = 'rgb(26,28,41)'
