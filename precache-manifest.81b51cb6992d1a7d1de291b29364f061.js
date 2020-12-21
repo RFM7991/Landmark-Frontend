@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2677019f59f0458dc664d86ef8f19e7e",
+    "revision": "d0e39f41075e7c4b7cb0d3eb90fd70b8",
     "url": "/Landmark-Frontend/index.html"
   },
   {
-    "revision": "c2a339b153ffdfc146b4",
+    "revision": "769024f2341d3920a093",
     "url": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css"
   },
   {
-    "revision": "026072ed445aaa7c8e74",
-    "url": "/Landmark-Frontend/static/css/main.c5d17eff.chunk.css"
+    "revision": "431d6243cc74cba40c9e",
+    "url": "/Landmark-Frontend/static/css/main.cbb2b189.chunk.css"
   },
   {
-    "revision": "c2a339b153ffdfc146b4",
-    "url": "/Landmark-Frontend/static/js/2.6409c1cd.chunk.js"
+    "revision": "769024f2341d3920a093",
+    "url": "/Landmark-Frontend/static/js/2.b06e967a.chunk.js"
   },
   {
-    "revision": "026072ed445aaa7c8e74",
-    "url": "/Landmark-Frontend/static/js/main.561a2d14.chunk.js"
+    "revision": "431d6243cc74cba40c9e",
+    "url": "/Landmark-Frontend/static/js/main.e4b266bb.chunk.js"
   },
   {
     "revision": "b78dacf903343343309f",
@@ -26,6 +26,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "1cedb6e919bfed6a2c1ec00b5d8ee620",
     "url": "/Landmark-Frontend/static/media/UploadIcon.1cedb6e9.svg"
+  },
+  {
+    "revision": "60f29397a954968e8f520a3c5678b3b5",
+    "url": "/Landmark-Frontend/static/media/cityscape_night1.60f29397.jpg"
+  },
+  {
+    "revision": "eb3ffdb31494566c6cf3a1f6a51a965c",
+    "url": "/Landmark-Frontend/static/media/hipsters.eb3ffdb3.jpg"
   },
   {
     "revision": "c06bf52fe899ab8b9833594358634792",
@@ -42,5 +50,13 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "7c7644735df7c94d9cb282aeb1601cb6",
     "url": "/Landmark-Frontend/static/media/subway_map.7c764473.jpg"
+  },
+  {
+    "revision": "bffdedb05ca100ccad2fb063c2e6c23b",
+    "url": "/Landmark-Frontend/static/media/white_sample.bffdedb0.png"
+  },
+  {
+    "revision": "764426e8c1e224e6da4033a21ea40c36",
+    "url": "/Landmark-Frontend/static/media/woman.764426e8.jpg"
   }
 ]);
