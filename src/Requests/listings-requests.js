@@ -64,7 +64,7 @@ export function getRecents() {
             method : 'GET',
         })
         .then(res => res.json())
-        .catch(err => console.log("Recent Listings error", err))
+        .catch(err => err)
 }
 
 export function getListings(start, limit) {

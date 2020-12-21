@@ -31,7 +31,12 @@ class ListingsBrowse extends React.Component {
     }
 
     async componentDidMount() {
-        let data = await getRecents()
+        let err;
+
+        let data = await getRecents().catch(e => err = true)
+
+        if (err) return;
+
         let triplets = [[]]
         let tripletIndex = 0
 
