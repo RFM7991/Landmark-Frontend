@@ -10,7 +10,7 @@ import { HashRouter as Router } from 'react-router-dom';
 const rootElement = document.getElementById('root')
 ReactDOM.render(
     <Provider store={store}>
-    <Router history basename={"https://rfm7991.github.io/Landmark-Frontend/"}>< App /></Router>
+    <Router basename={process.env.PUBLIC_URL}>< App /></Router>
     </Provider>,
      rootElement
 )
