@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d8b516eb23b133281adb5fd009324aca",
+    "revision": "2b2eb6b10b39ed7a2b5bd46f79bb8338",
     "url": "/Landmark-Frontend/index.html"
   },
   {
