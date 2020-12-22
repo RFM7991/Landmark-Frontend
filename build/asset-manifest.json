@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/Landmark-Frontend/static/css/main.cbb2b189.chunk.css",
+    "main.js": "/Landmark-Frontend/static/js/main.f18b135a.chunk.js",
+    "main.js.map": "/Landmark-Frontend/static/js/main.f18b135a.chunk.js.map",
+    "runtime~main.js": "/Landmark-Frontend/static/js/runtime~main.33812542.js",
+    "runtime~main.js.map": "/Landmark-Frontend/static/js/runtime~main.33812542.js.map",
+    "static/css/2.2ce93ba3.chunk.css": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css",
+    "static/js/2.b06e967a.chunk.js": "/Landmark-Frontend/static/js/2.b06e967a.chunk.js",
+    "static/js/2.b06e967a.chunk.js.map": "/Landmark-Frontend/static/js/2.b06e967a.chunk.js.map",
+    "index.html": "/Landmark-Frontend/index.html",
+    "precache-manifest.44cd05f31895ac70bbd6a2ad9b26c9e8.js": "/Landmark-Frontend/precache-manifest.44cd05f31895ac70bbd6a2ad9b26c9e8.js",
+    "service-worker.js": "/Landmark-Frontend/service-worker.js",
+    "static/css/2.2ce93ba3.chunk.css.map": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css.map",
+    "static/css/main.cbb2b189.chunk.css.map": "/Landmark-Frontend/static/css/main.cbb2b189.chunk.css.map",
+    "static/media/UploadIcon.svg": "/Landmark-Frontend/static/media/UploadIcon.1cedb6e9.svg",
+    "static/media/cityscape_night1.jpg": "/Landmark-Frontend/static/media/cityscape_night1.60f29397.jpg",
+    "static/media/hipsters.jpg": "/Landmark-Frontend/static/media/hipsters.eb3ffdb3.jpg",
+    "static/media/modern-skyline.jpg": "/Landmark-Frontend/static/media/modern-skyline.c06bf52f.jpg",
+    "static/media/skyline_background.png": "/Landmark-Frontend/static/media/skyline_background.d79dad4c.png",
+    "static/media/subway.png": "/Landmark-Frontend/static/media/subway.8915c788.png",
+    "static/media/subway_map.jpg": "/Landmark-Frontend/static/media/subway_map.7c764473.jpg",
+    "static/media/white_sample.png": "/Landmark-Frontend/static/media/white_sample.bffdedb0.png",
+    "static/media/woman.jpg": "/Landmark-Frontend/static/media/woman.764426e8.jpg"
+  }
+}
