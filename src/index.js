@@ -8,9 +8,10 @@ import store from './Redux/store'
 import { HashRouter as Router } from 'react-router-dom';
 
 const rootElement = document.getElementById('root')
+
 ReactDOM.render(
     <Provider store={store}>
-    <Router histroy basename={process.env.PUBLIC_URL}>< App /></Router>
+    <Router history basename={"https://rfm7991.github.io/Landmark-Frontend/"}>< App /></Router>
     </Provider>,
      rootElement
 )
@@ -19,3 +20,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
