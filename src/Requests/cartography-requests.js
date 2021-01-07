@@ -7,7 +7,7 @@ export function getZipCartography(state, zip) {
         .then(response => response.json())
         .catch(error =>  { 
             showError()
-            console.error('Zip Cartography Error:', API +'cartography/zip/' + state +'/'+ zip,  error)
+            console.error('Zip Cartography Error:', URL,  error)
         })
 }
 
