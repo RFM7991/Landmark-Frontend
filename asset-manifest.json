@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Landmark-Frontend/static/css/main.cbb2b189.chunk.css",
-    "main.js": "/Landmark-Frontend/static/js/main.87a75a13.chunk.js",
-    "main.js.map": "/Landmark-Frontend/static/js/main.87a75a13.chunk.js.map",
+    "main.js": "/Landmark-Frontend/static/js/main.c2fd443f.chunk.js",
+    "main.js.map": "/Landmark-Frontend/static/js/main.c2fd443f.chunk.js.map",
     "runtime~main.js": "/Landmark-Frontend/static/js/runtime~main.33812542.js",
     "runtime~main.js.map": "/Landmark-Frontend/static/js/runtime~main.33812542.js.map",
     "static/css/2.2ce93ba3.chunk.css": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css",
     "static/js/2.b06e967a.chunk.js": "/Landmark-Frontend/static/js/2.b06e967a.chunk.js",
     "static/js/2.b06e967a.chunk.js.map": "/Landmark-Frontend/static/js/2.b06e967a.chunk.js.map",
     "index.html": "/Landmark-Frontend/index.html",
-    "precache-manifest.854659de81097c7d3739ccb37bea5b80.js": "/Landmark-Frontend/precache-manifest.854659de81097c7d3739ccb37bea5b80.js",
+    "precache-manifest.d1589565c0658b2da7f44551fd7e53ef.js": "/Landmark-Frontend/precache-manifest.d1589565c0658b2da7f44551fd7e53ef.js",
     "service-worker.js": "/Landmark-Frontend/service-worker.js",
     "static/css/2.2ce93ba3.chunk.css.map": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css.map",
     "static/css/main.cbb2b189.chunk.css.map": "/Landmark-Frontend/static/css/main.cbb2b189.chunk.css.map",
