@@ -1,6 +1,6 @@
 {
-  "name": "project_landmark",
   "homepage": "https://rfm7991.github.io/Landmark-Frontend",
+  "name": "project_landmark",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
