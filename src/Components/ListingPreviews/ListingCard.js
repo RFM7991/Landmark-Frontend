@@ -47,31 +47,24 @@ class ListingPreviews extends React.Component {
 
 
     render() {
+        console.log("PROPS", this.props)
       
         return (
             
             <div className="d-block w-100" style={{backgroundColor : lightBg, height: this.props.height, paddingTop: '0.5em'}} > 
-             
-       
-             <div style={{ height: '75%', width: '100%'}} onMouseOver={this.handleHover} > 
-             {this.props.listing.photos != undefined &&  
+             <div style={{ height: '80%', width: '100%'}} onMouseOver={this.handleHover} >        
                 <Image 
                     onClick={this.navigateToListing}
                     className="listingCard"
-                    src={S3_BASE + this.props.listing.photos.cover_photos[0]}
+                    src={S3_BASE + this.props.listing.photos.site_photos[0]}
                     alt="First slide"
                     fluid
-                    style={{  height: '90%', width: '98%'}}
+                    style={{  height: '90%'}}
                 />
-             }
-            </div>  
-
-            <div style={{ color: 'white', fontSize : '1px',  }}>
-            {this.props.listing.photos != undefined &&  
-                <Link style={{  textDecorationLine: 'underline', color: 'white', fontSize: '16px', fontWeight: 'bold'}}to={this.getUrl}>{this.props.listing.location.formatted}</Link>
-            }
+            </div>   
+            <div style={{ color: 'white', fontSize : '14px'}}>
+                <Link style={{  textDecorationLine: 'underline', color: 'white', fontSize: '18px', fontWeight: 'bold'}}to={this.getUrl}>{this.props.listing.location.formatted}</Link>
             </div>
-             
          </div>
        )
     }

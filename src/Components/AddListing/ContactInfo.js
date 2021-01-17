@@ -43,19 +43,19 @@ class AddListing extends React.Component {
                 <h3 style={{}}>1. Owner/Broker Contact Info</h3>
                 <div style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', marginLeft: '24px', marginTop: '10px' }}>
                     <form>
-                        <strong>Is the property for sale? <span style={{ color: 'red'}}>*</span></strong>
+                        <strong>Is the property for sale?</strong>
                         <div className="inputGroup">
                             <label>yes<input type="checkbox" checked={this.state.forSale =="yes" } name="forSale" value={'yes'} onChange={this.handleChange} /></label>
                             <label>no<input type="checkbox" checked={this.state.forSale == "no" } name="forSale" value={'no'} onChange={this.handleChange} /></label>
                         </div>
 
-                        <strong>Is the property for lease? <span style={{ color: 'red'}}>*</span></strong>
+                        <strong>Is the property for lease?</strong>
                         <div className="inputGroup">
                             <label>yes<input type="checkbox" checked={ this.state.forLease == "yes" } name="forLease" value={'yes'} onChange={this.handleChange} /></label>
                             <label>no<input type="checkbox" checked={this.state.forLease == "no" } name="forLease" value={'no'} onChange={this.handleChange} /></label>
                         </div>
 
-                        <strong>What is your relationship to this property? <span style={{ color: 'red'}}>*</span></strong>
+                        <strong>What is your relationship to this property?</strong>
                         <div className="inputGroup" style={{ width: '100%'}}>
                             <label>I am the broker<input type="checkbox" name="relationship" checked={this.state.relationship == 'broker'} value={'broker'} onChange={this.handleChange} /></label>
                             <label>I am the landlord<input type="checkbox" name="relationship"checked={this.state.relationship == 'landlord'} value={'landlord'} onChange={this.handleChange} /></label>

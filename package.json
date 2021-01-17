@@ -48,8 +48,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "thunk": "0.0.1",
-    "universal-cookie": "^4.0.3"
+    "thunk": "0.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -59,7 +58,8 @@
     "server": "node-env-run server --exec nodemon | pino-colada",
     "dev": "run-p server start",
     "predeploy": "npm run build",
-    "deploy": " gh-pages -d build"
+    "deploy": " gh-pages -d build",
+    "deploy-s3": "aws s3 sync build/ s3://landmark-frontend"
   },
   "eslintConfig": {
     "extends": "react-app"

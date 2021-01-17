@@ -32,7 +32,7 @@ render() {
                     </Carousel.Item>
                 )
             })}
-         
+            
         </Carousel>
     )
     }

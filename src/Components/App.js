@@ -17,10 +17,6 @@ import { updateAddress } from '../Actions/address-actions';
 import TransportationPanel from './TransportationPanel'
 import Footer from './Footer'
 import skylineBackground from '../images/modern-skyline.jpg'
-import cityscape from '../images/backgrounds/cityscape_night1.jpg'
-import white_smaple from '../images/logo/white_sample.png'
-import Image from 'react-bootstrap/Image'
-
 import Joyride, { CallBackProps, STATUS, Step, StoreHelpers } from 'react-joyride';
 import Button from 'react-bootstrap/Button';
 import { updateUser } from '../Actions/user-actions';
@@ -30,13 +26,10 @@ import AddListing from './AddListing'
 import ListingView from './ListingView'
 import ListingsPreviews from './ListingPreviews'
 import ListingsBrowse from './ListingsBrowse'
-import Cookies from 'universal-cookie';
-import About from './About'
 
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'
-const cookies = new Cookies();
 
 class App extends React.Component { 
 
@@ -46,7 +39,7 @@ class App extends React.Component {
     
     this.state = {
       searches : [],
-      isFirstTimeUser : false,
+     
       run: false,
     }
   }
@@ -55,31 +48,19 @@ class App extends React.Component {
   //  localStorage.clear()
     let userInfo;
     let user = JSON.parse(localStorage.getItem('user'))
-
+   // console.log('USER FROM STORAGE', user)
     if (user == undefined ) { //user == undefined
        user = {_id: -1, username: 'guest', is_admin: false}
     } 
     else if (user._id != -1) {
       // get user from local storage
       userInfo = await getUserInfo(user._id)
+  //    console.log('USER INFO', userInfo.res[0])
       if (userInfo.res[0].recentSearches.length > 0) {
         await this.setState({ searches : userInfo.res[0].searches})
         localStorage.setItem('recentSearches', JSON.stringify(userInfo.res[0].recentSearches))
       }
     }
-
-    // check/set cookie 
-   // cookies.remove('myCat')
-    console.log('cookies', cookies.get('hasLoggedIn'));
-    if (cookies.get('hasLoggedIn') == undefined && user._id == -1 ) {
-      this.setState({ isFirstTimeUser : true  })
-      cookies.set('hasLoggedIn', 1, { path: '/', expires : new Date('2200-12-1T03:24:00')})
-     } 
-     else {
-      this.setState({ isFirstTimeUser : false  })
-     }
-     
-     console.log('cookies', cookies.get('hasLoggedIn')); // Pacman
 
     // update user in redux
     this.onUpdateUser(user)
@@ -116,7 +97,7 @@ class App extends React.Component {
     this.props.onUpdateAddress(address)
   }
   runJoyRideTutorial = () => {
-    this.setState({run: true, isFirstTimeUser : false})
+    this.setState({run: true})
   }
 
   handleJoyrideCallback = (data) => {
@@ -131,10 +112,6 @@ class App extends React.Component {
   getHelpers = (helpers) => {
     this.helpers = helpers;
   };
-
-  updateIsFirstTime = flag => {
-    this.setState({ isFirstTimeUser : flag })
-  }
 
   render() {
   //  console.log("APP", this.props)
@@ -154,16 +131,7 @@ class App extends React.Component {
             getHelpers={this.getHelpers}
             orientation = {"demographics-list-vertical "}>
           </DemographicsPanel>
-          <SimpleMap 
-            runJoyRideTutorial={this.runJoyRideTutorial} 
-            height={'72.2vh'} 
-            address={this.props.address} 
-            center={this.props.address.coords} 
-            zoom={15} 
-            business_type={this.props.business_type} 
-            isFirstTimeUser={this.state.isFirstTimeUser}
-            updateIsFirstTime={this.updateIsFirstTime}
-            />
+          <SimpleMap runJoyRideTutorial={this.runJoyRideTutorial} height={'72.2vh'} address={this.props.address} center={this.props.address.coords} zoom={15} business_type={this.props.business_type}/>
           <PlacesList/>
           </div>
           <br></br>
@@ -180,7 +148,7 @@ class App extends React.Component {
            path={'/login'}
           render={(({match}) => {
             return <div>
-                <NavigationBar urlParams={match.params}/>
+                <NavigationBar/>
                 <div className="App">
                 <header className="App-header" style={{
                   backgroundImage: `url(${skylineBackground})`,
@@ -201,7 +169,7 @@ class App extends React.Component {
             path={'/register'}
           render={(({match}) => {
             return <div>
-                <NavigationBar urlParams={match.params}/>
+                <NavigationBar/>
                 <div className="App">
                 <header className="App-header" style={{
                   backgroundImage: `url(${skylineBackground})`,
@@ -222,7 +190,7 @@ class App extends React.Component {
             path={'/profile'}
           render={(({match}) => {
             return <div>
-                <NavigationBar urlParams={match.params}/>
+                <NavigationBar/>
                 <div className="App">
                 <header className="App-header" style={{
                   backgroundImage: `url(${skylineBackground})`,
@@ -241,7 +209,7 @@ class App extends React.Component {
           exact path={'/listings/browse'}
           render={(({match}) => {
             return <div>
-                <NavigationBar urlParams={match.params}/>
+                <NavigationBar/>
                 <div className="App">
                   <ListingsBrowse />
               </div>
@@ -250,13 +218,13 @@ class App extends React.Component {
           })}>
         </Route>
         <Route
-          exact path={'/listing/:listingId'}
+            path={'/listing/:listingId'}
           render={(({match}) => {
             return <div>
-                <NavigationBar />
+                <NavigationBar/>
                 <div className="App">
-                  <ListingView  urlParams={match.params}/>
-                </div>
+                  <ListingView urlParams={match.params} />
+              </div>
               <Footer/>
             </div>
           })}>
@@ -265,7 +233,7 @@ class App extends React.Component {
             path={'/addlisting'}
           render={(({match}) => {
             return <div>
-                <NavigationBar urlParams={match.params}/>
+                <NavigationBar/>
                 <div className="App">
                   <AddListing />
               </div>
@@ -277,7 +245,7 @@ class App extends React.Component {
           path={'/:address/:business_type'}
           render={(({match}) => {
             return <div className="testTarget" style={{backgroundColor: darkBg}}>
-              <NavigationBar displaySearchBar={true} urlParams={match.params}/>
+              <NavigationBar/>
             
               <Joyride 
                 steps={steps} 
@@ -296,9 +264,7 @@ class App extends React.Component {
               {map}
               <div className="App" >
               <header className="App-header" style={{backgroundColor: darkBg}}>
-              <div style={{  display: 'flex', width: '100%', justifyContent: 'center', }}>
-  
-                      </div>
+              <LookUpForm urlParams={match.params}/>
               </header>
             </div>
             <Footer/>
@@ -309,7 +275,7 @@ class App extends React.Component {
           exact path={'/'}
           render={(({match}) => {
             return <div>
-                <NavigationBar urlParams={match.params}/>
+                <NavigationBar/>
                 <div className="App" style={{ }}>
                 <header className="App-header" style={{
                   backgroundImage: `url(${skylineBackground})`,
@@ -318,14 +284,7 @@ class App extends React.Component {
                   opacity: '1',
                 }}>
                   <div style={{ height: '100%', width: '100%' }}>
-                  <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-                     <div style={{ zIndex: 2, width: '100px', height: '100%', display: 'flex',}}>
-                        <Image src={white_smaple} style={{ width: '100%', height: '100%'}} fluid/>
-                      </div>
-                      <h1 style={{fontSize: '58px', fontWeight: 'bold', fontFamily: 'Tahoma, Geneva, sans-serif', marginTop: '1em' }}>Landmark</h1>
-                  
-                  </div> 
-                    
+                      <h1 style={{zIndex: 2, fontSize: '58px', fontWeight: 'bold', fontFamily: 'Tahoma, Geneva, sans-serif', marginTop: '1em' }}>Landmark</h1>
                       <br></br>
                       <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
                       <div style={{  display: 'flex', width: '100%', justifyContent: 'center', }}>
@@ -334,18 +293,9 @@ class App extends React.Component {
                       <div style={{zIndex: 200, marginTop : '6em'}}>
                         <ListingsPreviews />
                       </div>
-                      
                   </div>
+                  
                 </header>
-                <header className="App-header" style={{
-                  backgroundImage: `url(${cityscape})`,
-                  backgroundRepeat: 'repeat',
-                  backgroundSize: '100%', 
-                  opacity: '1',
-                }}>
-                  <About/>
-                </header>
-
               </div>
               <Footer/>
             </div>

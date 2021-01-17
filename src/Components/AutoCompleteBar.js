@@ -48,8 +48,8 @@ class AutoCompleteBar extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div style={{ flex: 1, zIndex: 1000}}>
-            <input style= {{width: '100%', borderRadius: 8, fontSize: (this.props.fontSize == undefined) ? 22 : this.props.fontSize}}
+          <div style={{ flex: 1}}>
+            <input style= {{width: '100%', borderRadius: 8, fontSize: 22}}
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',

@@ -25,7 +25,7 @@ import { updateTransportation} from '../Actions/transportation-actions'
 import { createTradeZoneCartography } from '../Requests/locations-requests'
 import FadeLoader from './UI/FadeLoader'
 import { getSubwayTotals, getSubwayLines } from '../Requests/subway-requests';
-import { getListingByPlaceId } from "../Requests/listings-requests"
+import { getListingByAddress } from "../Requests/listings-requests"
 import { Link, withRouter } from 'react-router-dom'
 
 const infoWindow =  new google.maps.InfoWindow()
@@ -155,18 +155,12 @@ class SimpleMap extends Component {
 
   async componentDidMount() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
-
-    console.log("MAP MOUNT")
-
     this.initCache()
-    await this.loadListing()
-
-    // first time user check
-    if (this.props.isFirstTimeUser) {
-      this.props.updateIsFirstTime(false)
-      this.props.runJoyRideTutorial()
+    console.log("map_mount", this.props.address.formatted)
+    let res = await getListingByAddress(this.props.address.formatted)
+    if (res.length > 0) {
+      this.setState({ hasListing : true, listing: res[0] })
     }
-  
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -219,7 +213,6 @@ class SimpleMap extends Component {
     // reload subways on address change
     if (prevProps.address != this.props.address) {
       this.onUpdateTradeZoneBounds([])
-      this.loadListing()
    //   this.clearCartography()
     }
 
@@ -248,16 +241,8 @@ class SimpleMap extends Component {
       }
       console.log("NEW_BUSINESS_TYPE", { business_type : type, business_option : business_option })
       await this.setState({ business_type : type, business_type_option : business_option })
-      await this.clearMarkers()
+      this.clearMarkers()
       this.loadDefaultPlaces()
-    }
-  }
-
-  loadListing = async () => {
-    let res = await getListingByPlaceId(this.props.address.place.place_id)
-    console.log("LOAD_LISTING", this.props.address, res )
-    if (res.length > 0) {
-      this.setState({ hasListing : true, listing: res[0] })
     }
   }
 
@@ -300,6 +285,7 @@ class SimpleMap extends Component {
 
     // get new tz cart with bounds 
       let data = await getTradeZoneCartography(this.props.address.state, this.props.center, this.props.tradeZone_bounds)
+      console.log("TZ_CART_RES", this.props.address.state, this.props.geo_unit, this.props.tradeZone_bounds, data)
 
       let mCartography = Object.assign({}, this.state.cartography)
       mCartography.tradezone = data
@@ -325,6 +311,7 @@ class SimpleMap extends Component {
     })
   }
   renderCartography() {
+    console.log('RENDER_CART', this.props.data_range, this.state.cartography.zip)
     // clear data layer 
       this.clearCartography()
       // render cartography
@@ -332,6 +319,7 @@ class SimpleMap extends Component {
         if (this.state.cartography.zip !== undefined) {
           this.state.cartography.zip.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
         } else {
+          console.log("await ZIP", this.state.cartography.zip)
           setTimeout(() => this.renderCartography(), 100)
         }
       } 
@@ -339,6 +327,7 @@ class SimpleMap extends Component {
         if (this.state.cartography.tradezone !== undefined) {
           this.state.cartography.tradezone.forEach(featureSet => this.state.map.data.addGeoJson(featureSet))
        } else {
+         console.log("await TX", this.state.cartography.tradezone)
          setTimeout(() => this.renderCartography(), 100)
        }
     }
@@ -347,7 +336,7 @@ class SimpleMap extends Component {
 
    async loadCartography() {
    //  getZipCartography(this.props.address.state.toString().toLowerCase(), this.props.address.zip).then(async (data) => {
-
+   console.log("loadCartography", this.props.address) 
    if (this.props.address.zip == undefined) return;
    let mCartography = Object.assign({}, this.state.cartography)
 
@@ -356,7 +345,7 @@ class SimpleMap extends Component {
       // if not found in db load from census sdk
       if (data.length <= -1) {
         let fetchedCart = await fetchZipCartography(this.props.address.coords.lat,  this.props.address.coords.lng)
-   
+        console.log('FETCHED ZIP CART ', fetchedCart)
         mCartography.zip = fetchedCart
       } else {
         mCartography.zip = data
@@ -370,7 +359,7 @@ class SimpleMap extends Component {
   async loadDefaultPlaces() {
    
     await getNearby(this.props.address, this.state.business_type, (data, token) => {
-   
+      console.log("NEARBY", data)
       var morePlaces = this.props.places.concat(data)
       this.setState({places: morePlaces})
       for (let place of morePlaces) {
@@ -1007,7 +996,7 @@ navigateToListing = () => {
   const MapButtons = () => 
   <div>
       {this.state.hasListing && 
-        <button style={{ display: 'flex', flexDirection: 'row',  alignItems: 'center', justifyContent: 'center', width: '100%', height: '30px', backgroundColor: 'whitesmoke'}}
+        <button style={{ display: 'flex', flexDirection: 'row',  alignItems: 'center', justifyContent: 'center', width: '100%', height: '2em', backgroundColor: 'whitesmoke'}}
           onClick={this.navigateToListing}>
             <div><span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span></div>
           </button>
@@ -1090,7 +1079,7 @@ navigateToListing = () => {
       <div className='map_container'>
          <MapButtons/>
         
-      <div style={{height:  (!this.state.hasListing) ? this.props.height : `calc(${this.props.height} - 32px)`}}>
+      <div style={{height: this.props.height}}>
         {
         <div style={{position: 'relative', width: '100%', height: '100%'}}>
           <div style={{width: '100%', height: '100%', position: 'absolute', top: 0, left: 0}}>

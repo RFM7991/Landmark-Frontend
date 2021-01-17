@@ -44,14 +44,16 @@ class RecentSearches extends React.Component {
 
     render() {
         let header =  <thead>
-         
+            <tr style={{ fontSize: 16}}>
+                <th></th><th>Address</th><th>Business Type</th><th>Distance</th>
+            </tr>
         </thead>
         return (
-            <div style={{display: 'block',  flexDirection: 'column',  width: '100%', height: '100%', backgroundColor: 'rgba(1,1,1,0.1)'}}>
-              
-        
-                <ReactTableContainer height={'100%'} width='100%' customHeader={[header]}>
-                    <Table striped hover variant="dark">
+            <div style={{display: 'block',  flexDirection: 'column', padding: '1.5em', width: '100%', height: '100%'}}>
+                <h1 style={{color: 'black', fontSize: 32 }}>Recent Searches</h1>
+                <br></br>
+                <ReactTableContainer height={'80%'} width='100%' customHeader={[header]}>
+                    <Table striped hover variant="light">
                         {header}
                         <tbody>
                             <SearchesRows searches={this.state.searches}/>
@@ -76,8 +78,15 @@ class RecentSearches extends React.Component {
                 <tr key={i} style={{ fontSize: 14}}>
                     <td style={{ fontSize: 14}}>{(i+1)}</td>
                     <td>
-                        <Link style={{ color: 'white'}}to={getURL(value)}>{value.location.formatted}</Link>
+                        <Link to={getURL(value)}>{value.location.formatted}</Link>
                     </td>
+                    <td>
+                        <p>{value.business_type.type}</p>
+                    </td>
+                    <td>
+                        <p>{value.distance}</p>
+                    </td>
+
                 </tr>
             )
         }) 

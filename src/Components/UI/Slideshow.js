@@ -26,7 +26,6 @@ render() {
                             src={S3_BASE + e}
                             alt="First slide"
                             fluid
-                            style={{  height: '100%', width: '100%'}}
                             />
                          </div>
                         <Carousel.Caption>

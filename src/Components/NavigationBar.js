@@ -3,7 +3,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import Form from 'react-bootstrap/Form'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import Image from 'react-bootstrap/Image'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
@@ -11,8 +10,6 @@ import { Link, withRouter } from 'react-router-dom'
 import * as selectors from '../Reducers/selectors'
 import { createSelector } from 'reselect';
 import { updateUser } from '../Actions/user-actions';
-import white_smaple from '../images/logo/white_sample.png'
-import NavLookUpForm from './NavLookUpForm'
 
 const darkBg = 'rgb(26,28,41)'
 const navBg = 'linear-gradient(225deg, rgba(2,0,36,1) 0%, rgba(6,6,73,1) 63%, rgba(0,212,255,1) 100%)'
@@ -52,28 +49,14 @@ class NavigationBar extends React.Component {
 
     render() {
         return (
-            <Navbar style={{background: navBg }} expand="lg">
-                <div style={{ width: '100%', display : 'flex', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
-                    <div style={{ flex: 1, display : 'flex', alignItems: 'center', width: '25%'}}>
-                        <div style={{ width: '40px', height: '100%'}}><Image src={white_smaple} style={{ width: '100%', height: '100%'}} fluid/></div>
-                        <Link to="/" style={{color: "whitesmoke", fontWeight: 'bold',  stroke: 'black', strokeWidth: 2, fontFamily: 'Tahoma, Geneva, sans-serif'}}>Landmark</Link>
-                    </div>
-                    {this.props.displaySearchBar &&
-                        <div style={{  width: '50%', height: '100%', marginBottom: '2em'}}>
-                            <NavLookUpForm urlParams={this.props.urlParams}/>
-                        </div>
-                    }
-
-                    <div style={{ flex: 1, display : 'flex', alignItems: 'center', width: '25%'}}>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="mr-auto">
-                            </Nav>
-                        </Navbar.Collapse>
-                        {this.props.user._id != -1 && <Link to="/addlisting" style={{color: "whitesmoke",  stroke: 'black', strokeWidth: 2, marginRight: '0.5em', fontFamily: 'Tahoma, Geneva, sans-serif'}}>Add a Listing</Link>}
-                        <NavBarDropDown user={this.props.user} logout={this.logout} login={this.login} goToSearches={this.goToSearches} goToAddListing={this.goToAddListing}/>
-                    </div>
-                 </div>
+            <Navbar style={{background: navBg}} expand="lg">
+                <Link to="/" style={{color: "whitesmoke", fontWeight: 'bold',  stroke: 'black', strokeWidth: 2, fontFamily: 'Tahoma, Geneva, sans-serif'}}>Landmark</Link>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                    </Nav>
+                </Navbar.Collapse>
+                 <NavBarDropDown user={this.props.user} logout={this.logout} login={this.login} goToSearches={this.goToSearches} goToAddListing={this.goToAddListing}/>
             </Navbar>
         );
     }
@@ -111,7 +94,7 @@ const NavBarDropDown = props => {
         return (
             <NavDropdown title={title} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={props.goToSearches}>My Profile</NavDropdown.Item>
-            
+                <NavDropdown.Item onClick={props.goToAddListing}>Add a Listing</NavDropdown.Item>
                 {signIn}
             </NavDropdown> 
         )

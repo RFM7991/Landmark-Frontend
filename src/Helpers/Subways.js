@@ -38,5 +38,3 @@ export const getDistancesFromMap = async (placeMap, origin) => {
         resolve(results)
     })
 }
-
-

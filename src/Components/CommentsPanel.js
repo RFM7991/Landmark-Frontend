@@ -11,7 +11,6 @@ import { getComments, createComment } from '../Requests/locations-requests'
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'
-const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 
 class CommentsPanel extends React.Component {
 
@@ -87,8 +86,6 @@ class CommentsPanel extends React.Component {
  const CommentsRows = (props) => {
     return (
        props.comments.map((e,i) => {
-
-        console.log("HEREZZZ", e, S3_BASE + 'users/' + e.user._id + '/profile.png')
             return (
                 <tr key={i}>
 
@@ -96,7 +93,7 @@ class CommentsPanel extends React.Component {
                         <div style={{  width: '100%', height: '25%'}}>
                             <div style={{display: 'flex', fontSize: '14px',  alignItems: 'center', alignContent: 'center' }}>
                                 <div style={{}}>
-                                    <img src={(e.user.hasProfile) ? S3_BASE + 'users/' + e.user._id + '/profile.png' : "https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png" } 
+                                    <img src={'https://media-exp1.licdn.com/dms/image/C4E03AQGIviyGnEnlyQ/profile-displayphoto-shrink_200_200/0?e=1586390400&v=beta&t=RIDnoFwrm22DeH-yGzlaZvLewKS6MDXIza6YrWK5GOQ'} 
                                     width={45} height={45} style={{borderRadius: 30, marginLeft: '1em'}}/>
                                 </div>
                                 <p style={{marginLeft: '1em'}}>

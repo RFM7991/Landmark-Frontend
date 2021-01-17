@@ -11,8 +11,6 @@ import { createListing } from "../../Requests/listings-requests"
 import Button from 'react-bootstrap/Button'
 import AutoCompleteBar from "../AutoCompleteBar"
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { getListingByPlaceId } from '../../Requests/listings-requests'
-import PulseLoader from "../UI/PulseLoader"
 
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
@@ -25,8 +23,7 @@ class SelectLocation extends React.Component {
        
         this.state = {
             error : false,
-            errorMessage : '',
-            loading : false
+            errorMessage : ''
         }
     }
 
@@ -35,7 +32,7 @@ class SelectLocation extends React.Component {
     }
 
     selectAddress = async (address) => {
-        this.setState({ error : false, loading: true  })
+        this.setState({ error : false })
         let error = false
         let zip, number, street, city, state = ''
         let place;
@@ -56,7 +53,7 @@ class SelectLocation extends React.Component {
                 }
                 // improper address
                 if (number == undefined) {
-                    this.setState({ error : true, errorMessage : "Sorry, this address is too general. Please try again", loading : false })
+                    this.setState({ error : true, errorMessage : "Sorry, this address is too general. Please try again" })
                     error = true 
                     return;
                 }  
@@ -65,22 +62,6 @@ class SelectLocation extends React.Component {
             })
             .then(latLng => latLng)
             .catch(error => console.error('Error', error));
-
-            console.log("PLACE", place)
-
-            if (place != undefined) {
-                // check if listing already exists
-                let list_check = await getListingByPlaceId(place.place_id)
-
-                if (list_check.length > 0) {
-                    this.setState({ error : true, errorMessage : "Sorry, this location already has a listing.", loading: false })
-                    error = true 
-                    return;
-                }
-
-                console.log("PLACE", place, list_check)
-            }
-
             let addressState = {}
             addressState.formatted = address
             addressState.street = number + ' ' + street
@@ -91,35 +72,34 @@ class SelectLocation extends React.Component {
             addressState.coords = geoCode
             addressState.place = place
 
+           
 
             if (error) return;
             console.log("select", addressState)
-            this.setState({ address : addressState, loading : false })
+            this.setState({ address : addressState })
+        
+        
     }
 
 
     render() {
         return (
-            <div style={{ display: 'flex',  height: '80vh', alignItems: 'center', justifyContent: 'center',  flexDirection: 'column', padding: '20px' }}>
-                <div style={{ display: 'flex',  height: '80%',  alignItems: 'center', justifyContent: 'center',  flexDirection: 'column', padding: '20px' }}>
-                <div style={{ flex: 2, }}>
-                    <br></br>
-                    <h2>Select Location</h2>
-                    <br></br>
-                    <p>Begin typing in the address of your desired location and select it from the dropdown menu to get started </p>
-                </div>
+            <div style={{ display: 'flex',  height: '80vh', alignItems: 'center',  flexDirection: 'column', padding: '20px' }}>
+                <br></br>
+                <h3>Select Location</h3>
+                {!this.state.error && <p style={{ color: 'white', marginTop: 10}}>spacer</p>}
                 {this.state.error && <p style={{ color: 'red', marginTop: 10}}>{this.state.errorMessage}</p>}
-                <div style={{ flex: 3,  width: '60%' }}>
-                    <AutoCompleteBar addressFunction={this.selectAddress}/>
-                    <br></br>
-                    {this.state.loading &&  <PulseLoader color='#00D4FF' size={10}/>}
-                    {!this.state.loading && <Button variant="primary" onClick={this.handleSubmit} disabled={this.state.address == undefined || this.state.error}
-                        style={{backgroundColor:'#00d4ff', fontWeight: 'bold', alignSelf: 'center',  }}>
-                        Submit
-                    </Button>
-                    }
+                <div style={{ width: '50%', marginTop: '2.5%', marginBottom: '5%' }}>
+                
+                        <AutoCompleteBar addressFunction={this.selectAddress}/>
+              
                 </div>
-                </div>
+                
+                <br></br>
+                <Button variant="primary" onClick={this.handleSubmit} disabled={this.state.address == undefined}
+                    style={{backgroundColor:'#00d4ff', fontWeight: 'bold', alignSelf: 'center', marginRight: '1em', marginBottom : '1em' }}>
+                    Submit
+                </Button>
             </div>
         )
     }

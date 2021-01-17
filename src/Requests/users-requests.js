@@ -123,16 +123,3 @@ export async function getUserInfo(uid) {
 }
 
 
-export async function uploadProfilePic(formData) {
-    
-    return fetch(API + 'users/profile/upload',
-    {
-        method : 'POST',
-        body : formData
-    })
-        .then(response => response.json())
-        .catch(error => {
-            console.error('upload profile photo error:', error)
-        })
-}
-
