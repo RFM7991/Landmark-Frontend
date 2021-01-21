@@ -7,7 +7,6 @@ import { createSelector } from 'reselect';
 import { updatePlaces } from '../Actions/places-actions'
 import { updateActivePlace } from '../Actions/active-actions'
 import ReactDOMServer from 'react-dom/server';
-import DemographicsPanel from './DemographicsPanel'
 import { getZipCartography, fetchZipCartography, getTradeZoneCartography, getLoadedTradeZoneCartography } from '../Requests/cartography-requests'
 import {updateTract} from '../Actions/tract-actions'
 import Form from 'react-bootstrap/Form'
@@ -28,9 +27,7 @@ import FadeLoader from './UI/FadeLoader'
 import { getSubwayTotals, getSubwayLines } from '../Requests/subway-requests';
 import { getListingByPlaceId } from "../Requests/listings-requests"
 import { Link, withRouter } from 'react-router-dom'
-import MediaQuery from 'react-responsive'
 import Toolbar from './Mobile/Toolbar'
-import PlacesList from './PlacesList'
 
 const infoWindow =  new google.maps.InfoWindow()
 
@@ -159,6 +156,9 @@ class SimpleMap extends Component {
 
   async componentDidMount() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    console.log("MAP MOUNT")
+
     this.initCache()
     await this.loadListing()
 
@@ -167,6 +167,7 @@ class SimpleMap extends Component {
       this.props.updateIsFirstTime(false)
       this.props.runJoyRideTutorial()
     }
+  
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -246,6 +247,7 @@ class SimpleMap extends Component {
         defaultPlace = 'establishment'
         business_option = 'all'
       }
+      console.log("NEW_BUSINESS_TYPE", { business_type : type, business_option : business_option })
       await this.setState({ business_type : type, business_type_option : business_option })
       await this.clearMarkers()
       this.loadDefaultPlaces()
@@ -254,6 +256,7 @@ class SimpleMap extends Component {
 
   loadListing = async () => {
     let res = await getListingByPlaceId(this.props.address.place.place_id)
+    console.log("LOAD_LISTING", this.props.address, res )
     if (res === undefined) return;
     if (res.length > 0) {
       this.setState({ hasListing : true, listing: res[0] })
@@ -465,7 +468,6 @@ class SimpleMap extends Component {
       this.onUpdatePlaces(places)
     }
   }
-
   async onBusinessFormChange(event) {
   
     let type = event.target.value.replace(/ /g, '_')
@@ -813,7 +815,7 @@ getOpen = (opening_hours) => {
 updateMarker = (marker) => {
   if (marker == undefined) 
     return; 
-
+disp
   var img = ''
   if (marker.place.place_id == this.props.address.place.place_id) {
     img = BLUE_MARKER
@@ -1005,24 +1007,34 @@ navigateToListing = () => {
     }
 
   const MapButtons = () => 
-    
-    <div className='map-control_bar'>
-      <Button className="toolbar_button" onClick={this.props.runJoyRideTutorial}>?</Button>
-      <Button className="toolbar_button" variant="light" onClick={this.onHandleCenter}>Ctr</Button>
+  <div>
+      {this.state.hasListing && 
+        <button style={{ display: 'flex', flexDirection: 'row',  alignItems: 'center', justifyContent: 'center', width: '100%', height: '30px', backgroundColor: 'whitesmoke'}}
+          onClick={this.navigateToListing}>
+            <div><span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span></div>
+          </button>
+      }
+  <div className='mob-control_bar'>
 
-      <div className="switch_container">
-          <span>Street</span>
-          <SliderSwitch checked={this.state.siteView} switchFunction={this.onHandleSite}></SliderSwitch>
+      {/* <Button className="mob-help_button" onClick={this.props.runJoyRideTutorial}>
+        ?
+      </Button> */}
+      <Button style={{ fontSize: 12, marginRight: '0.25em'}} variant="light" onClick={this.onHandleCenter}> 
+        Ctr
+      </Button>
+      <div className="mob-switch_container">
+          <span> Street View</span>
+         <SliderSwitch checked={this.state.siteView} switchFunction={this.onHandleSite}></SliderSwitch>
+        </div>
+      <div className="mob-switch_container">
+          <span> Overlay</span>
+          <SliderSwitch checked={true} switchFunction={this.handleSwitch}></SliderSwitch>
       </div>
-      <div className="switch_container">
-        <span>Overlay</span>
-        <SliderSwitch checked={true} switchFunction={this.handleSwitch}></SliderSwitch>
-      </div>
-
-      <div className="place_dropdown_container">
-          <div>
-            <span> Other Businesses</span>
-            <Form.Control value={this.state.business_type_option} as="select" name="business_type" onChange={this.onBusinessFormChange}>
+        
+        <div className="mob-places_dropdown">
+          <span> Other Businesses</span>
+          <Form.Control value={this.state.business_type_option} as="select" name="business_type" onChange={this.onBusinessFormChange} 
+              className="mob-place_menu">
                           <option>none</option>
                           <option>all</option>
                         {BUSINESS_TYPES.map((e, i) => {
@@ -1032,27 +1044,26 @@ navigateToListing = () => {
                         })}
             </Form.Control>
           </div>
-          <div>
-            <span>Places of Interest</span>
-            <Form.Control value={this.state.poi} as="select" name="poi" onChange={this.onPoiFormChange}>
-                        <option>none</option>
-                        <option>all</option>
-                        {POI_TYPES.map((e, i) => {
-                          return <option key={i}>{e.replace(/_/g, ' ')}</option>
-                        })}
-            </Form.Control>
+        <div className="mob-places_dropdown">
+          <span> Places of Interest</span>
+          <Form.Control value={this.state.poi} as="select" name="poi" onChange={this.onPoiFormChange}>
+                       <option>none</option>
+                       <option>all</option>
+                       {POI_TYPES.map((e, i) => {
+                         return <option key={i}>{e.replace(/_/g, ' ')}</option>
+                       })}
+          </Form.Control>
           </div>
-        </div>
-
-          <div>
-            <span style={{ color: 'whitesmoke'}}> Results</span>
-            <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange}>
-                          <option>20</option>
-                          <option>40</option>
-                          <option>60</option>
-            </Form.Control>
+          <div style = {{ marginRight: '2.5%'}}>
+          <p style={{textAlign: 'center', marginBottom: '0%', color: 'whitesmoke'}}> Results</p>
+          <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange} style={{ textAlign: 'center', display: 'inline'}}>
+                        <option>20</option>
+                        <option>40</option>
+                        <option>60</option>
+          </Form.Control>
           </div>
          </div>
+        </div>
 
 
     // init street view only after heading is calculated
@@ -1073,59 +1084,56 @@ navigateToListing = () => {
   }
 
     return (
-      <div className='map_container'>
-
-        <MediaQuery minDeviceWidth={551}><MapButtons/></MediaQuery>
-        <MediaQuery maxDeviceWidth={550}><Toolbar/></MediaQuery>
-
-          {/* {this.state.hasListing && 
-            <button className="listingBanner" onClick={this.navigateToListing}>
-            <div><span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span></div>
-          </button>
-          } */}
+      // Important! Always set the container height explicitly
+      // to-do export styling to .css 
+      <div className='mobile_map_container'>
+         {/* <MapButtons/> */}
+         <Toolbar/>
         
-        <div style={{height:  (!this.state.hasListing) ? this.props.height : `calc(${this.props.height} - 32px)`}}>     
-          <div className="googleMap_container">
-            <GoogleMapReact
+      <div style={{height:  (!this.state.hasListing) ? this.props.height : `calc(${this.props.height} - 32px)`, width: '100%'}}>
+        {
+        <div style={{position: 'relative', width: '100%', height: '100%'}}>
+          <div style={{width: '100%', height: '100%', position: 'absolute', top: 0, left: 0}}>
+           <GoogleMapReact
               ref={this.myRef}
-                bootstrapURLKeys={{ key: GOOGLE_KEY}}
-                center={this.state.center}
-                zoom={this.state.zoom}
-                yesIWantToUseGoogleMapApiInternals={true}
-                layerTypes={['TrafficLayer', 'TransitLayer']}
-                id={'map'}
-                onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, this.state.center)}
-                options= {this.state.mapOptions}
-                resetBoundsOnResize = {true}
-                onChange={this.handleChange}
-              />
-            {this.state.siteView && 
-            <div className="streetView_container">
-              {streetView}
-            </div>}
-            {this.state.loadingCart[this.props.data_range] == true && 
-              <div className="fade_container">
-                <FadeLoader color='#123abc' size={10}/>
-                <span>Loading Overlay</span>
-              </div>
-            }
-          </div>
+              bootstrapURLKeys={{ key: GOOGLE_KEY}}
+              center={this.state.center}
+              zoom={this.state.zoom}
+              yesIWantToUseGoogleMapApiInternals={true}
+              layerTypes={['TrafficLayer', 'TransitLayer']}
+              id={'map'}
+              onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, this.state.center)}
+              options= {this.state.mapOptions}
+              resetBoundsOnResize = {true}
+              onChange={this.handleChange}
+            >
+        </GoogleMapReact>
         </div>
-        <MediaQuery maxDeviceWidth={550}><PlacesList/></MediaQuery>
-        <MediaQuery maxDeviceWidth={550}>
-          <DemographicsPanel 
-             business_type={this.props.business_type} 
-             street = {this.props.address.street}
-             city = {this.props.address.city}
-             state = {this.props.address.state}
-             zip = {this.props.address.zip}
-             lat = {this.props.address.coords.lat}
-             lng = {this.props.address.coords.lng}
-             getHelpers={this.getHelpers}
-             orientation = {"demographics-list-vertical "}>
-           </DemographicsPanel>
-        </MediaQuery>
-      
+          {this.state.siteView && 
+          <div style={{
+            backgroundColor: '#eeeeee',
+            width: '40%',
+            height: '40%',
+          position: 'absolute', top: 0, left: 0
+          }}>
+            {streetView}
+          </div>}
+          {this.state.loadingCart[this.props.data_range] == true && 
+          <div style={{
+            backgroundColor: 'rgba(238,238,238, 0.55)',
+            top: 0,
+            right: 0,
+            width: '20%',
+            position: 'absolute',
+            paddingTop: '1em',
+            textAlign: 'center'
+            }}>
+            <FadeLoader color='#123abc' size={10}/>
+            <p style={{ color :'black'}}>Loading Overlay</p>
+           
+          </div>}
+        </div>}
+      </div>
       </div>
     );
   }

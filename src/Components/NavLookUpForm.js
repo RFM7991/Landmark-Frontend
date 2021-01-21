@@ -2,7 +2,7 @@ import React, {useState, useLayoutEffect} from 'react';
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import '../css/App.css';
+import '../css/App.scss';
 import { updateBusinessType} from '../Actions/business-actions'
 import { updateReady } from '../Actions/ready-actions'
 import { updateIsCity } from '../Actions/isCity-actions'
@@ -59,8 +59,6 @@ class LookUpForm extends React.Component {
     }
 
     async componentDidMount() {
-
-        console.log("LOOK UP", this.props.urlParams)
         
         if (this.props.urlParams) {
             let type = this.props.urlParams.business_type
@@ -315,17 +313,19 @@ class LookUpForm extends React.Component {
     render() {
  
         return (
-            <div style={{ position: 'absolute',  width: '50%', display: 'flex', zIndex: 1000, }}>
+            <div className="navBar_search">
          
-                <div style={{  display: 'flex', flexDirection: 'row', width: '80%', marginRight: '1.5em'}}>
-                    <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress} fontSize="18px"/>
-                </div>
+            {/* <div className="navBar_search_container"> */}
+                <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress} fontSize="12px"/>
+            {/* </div> */}
 
-            <Form style={{   flexDirection : 'row', justifyContent: 'center', }}>
-                {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} style={{backgroundColor:'#00d4ff', fontWeight: 'bold', fontSize: '13px'}}>
+            <Form>
+                {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} 
+                    className="go_button">
                     Go</Button>
                 }
-                {this.state.address == undefined && <Button  variant="primary" onClick={this.onHandleAddressWarning} style={{backgroundColor:'#00d4ff', fontWeight: 'bold', opacity: 0.75, fontSize: '13px'}}>
+                {this.state.address == undefined && <Button  variant="primary" onClick={this.onHandleAddressWarning} 
+                    className="go_button" style={{opacity: 0.75}}>
                     Go</Button>
                 }
             </Form>

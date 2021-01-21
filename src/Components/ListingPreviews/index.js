@@ -2,7 +2,7 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import '../../css/listingView.css';
+import '../../css/listingView.scss';
 import Button from 'react-bootstrap/Button';
 import skylineBackground from '../../images/skyline_background.png'
 import { Link, withRouter } from 'react-router-dom'
@@ -34,6 +34,8 @@ class ListingsBrowse extends React.Component {
         let data = await getRecents()
         let triplets = [[]]
         let tripletIndex = 0
+
+        if (data === undefined) return;
 
         console.log("DATA", data)
         for (let i=0; i < data.length; i++) {

@@ -1,10 +1,9 @@
 import React from 'react'
-import '../css/App.css'
 import NavigationBar from './NavigationBar'
 import LookUpForm from './LookUpForm'
 import DemographicsPanel from './DemographicsPanel'
 import { connect } from 'react-redux'
-import SimpleMap from './Map'
+import Map from './Map'
 import PlacesList from './PlacesList'
 import * as selectors from '../Reducers/selectors'
 import { createSelector } from 'reselect';
@@ -20,7 +19,6 @@ import skylineBackground from '../images/modern-skyline.jpg'
 import cityscape from '../images/backgrounds/cityscape_night1.jpg'
 import white_smaple from '../images/logo/white_sample.png'
 import Image from 'react-bootstrap/Image'
-
 import Joyride, { CallBackProps, STATUS, Step, StoreHelpers } from 'react-joyride';
 import Button from 'react-bootstrap/Button';
 import { updateUser } from '../Actions/user-actions';
@@ -32,6 +30,8 @@ import ListingsPreviews from './ListingPreviews'
 import ListingsBrowse from './ListingsBrowse'
 import Cookies from 'universal-cookie';
 import About from './About'
+import MediaQuery from 'react-responsive'
+import Div100vh from 'react-div-100vh'
 
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
@@ -137,24 +137,28 @@ class App extends React.Component {
   }
 
   render() {
-  //  console.log("APP", this.props)
+
+    let availHeight = window.screen.availHeight - 170 - 40;
 
     if (this.props.ready) {
     
       var map = <div>
         <div className="results-container">
-          <DemographicsPanel 
-            business_type={this.props.business_type} 
-            street = {this.props.address.street}
-            city = {this.props.address.city}
-            state = {this.props.address.state}
-            zip = {this.props.address.zip}
-            lat = {this.props.address.coords.lat}
-            lng = {this.props.address.coords.lng}
-            getHelpers={this.getHelpers}
-            orientation = {"demographics-list-vertical "}>
-          </DemographicsPanel>
-          <SimpleMap 
+          
+          <div style={{width: '25%', height: '80vh'}}>
+            <DemographicsPanel 
+              business_type={this.props.business_type} 
+              street = {this.props.address.street}
+              city = {this.props.address.city}
+              state = {this.props.address.state}
+              zip = {this.props.address.zip}
+              lat = {this.props.address.coords.lat}
+              lng = {this.props.address.coords.lng}
+              getHelpers={this.getHelpers}
+              orientation = {"demographics-list-vertical "}>
+            </DemographicsPanel>
+          </div>
+          <Map 
             runJoyRideTutorial={this.runJoyRideTutorial} 
             height={'72.2vh'} 
             address={this.props.address} 
@@ -164,13 +168,52 @@ class App extends React.Component {
             isFirstTimeUser={this.state.isFirstTimeUser}
             updateIsFirstTime={this.updateIsFirstTime}
             />
-          <PlacesList/>
+          <div style={{width: '25%', height: '80vh'}}>
+            <PlacesList/>
+          </div>
           </div>
           <br></br>
           <ChartsPanel/>
           <TransportationPanel/>
           <CommentsPanel/>
         </div>
+
+        var mobile_map = <div className="mob_map_dashboard">
+          {/* <h1>{availHeight}</h1> */}
+          <Map 
+            runJoyRideTutorial={this.runJoyRideTutorial} 
+            height={availHeight}
+            address={this.props.address} 
+            center={this.props.address.coords} 
+            zoom={15} 
+            business_type={this.props.business_type} 
+            isFirstTimeUser={this.state.isFirstTimeUser}
+            updateIsFirstTime={this.updateIsFirstTime}
+            />
+            
+            {/* <DemographicsPanel 
+             business_type={this.props.business_type} 
+             street = {this.props.address.street}
+             city = {this.props.address.city}
+             state = {this.props.address.state}
+             zip = {this.props.address.zip}
+             lat = {this.props.address.coords.lat}
+             lng = {this.props.address.coords.lng}
+             getHelpers={this.getHelpers}
+             orientation = {"demographics-list-vertical "}>
+           </DemographicsPanel>
+              
+           */}
+           {/* <div style={{ width: '100%', height: '100%'}}>
+            <PlacesList/>
+           </div> */}
+          {/* </div>
+          <br></br>
+          <ChartsPanel/>
+          <TransportationPanel/>
+          <CommentsPanel/> */}
+    
+         </div>
     }
 
     return (
@@ -276,7 +319,7 @@ class App extends React.Component {
         <Route
           path={'/:address/:business_type'}
           render={(({match}) => {
-            return <div className="testTarget" style={{backgroundColor: darkBg}}>
+            return <div className="App" style={{backgroundColor: darkBg}}>
               <NavigationBar displaySearchBar={true} urlParams={match.params}/>
             
               <Joyride 
@@ -293,14 +336,16 @@ class App extends React.Component {
                   },
                 }}
              />
-              {map}
-              <div className="App" >
-              <header className="App-header" style={{backgroundColor: darkBg}}>
-              <div style={{  display: 'flex', width: '100%', justifyContent: 'center', }}>
-  
-                      </div>
-              </header>
-            </div>
+              <MediaQuery minDeviceWidth={551} ><>{map}</></MediaQuery> 
+              <MediaQuery maxDeviceWidth={550}><>{mobile_map}</></MediaQuery> 
+
+              {/* <div className="App">
+                <header className="App-header" style={{backgroundColor: darkBg}}>
+                <div style={{  display: 'flex', width: '100%', justifyContent: 'center', }}>
+    
+                        </div>
+                </header>
+            </div> */}
             <Footer/>
           </div>
         })}>
@@ -310,25 +355,24 @@ class App extends React.Component {
           render={(({match}) => {
             return <div>
                 <NavigationBar urlParams={match.params}/>
-                <div className="App" style={{ }}>
+                <div className="App" >
                 <header className="App-header" style={{
                   backgroundImage: `url(${skylineBackground})`,
-                  backgroundRepeat: 'repeat',
+                  backgroundRepeat: 'no-repeat',
                   backgroundSize: '100%', 
                   opacity: '1',
+                  backgroundColor: 'rgb(130, 208, 220'
                 }}>
-                  <div style={{ height: '100%', width: '100%' }}>
-                  <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-                     <div style={{ zIndex: 2, width: '100px', height: '100%', display: 'flex',}}>
-                        <Image src={white_smaple} style={{ width: '100%', height: '100%'}} fluid/>
-                      </div>
-                      <h1 style={{fontSize: '58px', fontWeight: 'bold', fontFamily: 'Tahoma, Geneva, sans-serif', marginTop: '1em' }}>Landmark</h1>
+                <div style={{ height: '100%', width: '100%' }}>
+                    <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
+                       <div style={{ zIndex: 2, width: '50px', height: '100%', display: 'flex',}}>
+                          <Image src={white_smaple} style={{ width: '100%', height: '100%', marginBottom: '.5em' }} fluid/>
+                        </div>
+                        <h1 style={{  marginTop: '1em' }}>landmark</h1>
+                    </div> 
                   
-                  </div> 
-                    
-                      <br></br>
                       <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
-                      <div style={{  display: 'flex', width: '100%', justifyContent: 'center', }}>
+                      <div style={{  display: 'flex', width: '100%', justifyContent: 'center' }}>
                         <LookUpForm/>
                       </div>
                       <div style={{zIndex: 200, marginTop : '6em'}}>
@@ -337,15 +381,7 @@ class App extends React.Component {
                       
                   </div>
                 </header>
-                <header className="App-header" style={{
-                  backgroundImage: `url(${cityscape})`,
-                  backgroundRepeat: 'repeat',
-                  backgroundSize: '100%', 
-                  opacity: '1',
-                }}>
                   <About/>
-                </header>
-
               </div>
               <Footer/>
             </div>

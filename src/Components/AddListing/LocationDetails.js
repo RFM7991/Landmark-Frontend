@@ -2,7 +2,6 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import '../../css/addListing.css';
 import Table from 'react-bootstrap/Table'
 import ReactTableContainer from "react-table-container";
 import Form from 'react-bootstrap/Form'

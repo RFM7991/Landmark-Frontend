@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/App.css';
+import '../css/App.scss';
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../Reducers/selectors'

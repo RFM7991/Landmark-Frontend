@@ -284,7 +284,7 @@ class DemographicsPanel extends React.Component {
         if (business_type == 'lodging') business_type = 'hotel /lodging'
 
         return (
-           <div className={this.props.orientation} style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column'}}>
+           <div className={this.props.orientation} style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%'}}>
 
              <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <br></br>

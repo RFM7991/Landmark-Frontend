@@ -1,0 +1,60 @@
+.navBar {
+    background: linear-gradient(225deg, rgba(2,0,36,1) 0%, rgba(6,6,73,1) 63%, rgba(0,212,255,1) 100%);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    
+}
+
+@media (min-width: 551px) {
+    .navBar_search {
+        display: flex;
+        flex-direction: row;
+        z-index: 1000;
+        width: 50%;
+    
+        div {
+            display: flex;
+            flex-direction: row;
+            margin-right: .25em;
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .navBar_search {
+        display: flex;
+        flex-direction: row;
+        z-index: 1000;
+        width: 75%;
+    
+        div {
+            display: flex;
+            flex-direction: row;
+            margin-right: .25em;
+        }
+    }
+}
+
+.logo_container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+}
+ 
+// style={{ flex: 1, display : 'flex', alignItems: 'center', justifyContent: 'center', width: '25%'}}
+
+.go_button {
+    background-color:#00d4ff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+
+.user_tools {
+    display: flex;
+    align-items: center;
+}
+// style={{ flex: 1, display : 'flex', alignItems: 'center', width: '25%'}}

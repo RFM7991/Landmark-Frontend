@@ -1,7 +1,7 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import Image from 'react-bootstrap/Image'
-import '../../css/listingView.css'
+import '../../css/listingView.scss'
  
 const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 

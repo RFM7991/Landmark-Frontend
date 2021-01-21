@@ -53,7 +53,7 @@ class PlacesList extends React.Component {
     }
 
     return (
-      <div className='places-list' style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column'}}>
+      <div className='places-list' style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%'}}>
         <div>
           <br></br>
           <p style={{textAlign: 'center', color: textPrimary}} ><strong>Nearby Businesses</strong></p>

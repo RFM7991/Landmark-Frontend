@@ -43,6 +43,7 @@ class CommentsPanel extends React.Component {
         console.log('CREATE COMMENT', results)
         // handle failed post
         let comments = await getComments(this.props.address.place.place_id)
+        if (comments === undefined) return;
         this.setState({comments: comments.res})
 
     }

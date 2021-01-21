@@ -2,7 +2,7 @@ import React, {useState, useLayoutEffect} from 'react';
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import '../css/App.css';
+import '../css/App.scss';
 import { updateBusinessType} from '../Actions/business-actions'
 import { updateReady } from '../Actions/ready-actions'
 import { updateIsCity } from '../Actions/isCity-actions'
@@ -315,50 +315,39 @@ class LookUpForm extends React.Component {
  
         return (
             <div className="lookup-form-block">
-                <div style={{ display: 'flex',  minHeight: '64px', justifyContent: 'center', alignItems: 'center' }}>
-                    {this.state.error && <div style={{ color: 'red', fontSize: 16}}>{this.state.errorMessage}</div>}
+                <div className="errorMessage">
+                    {this.state.error && <div>{this.state.errorMessage}</div>}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'row', }}>
-
-        
-                            
-                            
-                            <MyVerticallyCenteredModal
-                                show={this.state.showModal}
-                                onHide={() => this.setState({showModal:false})}
-                            />          
-                 
-                        </div>   
-                <div style={{ width: '100%',  display: 'flex', marginLeft: '2em'}}>
-                    <div style={{ flex: 1, display: 'flex',    }}>
-                        <h3 color="black" style={{color: textPrimary, fontSize: '22px', textAlign: 'left', marginLeft: '1em'}}>Address</h3> 
-                    </div>
-                
-                    <div style={{flex: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em', marginRight: '2.5em', }}>
-                        <div style={{ fontSize: '16px', marginRight: '0.5em', color: 'white'}}>How to use</div>
+                <MyVerticallyCenteredModal
+                    show={this.state.showModal}
+                    onHide={() => this.setState({showModal:false})}
+                />          
+                <div className="searchHeader">
+                    <div className="addressText">Address</div>
+                    <div className="howToContainer">
+                        <span>How to use</span>
                         <InfoButton  clickFunction={()=>this.setModalShow(true)}/>    
                     </div>
                 </div>
 
-                <div style={{ width: '100%',  display: 'flex'}}>
-                    <div style={{ display: 'flex', flexDirection: 'row', width: '80%', marginLeft: '2em' }}>
+                <div className="searchGo">
+                    <div className="searchContainer">
                         <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress}/>
                     </div>
-                    <div style={{ width: '20%'}}>
-                        <Form style={{ flexDirection : 'row', justifyContent: 'flex-start', marginLeft: '1em'}}>
-                            {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>
+                    <Form style={{ flexDirection : 'row', justifyContent: 'flex-start', marginLeft: '.25em'}}>
+                            {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} 
+                                style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>
                                 Go</Button>
                             }
-                            {this.state.address == undefined && <Button  variant="primary" onClick={this.onHandleAddressWarning} style={{backgroundColor:'#00d4ff', fontWeight: 'bold', opacity: 0.75}}>
+                            {this.state.address == undefined && <Button  variant="primary" onClick={this.onHandleAddressWarning} 
+                                style={{backgroundColor:'#00d4ff', fontWeight: 'bold', opacity: 0.75}}>
                                 Go</Button>
                             }
-                        </Form>
-                    </div>
-           
+                    </Form>
                 </div>
                 
-                <div style={{ marginTop: '2em', backgroundColor: 'rgba(1,1,1,0.6', width: '70%', alignSelf: 'center'}}>
-                        <p style={{ fontSize: 18, color: 'whitesmoke', margin: 'auto'}}>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York USA</p>
+                <div className="disclaimerContainer">
+                    <p style={{ fontSize: 18, color: 'whitesmoke', margin: 'auto'}}>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York USA</p>
                 </div>
   
         </div>

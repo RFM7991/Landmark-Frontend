@@ -2,7 +2,6 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import '../../css/addListing.css';
 import ContactInfo from './ContactInfo'
 import LocationDetails from './LocationDetails'
 import PricingInfo from './PricingInfo'

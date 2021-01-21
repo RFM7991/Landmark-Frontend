@@ -2,7 +2,6 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import '../../css/addListing.css';
 import SubwayIcon from '../../images/subway.png'
 import Table from 'react-bootstrap/Table'
 import ReactTableContainer from "react-table-container";

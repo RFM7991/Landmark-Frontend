@@ -2,7 +2,7 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import '../../css/listingView.css';
+import '../../css/listingView.scss';
 import { Link, withRouter } from 'react-router-dom'
 import { getListings, getNearbyListings } from "../../Requests/listings-requests"
 import ListingItem from "./ListingItem"

@@ -13,6 +13,7 @@ import { createSelector } from 'reselect';
 import { updateUser } from '../Actions/user-actions';
 import white_smaple from '../images/logo/white_sample.png'
 import NavLookUpForm from './NavLookUpForm'
+import MediaQuery from 'react-responsive'
 
 const darkBg = 'rgb(26,28,41)'
 const navBg = 'linear-gradient(225deg, rgba(2,0,36,1) 0%, rgba(6,6,73,1) 63%, rgba(0,212,255,1) 100%)'
@@ -49,31 +50,33 @@ class NavigationBar extends React.Component {
         this.props.history.push('/addlisting')
     }
 
+    navigateHome = () => {
+        this.props.history.push('/')
+    }
+
 
     render() {
         return (
-            <Navbar style={{background: navBg }} expand="lg">
-                <div style={{ width: '100%', display : 'flex', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
-                    <div style={{ flex: 1, display : 'flex', alignItems: 'center', width: '25%'}}>
-                        <div style={{ width: '40px', height: '100%'}}><Image src={white_smaple} style={{ width: '100%', height: '100%'}} fluid/></div>
-                        <Link to="/" style={{color: "whitesmoke", fontWeight: 'bold',  stroke: 'black', strokeWidth: 2, fontFamily: 'Tahoma, Geneva, sans-serif'}}>Landmark</Link>
+            <Navbar className="navBar" expand="lg">
+                    <div className="logo_container" onClick={this.navigateHome}>
+                        <div style={{ width: '30px', height: '100%'}}><Image src={white_smaple} style={{ width: '100%', height: '100%'}} fluid/></div>
+                        <MediaQuery minDeviceWidth={551}><Link to="/" style={{color: "whitesmoke", fontWeight: 'bold',  stroke: 'black', strokeWidth: 2, fontFamily: 'Tahoma, Geneva, sans-serif'}}>Landmark</Link></MediaQuery>
                     </div>
                     {this.props.displaySearchBar &&
-                        <div style={{  width: '50%', height: '100%', marginBottom: '2em'}}>
                             <NavLookUpForm urlParams={this.props.urlParams}/>
-                        </div>
                     }
-
-                    <div style={{ flex: 1, display : 'flex', alignItems: 'center', width: '25%'}}>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                
+                    <div className="user_tools">
+                        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
                             </Nav>
-                        </Navbar.Collapse>
-                        {this.props.user._id != -1 && <Link to="/addlisting" style={{color: "whitesmoke",  stroke: 'black', strokeWidth: 2, marginRight: '0.5em', fontFamily: 'Tahoma, Geneva, sans-serif'}}>Add a Listing</Link>}
-                        <NavBarDropDown user={this.props.user} logout={this.logout} login={this.login} goToSearches={this.goToSearches} goToAddListing={this.goToAddListing}/>
+                        </Navbar.Collapse> */}
+                        {/* {this.props.user._id != -1 && <Link to="/addlisting" style={{color: "whitesmoke",  stroke: 'black', strokeWidth: 2, marginRight: '0.5em', fontFamily: 'Tahoma, Geneva, sans-serif'}}>Add a Listing</Link>} */}
+                        <MediaQuery minDeviceWidth={551}>
+                            <NavBarDropDown user={this.props.user} logout={this.logout} login={this.login} goToSearches={this.goToSearches} goToAddListing={this.goToAddListing}/>
+                        </MediaQuery>
                     </div>
-                 </div>
             </Navbar>
         );
     }
@@ -111,7 +114,7 @@ const NavBarDropDown = props => {
         return (
             <NavDropdown title={title} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={props.goToSearches}>My Profile</NavDropdown.Item>
-            
+                <NavDropdown.Item onClick={props.goToSearches}>Add listing</NavDropdown.Item>
                 {signIn}
             </NavDropdown> 
         )

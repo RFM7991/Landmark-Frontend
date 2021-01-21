@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
 import Col from 'react-bootstrap/Col'
-import '../../css/addListing.css';
 import Table from 'react-bootstrap/Table'
 import Image from 'react-bootstrap/Image'
 import ReactTableContainer from "react-table-container";
