@@ -9,12 +9,13 @@ function Toolbar(props) {
         window.scrollTo({ top: 0, behavior: 'smooth'})
     }
 
-    const handlePlaces = () => {
-        window.scrollTo({ top: window.screen.availHeight -150, behavior: 'smooth' })
+    const handleStats = () => {
+        
+        window.scrollTo({ top: window.innerHeight - 38, behavior: 'smooth' })
     }
 
-    const handleStats = () => {
-        window.scrollTo({ top: window.screen.availHeight*2 -150, behavior: 'smooth'})
+    const handlePlaces = () => {
+        window.scrollTo({ top: window.innerHeight*2 - 76, behavior: 'smooth'})
     }
 
     return (
@@ -23,8 +24,9 @@ function Toolbar(props) {
                 <FontAwesomeIcon icon={faBars} size="1x" color="#007BFF" />
             </Button> */}
             <Button variant="link" onClick={handleMap}>Map</Button>
+            <Button variant="link" onClick={handleStats}>Demographics</Button>
             <Button variant="link" onClick={handlePlaces}>Places</Button>
-            <Button variant="link" onClick={handleStats}>Stats</Button>
+            
         </div>
     )
 }

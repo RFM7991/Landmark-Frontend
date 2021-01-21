@@ -1072,47 +1072,63 @@ navigateToListing = () => {
     />
   }
 
+  const MapBundle = <div className="googleMap_container">
+        <GoogleMapReact
+          ref={this.myRef}
+            bootstrapURLKeys={{ key: GOOGLE_KEY}}
+            center={this.state.center}
+            zoom={this.state.zoom}
+            yesIWantToUseGoogleMapApiInternals={true}
+            layerTypes={['TrafficLayer', 'TransitLayer']}
+            id={'map'}
+            onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, this.state.center)}
+            options= {this.state.mapOptions}
+            resetBoundsOnResize = {true}
+            onChange={this.handleChange}
+          />
+        {this.state.siteView && 
+        <div className="streetView_container">
+          {streetView}
+        </div>}
+        {this.state.loadingCart[this.props.data_range] == true && 
+          <div className="fade_container">
+            <FadeLoader color='#123abc' size={10}/>
+            <span>Loading Overlay</span>
+          </div>
+        }
+  </div>
+
     return (
       <div className='map_container'>
 
         <MediaQuery minDeviceWidth={551}><MapButtons/></MediaQuery>
         <MediaQuery maxDeviceWidth={550}><Toolbar/></MediaQuery>
 
-          {/* {this.state.hasListing && 
+          {this.state.hasListing && 
             <button className="listingBanner" onClick={this.navigateToListing}>
-            <div><span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span></div>
-          </button>
-          } */}
-        
-        <div style={{height:  (!this.state.hasListing) ? this.props.height : `calc(${this.props.height} - 32px)`}}>     
-          <div className="googleMap_container">
-            <GoogleMapReact
-              ref={this.myRef}
-                bootstrapURLKeys={{ key: GOOGLE_KEY}}
-                center={this.state.center}
-                zoom={this.state.zoom}
-                yesIWantToUseGoogleMapApiInternals={true}
-                layerTypes={['TrafficLayer', 'TransitLayer']}
-                id={'map'}
-                onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps, this.state.center)}
-                options= {this.state.mapOptions}
-                resetBoundsOnResize = {true}
-                onChange={this.handleChange}
-              />
-            {this.state.siteView && 
-            <div className="streetView_container">
-              {streetView}
-            </div>}
-            {this.state.loadingCart[this.props.data_range] == true && 
-              <div className="fade_container">
-                <FadeLoader color='#123abc' size={10}/>
-                <span>Loading Overlay</span>
+              <div><span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span></div>
+            </button>
+          }
+
+         <MediaQuery maxDeviceWidth={550}>    
+            {this.state.hasListing &&  <div style={{height: window.innerHeight - 86 - 32 }}>
+                  {MapBundle}
               </div>
             }
-          </div>
-        </div>
-        <MediaQuery maxDeviceWidth={550}><PlacesList/></MediaQuery>
+            {!this.state.hasListing &&  <div style={{height: window.innerHeight - 86 }}>
+                {MapBundle}
+              </div>
+            } 
+         </MediaQuery>
+
+         <MediaQuery minDeviceWidth={551}>
+            <div style={{height:  (this.state.hasListing) ? `calc(${this.props.height} - 32px)` : this.props.height }}>     
+              {MapBundle}
+            </div>
+         </MediaQuery>
+        
         <MediaQuery maxDeviceWidth={550}>
+           
           <DemographicsPanel 
              business_type={this.props.business_type} 
              street = {this.props.address.street}
@@ -1124,6 +1140,8 @@ navigateToListing = () => {
              getHelpers={this.getHelpers}
              orientation = {"demographics-list-vertical "}>
            </DemographicsPanel>
+
+           <PlacesList/>
         </MediaQuery>
       
       </div>

@@ -53,10 +53,10 @@ class PlacesList extends React.Component {
     }
 
     return (
-      <div className='places-list' style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%'}}>
+      <div className="places-list" >
         <div>
           <br></br>
-          <p style={{textAlign: 'center', color: textPrimary}} ><strong>Nearby Businesses</strong></p>
+          <p style={{textAlign: 'center', color: textPrimary}}><strong>Nearby Businesses</strong></p>
           <div style={{display: 'flex',justifyContent: 'space-evenly', fontWeight: 'bold'}}>
             <img style={{ width: 32, height: 32}} src={BLUE_MARKER}></img>
             <p style={{color: textPrimary}}>Site</p>
@@ -67,18 +67,18 @@ class PlacesList extends React.Component {
           </div>
       </div>
       <div style={{flexGrow: 1, overflowY: 'auto'}}>
-      <Table striped bordered hover variant="dark" >
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Place</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {places}
-          </tbody>
-        </Table>
+        <Table striped bordered hover variant="dark" >
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Place</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {places}
+            </tbody>
+          </Table>
         </div>
       </div>);
     }
