@@ -284,7 +284,7 @@ class DemographicsPanel extends React.Component {
         if (business_type == 'lodging') business_type = 'hotel /lodging'
 
         return (
-           <div className="demographics_container" style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%', height: '100vh'}}>
+           <div className="demographics_container" >
 
              <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <br></br>
@@ -306,7 +306,7 @@ class DemographicsPanel extends React.Component {
                 </div>
             </div>
            
-            <div style={{ flexGrow: 1, overflowY: 'auto', backgroundColor: lightBg}}>
+            <div style={{ flex: 1, overflowY: 'auto', backgroundColor: lightBg}}>
                <Accordion defaultActiveKey='0'>
                 <Card style={{backgroundColor: lightBg}}>
                     <Accordion.Toggle as={Card.Header} eventKey="0" style={{color: 'whitesmoke', backgroundColor: darkBg, marginTop: '3px', fontWeight: 'bold'}}>

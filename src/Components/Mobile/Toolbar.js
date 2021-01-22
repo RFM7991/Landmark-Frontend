@@ -15,7 +15,7 @@ function Toolbar(props) {
     }
 
     const handlePlaces = () => {
-        window.scrollTo({ top: window.innerHeight*2 - 76, behavior: 'smooth'})
+        window.scrollTo({ top: window.innerHeight*2, behavior: 'smooth'})
     }
 
     return (
