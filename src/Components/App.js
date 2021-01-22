@@ -360,27 +360,30 @@ class App extends React.Component {
                   backgroundImage: `url(${skylineBackground})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: '100%', 
+                  backgroundPositionY: '100%', 
                   opacity: '1',
                   backgroundColor: 'rgb(130, 208, 220'
                 }}>
-                <div style={{ height: '100%', width: '100%' }}>
+                <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '2em' }}>
                     <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
                        <div style={{ zIndex: 2, width: '50px', height: '100%', display: 'flex',}}>
                           <Image src={white_smaple} style={{ width: '100%', height: '100%', marginBottom: '.5em' }} fluid/>
                         </div>
-                        <h1 style={{  marginTop: '1em' }}>landmark</h1>
+                        <h1>landmark</h1>
                     </div> 
                   
-                      <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
-                      <div style={{  display: 'flex', width: '100%', justifyContent: 'center' }}>
-                        <LookUpForm/>
-                      </div>
-                      <div style={{zIndex: 200, marginTop : '6em'}}>
+                        <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
+                        <div style={{  display: 'flex', width: '100%', justifyContent: 'center' }}>
+                          <LookUpForm/>
+                        </div>
+                  </div>
+                             
+                </header>
+                      <div style={{zIndex: 200}}>
                         <ListingsPreviews />
                       </div>
                       
-                  </div>
-                </header>
+           
                   <About/>
               </div>
               <Footer/>

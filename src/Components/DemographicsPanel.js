@@ -153,7 +153,6 @@ class DemographicsPanel extends React.Component {
         let bounds = await getTradeZoneBounds(this.props.isCity, this.props.address.coords, this.props.geo_unit)
         this.onUpdateTradeZoneBounds(bounds)
         let data = await getTradeZoneStats(this.props.address.coords, bounds)
-        console.log("getTradeZoneStats", data)
 
         // set internal state
         this.setState({tradeZoneStats : data, statsLoaded : true,  
@@ -284,7 +283,7 @@ class DemographicsPanel extends React.Component {
         if (business_type == 'lodging') business_type = 'hotel /lodging'
 
         return (
-           <div className={this.props.orientation} style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%'}}>
+           <div className={this.props.orientation} style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
 
              <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <br></br>
@@ -298,8 +297,8 @@ class DemographicsPanel extends React.Component {
                         />
                     </div>
                     <br></br>
-                <div style={{display: 'flex', }}>
-                  <Button disabled={this.state.zipDisabled} variant={this.state.zipVariant} className='map-control_button'  onClick={this.onUpdateDataRange} value= {'zip'} style={{margin: 'auto', width: '50%', height: 35, padding: '0', fontWeight: 'bold'}}>
+                <div style={{display: 'flex', height: '35px', width: '100%'}}>
+                  <Button disabled={this.state.zipDisabled} variant={this.state.zipVariant} className='map-control_button'  onClick={this.onUpdateDataRange} value= {'zip'} style={{ width: '50%', height: 35, padding: '0', fontWeight: 'bold'}}>
                     {this.state.zipHeader}
                 </Button>
                 <LoadingButton click={this.onUpdateDataRange} buffer={this.checkForTradeZone} buttonVariant={this.state.tzVariant}/>
