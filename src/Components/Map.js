@@ -1142,10 +1142,7 @@ navigateToListing = () => {
              orientation = {"demographics-list-vertical "}>
            </DemographicsPanel>
 
-          
-
            <PlacesList/>
-
           
         </MediaQuery>
       
