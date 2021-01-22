@@ -190,7 +190,6 @@ class App extends React.Component {
             isFirstTimeUser={this.state.isFirstTimeUser}
             updateIsFirstTime={this.updateIsFirstTime}
             />
-            
             {/* <DemographicsPanel 
              business_type={this.props.business_type} 
              street = {this.props.address.street}

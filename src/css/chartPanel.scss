@@ -1,0 +1,24 @@
+.chartPanel_container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+@media(min-width: 551px) {
+    .doughnut_chart {
+        width: 33%;
+        padding: .75em;
+    }
+}
+
+@media(max-width: 550px) {
+    .doughnut_chart {
+        width: 95%;
+        padding: .75em;
+    }
+}
+
+
+// {display: 'flex',  alignItems: 'center', width: '95%', margin: 'auto', marginBottom: '2em',justifyContent: 'space-around'}

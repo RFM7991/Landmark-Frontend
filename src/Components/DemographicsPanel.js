@@ -20,6 +20,7 @@ import { updateTradeZoneBounds } from '../Actions/tradeZoneBoundaries-actions'
 import ReactTooltip from 'react-tooltip'
 import Modal from 'react-bootstrap/Modal'
 import {AiOutlineInfoCircle} from 'react-icons/ai'
+import ChartsPanel from './UI/DoughnutChart'
 export const ZIP = 'zip code tabulation area'
 export const TRADE_ZONE = 'tradeZone'
 const darkBg = 'rgb(26,28,41)'
@@ -283,7 +284,7 @@ class DemographicsPanel extends React.Component {
         if (business_type == 'lodging') business_type = 'hotel /lodging'
 
         return (
-           <div className={this.props.orientation} style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
+           <div className="demographics_container" style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%', height: '100vh'}}>
 
              <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
                 <br></br>
@@ -440,9 +441,13 @@ class DemographicsPanel extends React.Component {
                         </Table>
                     </Card.Body>
                     </Accordion.Collapse>
+                  
                 </Card>
                 </Accordion>
+              
                 </div>
+
+                
            </div>
         );
     }

@@ -31,6 +31,7 @@ import { Link, withRouter } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import Toolbar from './Mobile/Toolbar'
 import PlacesList from './PlacesList'
+import ChartsPanel from './ChartsPanel'
 
 const infoWindow =  new google.maps.InfoWindow()
 
@@ -1141,7 +1142,11 @@ navigateToListing = () => {
              orientation = {"demographics-list-vertical "}>
            </DemographicsPanel>
 
+          
+
            <PlacesList/>
+
+          
         </MediaQuery>
       
       </div>

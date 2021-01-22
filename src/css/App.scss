@@ -83,6 +83,28 @@
   
 }
 
+@media (min-width: 551px) {
+  .demographics_container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  //  min-height: 80vh;
+    background: rgb(31,33,48)
+  }
+}
+// style={{backgroundColor: lightBg, display: 'flex', flexDirection: 'column', width: '100%', height: '100vh'}}
+@media (max-width: 550px) {
+  .demographics_container{
+    width: 100%;
+    height: calc(100vh - 32px);
+    display: flex;
+    flex-direction: column;
+    background: rgb(31,33,48)
+  }
+  
+}
+
 .demographics-list-vertical {
   width: 25%;
   height: 80vh;

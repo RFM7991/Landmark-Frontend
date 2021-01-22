@@ -140,7 +140,7 @@ class DoughnutChart extends Component {
 	}
 	render() {
 		return (
-		<div style={{ width: 600}}>
+		<div className="doughnut_chart">
 			{this.props.data_range == ZIP && this.props.stats.zip != undefined && <CanvasJSChart options = {this.chartOptions()}/>}
 			{this.props.data_range == TRADE_ZONE && this.props.stats.tradezone != undefined && <CanvasJSChart options = {this.chartOptions()}/>}
 			{this.props.data_range == ZIP && this.props.stats.zip == undefined && <ClipLoader/>}

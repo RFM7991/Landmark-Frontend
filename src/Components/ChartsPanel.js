@@ -12,7 +12,7 @@ class ChartsPanel extends Component {
 
     render() {
         return (
-            <div style={{display: 'flex',  alignItems: 'center', width: '95%', margin: 'auto', marginBottom: '2em',justifyContent: 'space-around'}}>
+            <div className="chartPanel_container">
                 <DoughnutChart title={'Gender'} backgroundColor={lightBg}></DoughnutChart>
                 <DoughnutChart title={'Income'} backgroundColor={lightBg}></DoughnutChart>
                 <DoughnutChart title={'Age'} backgroundColor={lightBg} ></DoughnutChart>
