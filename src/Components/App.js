@@ -174,8 +174,14 @@ class App extends React.Component {
           </div>
           <br></br>
           <ChartsPanel/>
-          <TransportationPanel/>
-          <CommentsPanel/>
+          <div style={{ width: '80%'}}>
+            <TransportationPanel/>  
+          </div>
+          
+          <div style={{ width: '40%'}}>
+            <CommentsPanel/>
+          </div>
+         
         </div>
 
         var mobile_map = <div className="mob_map_dashboard">

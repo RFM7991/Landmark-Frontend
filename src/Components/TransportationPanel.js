@@ -67,11 +67,11 @@ class TransportationPanel extends React.Component {
             </tr>
         </thead>
         return (
-            <div style={{flexDirection: 'column', alignItems: 'flex-start', padding: '1.5em', width: '100%', backgroundColor: lightBg}}>
+            <div style={{flexDirection: 'column', alignItems: 'flex-start', padding: '1.5em', width: '100%', backgroundColor: lightBg, }}>
                 <h1 style={{color: 'whitesmoke', }}>Transportation</h1>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', overflowX: 'auto'}}>
                 {this.state.showSubways &&
-                <div style={{display: 'flex', flexDirection:'column',justifyContent: 'center'}}>
+                <div style={{display: 'flex', flexDirection:'column',justifyContent: 'center', width: '100%', }}>
               
                     <ReactImageMagnify {...{
                         largeImage: {
@@ -93,12 +93,15 @@ class TransportationPanel extends React.Component {
                        <a  style={{  marginRight: 'auto', marginLeft: 'auto', width: 100, height: 20}} href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Official_New_York_City_Subway_Map_vc.jpg" target="_blank" >See full size</a>
                      </div>
                 }
-                <ReactTableContainer  height={this.state.tableHeight} width='70%' customHeader={[header]}>
+                <ReactTableContainer  height={this.state.tableHeight} width='100%' customHeader={[header]}>
                     <Table striped hover variant="dark">
                         {header}
                         <tbody>
                             <SubwaysRows transportation={this.props.transportation}/>
                         </tbody>
+                        {(this.props.transportation.subways == undefined || this.props.transportation.subways.length == 0) && 
+                            <tr></tr>
+                        }
                     </Table>
                 </ReactTableContainer>
                 

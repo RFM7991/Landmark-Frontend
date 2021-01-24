@@ -32,6 +32,8 @@ import MediaQuery from 'react-responsive'
 import Toolbar from './Mobile/Toolbar'
 import PlacesList from './PlacesList'
 import ChartsPanel from './ChartsPanel'
+import CommentsPanel from './CommentsPanel'
+import TransportationPanel from './TransportationPanel'
 
 const infoWindow =  new google.maps.InfoWindow()
 
@@ -108,7 +110,9 @@ class SimpleMap extends Component {
         },
         zoomControl: true,
         clickableIcons: false
-      }
+      },
+
+      toolsOpen : false
     }  
   
     this.onUpdatePlaces = this.onUpdatePlaces.bind(this);
@@ -171,16 +175,17 @@ class SimpleMap extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
+    console.log("THIS>PROPS>", this.props.active_place)
     // active place change
     if (this.props.active_place && this.props.active_place !== prevProps.active_place) 
       if (this.props.active_place.toString().length > 0) {
         this.setState({center : this.props.active_place.geometry.location})
         // highlight marker on map
         if (prevProps.active_place.toString().length > 0) {
-          this.updateMarker(this.state.markers.get(prevProps.active_place.id))
+          this.updateMarker(this.state.markers.get(prevProps.active_place.place_id))
         }
-        this.state.markers.get(this.props.active_place.id).marker.setIcon(GREEN_MARKER)
-        google.maps.event.trigger(this.state.markers.get(this.props.active_place.id).marker, 'click')
+        this.state.markers.get(this.props.active_place.place_id).marker.setIcon(GREEN_MARKER)
+        google.maps.event.trigger(this.state.markers.get(this.props.active_place.place_id).marker, 'click')
       }
 
     // update markers 
@@ -190,18 +195,20 @@ class SimpleMap extends Component {
         let markers_to_delete = [];
         let markers_to_keep = new Map(); 
 
+        console.log("ALL_MARKERS", all_markers)
         if (prevProps.places.length > this.props.places.length) { 
           markers_to_delete = all_markers.slice(this.props.places.length, prevProps.places.length)
-          all_markers.slice(0, this.props.length).forEach(m => markers_to_keep.set(m.place.id, 0)) // set placeholder, actual value not needed
+          all_markers.slice(0, this.props.length).forEach(m => markers_to_keep.set(m.place_id, 0)) // set placeholder, actual value not needed
         } 
         else if (prevProps.places.length < this.props.places.length) {
    
           let arr = all_markers.slice(0, prevProps.places.length)
-          arr.forEach(m => markers_to_keep.set(m.place.id, 0)) 
+          arr.forEach(m => markers_to_keep.set(m.place_id, 0)) 
         } else {
-      //    this.clearMarkers()
+          this.clearMarkers()
         }
 
+        console.log("TO_DELETE", markers_to_delete)
         // remove necesary markers
         markers_to_delete.forEach(m => m.marker.setMap(null))
         
@@ -472,6 +479,7 @@ class SimpleMap extends Component {
     let type = event.target.value.replace(/ /g, '_')
     if (type == 'hotels_/lodging') type = 'lodging'
     else if (type == 'all') type = 'establishment'
+
     // clear places
     if (type == 'none') {
       this.setState({places_count : 0, 
@@ -537,13 +545,15 @@ class SimpleMap extends Component {
   }
 
   clearMarkers = () => {
+   // console.log("HEREZ", this.state.markers)
     // clear markers 
     let updatedMarkers = new Map()
     this.state.markers.forEach((e, i) => {
        e.marker.setMap(null)
        if (i < this.props.places.length) 
-          updatedMarkers.set(e.place.id, e)
+          updatedMarkers.set(e.place_id, e)
     })
+   // console.log("HEREZ", updatedMarkers)
     this.setState({ markers: updatedMarkers})
   }
 
@@ -607,6 +617,7 @@ class SimpleMap extends Component {
     this.props.onUpdateTract(data)
   }
   getInfoContent(place) {
+    console.log("INFO_CONTENT", place)
    return renderInfoContent.apply(this, [place])
   }
 
@@ -727,11 +738,12 @@ class SimpleMap extends Component {
   updateMarkers = (map, markers_to_keep) =>  {
     let markerMap = this.state.markers
     
+    
     Array.from(this.props.places).map((place, i) => {
-      var id= place.id
+      var id= place.place_id
       var img = ''
       var marker;
-
+   //   console.log("UPDATE_MARKERS_1", markerMap, this.props.places, id)
       // filter preexisting places
       if (!markers_to_keep.has(id)) { 
 
@@ -744,7 +756,7 @@ class SimpleMap extends Component {
             markerMap.set(id, {marker: marker, place: place})
       }
     })
-
+   // console.log("UPDATE_MARKERS_2", markerMap)
   this.setState({ markers : markerMap})
   this.updateInfoWindow(map)
 }
@@ -765,15 +777,15 @@ updateInfoWindow = (map) => Array.from(this.state.markers, ([key, value]) =>  {
 updatePlaceDetails(callback) {
 
   // get details
-  if (!this.state.place_details.has(this.props.active_place.id)) {
+  if (!this.state.place_details.has(this.props.active_place.place_id)) {
     this.getPlaceDetails(this.state.map, this.props.active_place.place_id, (details) => {
-      this.state.place_details.set(this.props.active_place.id, details)
+      this.state.place_details.set(this.props.active_place.place_id, details)
 
          // get photo
-    if (!this.state.place_photos.has(this.props.active_place.id)) {
+    if (!this.state.place_photos.has(this.props.active_place.place_id)) {
       if (this.props.active_place.photos !== undefined) {
        getPhoto(this.props.active_place.photos[0].photo_reference, 400, 400, (data) => {
-        this.state.place_photos.set(this.props.active_place.id, data.url)
+        this.state.place_photos.set(this.props.active_place.place_id, data.url)
         callback()
       })
       } else {
@@ -819,7 +831,7 @@ updateMarker = (marker) => {
   if (marker.place.place_id == this.props.address.place.place_id) {
     img = BLUE_MARKER
   }
-  else if (marker.place.id === this.props.active_place.id) {
+  else if (marker.place_id === this.props.active_place.place_id) {
     img = GREEN_MARKER
   } else if (this.props.business_type.type != 'residential' && this.props.business_type.type == this.state.business_type){
     img = RED_MARKER
@@ -984,6 +996,12 @@ navigateToListing = () => {
   let url = '/listing/' + this.state.listing.listingId
   this.props.history.push(url)
 }
+
+
+openToolBar = () => {
+  this.setState({ toolsOpen : !this.state.toolsOpen })
+}
+
   render() {
  //  console.log('map props', this.props)
     const apiIsLoaded = (map, maps, center) => {
@@ -1005,22 +1023,35 @@ navigateToListing = () => {
       this.loadNearbySubways()
     }
 
+    const resultsDropDown = <div>
+      <span style={{ color: 'whitesmoke'}}> Results</span>
+      <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange}>
+                    <option>20</option>
+                    <option>40</option>
+                    <option>60</option>
+      </Form.Control>
+    </div>
+
   const MapButtons = () => 
     
     <div className='map-control_bar'>
-      <Button className="toolbar_button" onClick={this.props.runJoyRideTutorial}>?</Button>
-      <Button className="toolbar_button" variant="light" onClick={this.onHandleCenter}>Ctr</Button>
-
-      <div className="switch_container">
-          <span>Street</span>
-          <SliderSwitch checked={this.state.siteView} switchFunction={this.onHandleSite}></SliderSwitch>
+      <div className="rowOne">
+        <Button className="toolbar_button" onClick={this.props.runJoyRideTutorial}>?</Button>
+        <Button className="toolbar_button" variant="light" onClick={this.onHandleCenter}>Ctr</Button>
+          
+        <div className="switch_container">
+            <span>Street</span>
+            <SliderSwitch checked={this.state.siteView} switchFunction={this.onHandleSite}></SliderSwitch>
+        </div>
+        <div className="switch_container">
+          <span>Overlay</span>
+          <SliderSwitch checked={true} switchFunction={this.handleSwitch}></SliderSwitch>
+        </div>
+        <MediaQuery maxDeviceWidth={550}>
+          {resultsDropDown}
+        </MediaQuery>
       </div>
-      <div className="switch_container">
-        <span>Overlay</span>
-        <SliderSwitch checked={true} switchFunction={this.handleSwitch}></SliderSwitch>
-      </div>
-
-      <div className="place_dropdown_container">
+        <div className="place_dropdown_container">
           <div>
             <span> Other Businesses</span>
             <Form.Control value={this.state.business_type_option} as="select" name="business_type" onChange={this.onBusinessFormChange}>
@@ -1043,17 +1074,11 @@ navigateToListing = () => {
                         })}
             </Form.Control>
           </div>
+          <MediaQuery minDeviceWidth={551}>
+            {resultsDropDown}
+          </MediaQuery>
         </div>
-
-          <div>
-            <span style={{ color: 'whitesmoke'}}> Results</span>
-            <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange}>
-                          <option>20</option>
-                          <option>40</option>
-                          <option>60</option>
-            </Form.Control>
-          </div>
-         </div>
+    </div>
 
 
     // init street view only after heading is calculated
@@ -1103,7 +1128,10 @@ navigateToListing = () => {
       <div className='map_container'>
 
         <MediaQuery minDeviceWidth={551}><MapButtons/></MediaQuery>
-        <MediaQuery maxDeviceWidth={550}><Toolbar/></MediaQuery>
+        <MediaQuery maxDeviceWidth={550}>
+          <Toolbar openToolBar={this.openToolBar}/>
+          {this.state.toolsOpen && <MapButtons/>}
+        </MediaQuery>
 
           {this.state.hasListing && 
             <button className="listingBanner" onClick={this.navigateToListing}>
@@ -1143,9 +1171,12 @@ navigateToListing = () => {
            </DemographicsPanel>
 
            <PlacesList/>
-          
+           <ChartsPanel />
+          <div className="extrasContainer">
+            <TransportationPanel/>
+            <CommentsPanel/>
+          </div>
         </MediaQuery>
-      
       </div>
     );
   }

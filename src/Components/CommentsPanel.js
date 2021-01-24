@@ -26,6 +26,7 @@ class CommentsPanel extends React.Component {
 
     async componentDidMount() {
         let comments = await getComments(this.props.address.place.place_id)
+        if (comments === undefined) return;
         this.setState({comments: comments.res})
     }
 
@@ -61,7 +62,7 @@ class CommentsPanel extends React.Component {
             </tr>
         </thead>
         return (
-            <div style={{display: 'block',  flexDirection: 'column', marginTop: '1.5em', padding: '1.5em', width: '40%', backgroundColor: lightBg}}>
+            <div style={{display: 'block',  flexDirection: 'column', marginTop: '1.5em', padding: '1.5em', width: '100%', backgroundColor: lightBg}}>
                 <h1 style={{color: 'whitesmoke', }}>Comments</h1>
                 <ReactTableContainer height={this.state.tableHeight} width='100%' customHeader={[header]}>
                     <Table striped hover variant="light">
@@ -89,7 +90,6 @@ class CommentsPanel extends React.Component {
     return (
        props.comments.map((e,i) => {
 
-        console.log("HEREZZZ", e, S3_BASE + 'users/' + e.user._id + '/profile.png')
             return (
                 <tr key={i}>
 

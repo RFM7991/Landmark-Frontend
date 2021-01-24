@@ -52,8 +52,8 @@ export const renderMarker = (key, position, map, title, icon, label) =>  new goo
   });
 
 export function renderInfoContent(place) {
-  var details = this.state.place_details.get(place.id)
-  var photo_url = this.state.place_photos.get(place.id)
+  var details = this.state.place_details.get(place.place_id)
+  var photo_url = this.state.place_photos.get(place.place_id)
   let header;
   let icon;
   if (place.place_id == this.props.address.place.place_id) {
