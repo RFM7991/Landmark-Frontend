@@ -55,7 +55,6 @@ class ListingItem extends React.Component {
     
         let res = await deleteListing(this.props.listing.listingId)
 
-        console.log("DELETE", res)
         this.setState({ showModal : false })
         this.props.handleDeleteListing(this.props.listing.listingId)
     }

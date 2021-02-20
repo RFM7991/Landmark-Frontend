@@ -7,17 +7,35 @@
     
 }
 
+.autocompleteContainer {
+    display: flex;
+    z-index: 1000;    
+    background-color: red;
+}
+
+.autocompleteInput {
+    border-radius: 8px;
+    background-color: blue;
+}
+
+.autocomplete-dropdown-container {
+    position: absolute;
+}
+
 @media (min-width: 551px) {
     .navBar_search {
+        align-items: center;
         display: flex;
         flex-direction: row;
         z-index: 1000;
         width: 50%;
     
         div {
+            width: 500px;
+            position: relative;
             display: flex;
-            flex-direction: row;
-            margin-right: .25em;
+            flex-direction: column;
+            margin-right: .5em;
         }
     }
 }
@@ -26,13 +44,18 @@
     .navBar_search {
         display: flex;
         flex-direction: row;
-        z-index: 1000;
+        z-index: 99999999;
         width: 75%;
+        height: 50px;
+        align-items: center;
     
         div {
+            width: 80%;
+            position: relative;
             display: flex;
-            flex-direction: row;
-            margin-right: .25em;
+            flex-direction: column;
+            margin-right: .5em;
+            z-index: 99999999;
         }
     }
 }
@@ -50,6 +73,7 @@
     background-color:#00d4ff;
     font-weight: bold;
     font-size: 12px;
+    margin-top: .1em;
 }
 
 

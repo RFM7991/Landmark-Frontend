@@ -4,7 +4,6 @@ import { showError } from '../Actions/user-actions'
 export function getCounty(center) {
     let lat = center.lat
     let lng = center.lng
-    console.log("URI", API + 'bounds/county/' + lat + '/' + lng)
     return fetch (API + 'bounds/county/' + lat + '/' + lng,
     {
         method : 'GET',
@@ -44,7 +43,6 @@ export function getZipTradeZoneBounds(isCity, center) {
 }
 
 export function getTradeZoneCartography(state, center, isCity, callback) {
- //   console.log('LOADING TZ DATA')
     let lat = center.lat
     let lng = center.lng
     let url = API + 'tradezone/cartography/' + state.toLowerCase() + '/'

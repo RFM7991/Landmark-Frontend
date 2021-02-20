@@ -60,8 +60,6 @@ class LookUpForm extends React.Component {
 
     async componentDidMount() {
 
-
-        console.log("LOOK UP", this.props.urlParams)
         if (this.props.urlParams) {
             let type = this.props.urlParams.business_type
             if (type == 'lodging') type = 'hotels /lodging'
@@ -131,7 +129,6 @@ class LookUpForm extends React.Component {
             addressState.coords = geoCode
             addressState.place = place
 
-            console.log("ADDRESS_STATE", addressState)
             // handle no zip
             if (addressState.zip == undefined) {
                 this.setState({ error : true, errorMessage : "Address is too general, please try another"})
@@ -253,9 +250,7 @@ class LookUpForm extends React.Component {
         let results = await getLocation(address.place.place_id)
        /* 
         if (results.res.length <= 0) {
-            console.log('CREATE NEW PLACE')
             let createRes = await createLocation(address.place.place_id, address)
-            console.log('create res', createRes)
             address.isNewEntry = true
         } else {
             address.isNewEntry = false

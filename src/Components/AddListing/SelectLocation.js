@@ -65,8 +65,6 @@ class SelectLocation extends React.Component {
             .then(latLng => latLng)
             .catch(error => console.error('Error', error));
 
-            console.log("PLACE", place)
-
             if (place != undefined) {
                 // check if listing already exists
                 let list_check = await getListingByPlaceId(place.place_id)
@@ -76,8 +74,6 @@ class SelectLocation extends React.Component {
                     error = true 
                     return;
                 }
-
-                console.log("PLACE", place, list_check)
             }
 
             let addressState = {}
@@ -92,7 +88,7 @@ class SelectLocation extends React.Component {
 
 
             if (error) return;
-            console.log("select", addressState)
+            
             this.setState({ address : addressState, loading : false })
     }
 

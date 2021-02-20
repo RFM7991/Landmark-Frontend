@@ -44,7 +44,6 @@ class DecisonLogicPanel extends React.Component {
         } 
 
         let incomeScore = 10 - Math.abs(this.props.business.priceLevel - incomeFit)
-    //    console.log('INCOME SCORE', this.props.business.priceLevel, incomeFit, incomeScore)
 
         let total = [incomeScore]
         return incomeScore / 10

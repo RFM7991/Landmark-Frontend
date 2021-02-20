@@ -11,8 +11,6 @@ export async function registerUser(data) {
         'email': data.email.value.toLowerCase(),
         'password': data.password.value
     };
-
-    console.log('FORM', formBody)
     
     return fetch(API + 'users/register',
     {
@@ -39,8 +37,6 @@ export async function editUser(data, uid) {
         'uid': uid
     };
 
-    console.log('FORM', formBody)
-    
     return fetch(API + 'users/edit',
     {
         method : 'POST',

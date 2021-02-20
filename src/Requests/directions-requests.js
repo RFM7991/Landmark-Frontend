@@ -6,7 +6,6 @@ export const getDistance = (origin, destination, method) => {
         let g_destination = new google.maps.LatLng(destination.lat, destination.lng);
         let service = new google.maps.DistanceMatrixService();
 
-        console.log('123', g_origin, g_destination, service)
         service.getDistanceMatrix(
         {
             origins: [g_origin],

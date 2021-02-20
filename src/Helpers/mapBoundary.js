@@ -4,7 +4,6 @@ export function getBoundaries(state, zip) {
     for(var i = 0; i < data.features.length; i++) {
         var obj = data.features[i].properties.ZCTA5CE10;
         if (obj == zip) {
-      //    console.log(data.features[i]);
           boundary = data.features[i]
           return boundary;
         }

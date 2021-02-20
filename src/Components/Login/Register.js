@@ -111,7 +111,6 @@ class Register extends React.Component {
             this.setState({ password_confirm: {...this.state.password_confirm, message: 'Passwords do not match'}})
         }
 
-        console.log('STATE', form.checkValidity(), this.state)
         if (form.checkValidity()) {
             event.preventDefault()
             // get additional validation from server response
@@ -130,7 +129,7 @@ class Register extends React.Component {
                 }
                 this.setState({ username: {...this.state.username, message: 'Username already taken'}})
             }
-            console.log('REGISTER', results)
+
            this.props.history.push('/login')
         } else {
             this.setState({validated: true});
@@ -140,7 +139,7 @@ class Register extends React.Component {
     
 
     render() {
-        console.log('Register', this.state)
+   
         return (
             <div style={{ zIndex: 2, 
                 width: '40%'}}>

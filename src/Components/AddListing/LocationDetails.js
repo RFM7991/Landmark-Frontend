@@ -44,7 +44,6 @@ class AddListing extends React.Component {
 
 
     render() {
-        console.log("PHOTOS_ADD_D", this.props.photos.cover_photos)
         return (
             <div style={{ display: 'flex', alignItems: 'flex-start',  flexDirection: 'column', padding: '20px' }}>            
                 <h3>2. Location Details</h3>

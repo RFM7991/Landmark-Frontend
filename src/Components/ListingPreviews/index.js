@@ -1,45 +1,37 @@
-import React  from 'react'
+import React, { useState, useEffect}  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
 import '../../css/listingView.scss';
-import Button from 'react-bootstrap/Button';
-import skylineBackground from '../../images/skyline_background.png'
 import { Link, withRouter } from 'react-router-dom'
 import { getRecents } from '../../Requests/listings-requests'
-import Table from 'react-bootstrap/Table'
-import GridLoader from "../UI/GridLoader"
 import MultiSlideshow from "./MultipleSlideShow"
-import { GOOGLE_KEY, google } from "../../Constants"
-import GoogleMapReact from 'google-map-react';
-import { renderMarker, BLUE_MARKER } from "../GoogleMapComponents"
-import Image from 'react-bootstrap/Image'
+import { useMediaQuery } from 'react-responsive'
 
 const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'
 
-class ListingsBrowse extends React.Component {
+function ListingsBrowse() {
 
-    constructor(props) {
-        super(props)
-       
-        this.state = {
-            listings : []
-        }
-    }
+    const [listings, setListings] = useState([])
+    const isMobile = useMediaQuery({
+        query: '(max-width:551px)'
+    })
+    const setSize = (isMobile) ? 1 : 3
 
-    async componentDidMount() {
+    useEffect(async () => {
+
         let data = await getRecents()
         let triplets = [[]]
         let tripletIndex = 0
 
         if (data === undefined) return;
 
-        console.log("DATA", data)
-        for (let i=0; i < data.length; i++) {
-            if (triplets[tripletIndex].length == 3) {
+        //set at 9 most recent
+        for (let i=0; i < 9; i++) {
+            if (triplets[tripletIndex].length === setSize) {
                 tripletIndex += 1
                 triplets.push([])
             }
@@ -47,34 +39,21 @@ class ListingsBrowse extends React.Component {
             triplets[tripletIndex].push(data[i])   
         }
 
-        console.log("LISITNGS", triplets)
+        setListings(triplets)
 
-        this.setState({ listings : triplets })
-    }
-
-
-    getUrl = () => {
-        let address = encodeURI(JSON.stringify(this.state.listingData.location.formatted))
-        let business_type = "restaurant"
-        let url = '/' + address + '/' + business_type
-        return url
-    }
+    }, [])
 
 
-    render() {
-      
-        return (
+    return (
             <div style={{  width: '100%', height: '80%',  display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-              
                 <div id="previewHeader" style={{ width: '100%', backgroundColor: lightBg, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <h3  style={{ color: 'white', textAlign: 'left', paddingTop: '0.5em', paddingLeft: '0.5em'}}>Recent Listings</h3>
                     <Link to="listings/browse" style={{textDecorationLine: 'underline',  paddingTop: '0.5em', paddingRight: '0.5em', color: 'white' }}>See More...</Link>
                 </div>
-                <MultiSlideshow width={'100%'} height={'400px'} data={this.state.listings}/>  
+                <MultiSlideshow width={'100%'} height={'400px'} data={listings}/>  
             </div>
        )
     }
- }
 
  
  const mapStateToProps = createSelector(
@@ -110,3 +89,15 @@ class ListingsBrowse extends React.Component {
 
 
  export default withRouter(connect(mapStateToProps)(ListingsBrowse))
+
+
+
+ /**
+  * 
+        const getUrl = () => {
+            let address = encodeURI(JSON.stringify(this.state.listingData.location.formatted))
+            let business_type = "restaurant"
+            let url = '/' + address + '/' + business_type
+            return url
+        }
+  */

@@ -50,7 +50,7 @@ class RecentSearches extends React.Component {
             <div style={{display: 'block',  flexDirection: 'column',  width: '100%', height: '100%', backgroundColor: 'rgba(1,1,1,0.1)'}}>
               
         
-                <ReactTableContainer height={'100%'} width='100%' customHeader={[header]}>
+                <ReactTableContainer height='100vh'  width='100%' customHeader={[header]}>
                     <Table striped hover variant="dark">
                         {header}
                         <tbody>

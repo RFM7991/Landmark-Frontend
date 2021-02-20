@@ -31,7 +31,10 @@ import ListingsBrowse from './ListingsBrowse'
 import Cookies from 'universal-cookie';
 import About from './About'
 import MediaQuery from 'react-responsive'
-import Div100vh from 'react-div-100vh'
+import { steps } from './JoyRideSteps'
+import { hasSubways } from '../Helpers/Subways'
+
+
 
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
@@ -70,7 +73,7 @@ class App extends React.Component {
 
     // check/set cookie 
    // cookies.remove('myCat')
-    console.log('cookies', cookies.get('hasLoggedIn'));
+
     if (cookies.get('hasLoggedIn') == undefined && user._id == -1 ) {
       this.setState({ isFirstTimeUser : true  })
       cookies.set('hasLoggedIn', 1, { path: '/', expires : new Date('2200-12-1T03:24:00')})
@@ -78,8 +81,6 @@ class App extends React.Component {
      else {
       this.setState({ isFirstTimeUser : false  })
      }
-     
-     console.log('cookies', cookies.get('hasLoggedIn')); // Pacman
 
     // update user in redux
     this.onUpdateUser(user)
@@ -97,7 +98,6 @@ class App extends React.Component {
       let searches = localStorage.getItem('recentSearches')
 
       if (searches != null) {
-        console.log('COMPARE', searches == this.state.searches)
         if (searches != this.state.searches) {
            this.setState({ searches : searches}) 
           
@@ -137,6 +137,7 @@ class App extends React.Component {
   }
 
   render() {
+    const { address } = this.props
 
     let availHeight = window.screen.availHeight - 170 - 40;
 
@@ -171,11 +172,10 @@ class App extends React.Component {
           <div style={{width: '25%', height: '80vh'}}>
             <PlacesList/>
           </div>
-          </div>
-          <br></br>
+          </div>          <br></br>
           <ChartsPanel/>
-          <div style={{ width: '80%'}}>
-            <TransportationPanel/>  
+          <div style={{ width: '100%'}}>
+            {hasSubways(address.zip) && <TransportationPanel/> }
           </div>
           
           <div style={{ width: '40%'}}>
@@ -220,7 +220,6 @@ class App extends React.Component {
     
          </div>
     }
-
     return (
       <div>
         <Switch>
@@ -234,7 +233,9 @@ class App extends React.Component {
                   backgroundImage: `url(${skylineBackground})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: '100%', 
+                  backgroundPositionY: '100%', 
                   opacity: '1',
+                  backgroundColor: 'rgb(130, 208, 220'
                 }}>
                   <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
 
@@ -255,7 +256,9 @@ class App extends React.Component {
                   backgroundImage: `url(${skylineBackground})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: '100%', 
+                  backgroundPositionY: '100%', 
                   opacity: '1',
+                  backgroundColor: 'rgb(130, 208, 220'
                 }}>
                   <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
 
@@ -266,6 +269,37 @@ class App extends React.Component {
             </div>
           })}>
         </Route>
+        {/* <div className="App" >
+                <header className="App-header" style={{
+                  backgroundImage: `url(${skylineBackground})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '100%', 
+                  backgroundPositionY: '100%', 
+                  opacity: '1',
+                  backgroundColor: 'rgb(130, 208, 220'
+                }}>
+                <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '2em' }}>
+                    <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
+                       <div style={{ zIndex: 2, width: '50px', height: '100%', display: 'flex',}}>
+                          <Image src={white_smaple} style={{ width: '100%', height: '100%', marginBottom: '.5em' }} fluid/>
+                        </div>
+                        <h1>landmark</h1>
+                    </div> 
+                  
+                        <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
+                        <div style={{  display: 'flex', width: '100%', justifyContent: 'center' }}>
+                          <LookUpForm/>
+                        </div>
+                  </div>
+                             
+                </header>
+                      <div style={{zIndex: 200}}>
+                        <ListingsPreviews />
+                      </div>
+                      
+           
+                  <About/>
+              </div> */}
         <Route
             path={'/profile'}
           render={(({match}) => {
@@ -276,7 +310,9 @@ class App extends React.Component {
                   backgroundImage: `url(${skylineBackground})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: '100%', 
+                  backgroundPositionY: '100%', 
                   opacity: '1',
+                  backgroundColor: 'rgb(130, 208, 220'
                 }}>
                   <Profile />
                 </header>
@@ -401,64 +437,6 @@ class App extends React.Component {
   }
 }
 
-const steps =  [
-  {
-    target: 'body ',
-    content: "Welcome to Landmark Map Interface, let's get started",
-    placement: 'center'
-  },
-  {
-    target: '.map_container ',
-    content: <div>
-        <h3 style={{fontSize: '24px'}}>Map</h3>
-        <p style={{fontSize: '14px', textAlign: 'left'}}>The Map interface is your guide to the location and its surroundings</p>
-        <p style={{fontSize: '14px', textAlign: 'left'}}>You can toggle between "Map" and "Satellite," zoom in and out, and drag the yellow "pegman"
-        in the lower right corner on to the map to enter street view. </p>
-       </div>,
-    placement: 'center',
-  },
-  {
-    target: '.map-control_bar ',
-    content: <div>
-         <h3 style={{fontSize: '24px'}}>Map Tools</h3>
-    <p>Use this toolbar to customize your map view </p>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>1. Center - automatically pans to your original position</p>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>2. Street View - Toggles street view window</p>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>3. Overlay - Toggle Zip code or Trade Zone overlay </p>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>4. Businesses - Select which nearby businesses to mark on the map </p>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>5. Places of Interest - Select which nearby Places of Interest to mark on the map </p>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>6. Results - Select between 20, 40, and 60 results for selected nearby businesses or places of interest  </p>
-   </div>,
-  },
-  {
-    target: '.demographics-list-vertical',
-    placement: 'right-start',
-    content: <div>
-         <h3 style={{fontSize: '24px'}}>Demographics Panel</h3>
-         <p style={{fontSize: '14px', textAlign: 'left'}}>1. Zip / Tradezone - Select which area to display statistics for and display on the map</p>
-         <p style={{fontSize: '14px', textAlign: 'left'}}>2. statistics - Click through the different categories to see more specific demographics information for your location</p>
-   </div>,
-  }, 
-  {
-    target: '.places-list',
-    placement: 'left-start',
-    content: <div>
-         <h3 style={{fontSize: '24px'}}>Nearby Businesses Panel</h3>
-         <p style={{fontSize: '14px', textAlign: 'left'}}>Here is a list of nearby business and places of interest currently displayed on the map. Click an item to view it's details on the map </p>
-   </div>,
-  },
-  {
-    target: 'body ',
-    content: <div>
-    <h3 style={{fontSize: '24px'}}>Get Started</h3>
-    <p style={{fontSize: '14px', textAlign: 'left'}}>Click the '?' again if you need help, Good Luck! </p>
-</div>,
-    placement: 'center'
-  },
-
-  //
-]
-
 const mapStateToProps = createSelector(
   selectors.addressSelector,
   selectors.businessTypeSelector,
@@ -480,3 +458,4 @@ const mapActionsToProps = {
 }
 
 export default connect(mapStateToProps, mapActionsToProps) (App);
+

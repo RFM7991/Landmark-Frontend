@@ -175,7 +175,7 @@ class SimpleMap extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    console.log("THIS>PROPS>", this.props.active_place)
+    
     // active place change
     if (this.props.active_place && this.props.active_place !== prevProps.active_place) 
       if (this.props.active_place.toString().length > 0) {
@@ -195,7 +195,6 @@ class SimpleMap extends Component {
         let markers_to_delete = [];
         let markers_to_keep = new Map(); 
 
-        console.log("ALL_MARKERS", all_markers)
         if (prevProps.places.length > this.props.places.length) { 
           markers_to_delete = all_markers.slice(this.props.places.length, prevProps.places.length)
           all_markers.slice(0, this.props.length).forEach(m => markers_to_keep.set(m.place_id, 0)) // set placeholder, actual value not needed
@@ -208,7 +207,6 @@ class SimpleMap extends Component {
           this.clearMarkers()
         }
 
-        console.log("TO_DELETE", markers_to_delete)
         // remove necesary markers
         markers_to_delete.forEach(m => m.marker.setMap(null))
         
@@ -282,7 +280,7 @@ class SimpleMap extends Component {
         let range = 'driving'
         if (this.props.isCity) range = 'walking'
         let data = await getLoadedTradeZoneCartography(this.props.address.place.place_id, range)
-        console.log('LOADED CART', data)
+
         if (data.length == 0) { // if not found load new
           this.loadNewTradeZoneCart()
         } else {
@@ -291,7 +289,6 @@ class SimpleMap extends Component {
        //   mCartography.tradezone = data[0].cartography
          let collection = []
           data.forEach(e => {
-            console.log('HERE', e.cartography)
             e.cartography.forEach(featureSet => {collection.push(featureSet)})
           })
           mCartography.tradezone = collection
@@ -316,7 +313,6 @@ class SimpleMap extends Component {
       let range = 'driving'
       if (this.props.isCity) range = 'walking'
   //    let tzCartUploadResults = await createTradeZoneCartography(this.props.address.place.place_id, data, range)
-  //    console.log('tzCartUploadResults', tzCartUploadResults)
   }
 
   initCache() {
@@ -545,7 +541,6 @@ class SimpleMap extends Component {
   }
 
   clearMarkers = () => {
-   // console.log("HEREZ", this.state.markers)
     // clear markers 
     let updatedMarkers = new Map()
     this.state.markers.forEach((e, i) => {
@@ -553,7 +548,6 @@ class SimpleMap extends Component {
        if (i < this.props.places.length) 
           updatedMarkers.set(e.place_id, e)
     })
-   // console.log("HEREZ", updatedMarkers)
     this.setState({ markers: updatedMarkers})
   }
 
@@ -602,6 +596,7 @@ class SimpleMap extends Component {
     if (this.props.address.place.types.includes('establishment')) {
       let updatedData = [this.state.addressPlace]
       data.map(e => {
+        if (e.place_id === undefined) return
         if (e.place_id != this.state.addressPlace.place_id)
           updatedData.push(e)
       })
@@ -617,7 +612,6 @@ class SimpleMap extends Component {
     this.props.onUpdateTract(data)
   }
   getInfoContent(place) {
-    console.log("INFO_CONTENT", place)
    return renderInfoContent.apply(this, [place])
   }
 
@@ -743,7 +737,6 @@ class SimpleMap extends Component {
       var id= place.place_id
       var img = ''
       var marker;
-   //   console.log("UPDATE_MARKERS_1", markerMap, this.props.places, id)
       // filter preexisting places
       if (!markers_to_keep.has(id)) { 
 
@@ -756,7 +749,6 @@ class SimpleMap extends Component {
             markerMap.set(id, {marker: marker, place: place})
       }
     })
-   // console.log("UPDATE_MARKERS_2", markerMap)
   this.setState({ markers : markerMap})
   this.updateInfoWindow(map)
 }
@@ -871,24 +863,24 @@ loadNearbySubways = async () => {
   let type = 'subway_station'
 
     getNearby(this.props.address, type, async (data, token) => {
-
         // cache loaded places
         for (let place of data) {
+       
           if (!this.state.places_cache.get(type).has(place.place_id)) {
             this.state.places_cache.get(type).set(place.place_id, place)
           } 
         }
+        
           this.state.tokens_cache.set(type, token)
            
           let subwayCoords = []
           Array.from(this.state.places_cache.get(type).entries()).map(([key, value], i) => {
             if ( i > 4) return;
             subwayCoords.push(value.geometry.location)
-            console.log('SUBWAYS_XXX', value.name, value.geometry.location)
           })
           
+          
           let subway_data = await getSubwayTotals(subwayCoords)
-
           // Calculate distance //////
           subway_data.forEach(e => {
             let dist= distance(this.props.address.coords.lat, this.props.address.coords.lng,
@@ -927,22 +919,20 @@ loadNearbySubways = async () => {
           }
 
           transportObj.subways = subwayMap
+
           await this.onUpdateTransportation(transportObj)
 /*
           // subway lines
           let lines = []
           Array.from(subwayMap.values()).forEach(value=> {
             let resLines = value.G_LINES.split('-')
-            console.log('RESLINES', resLines)
             resLines.forEach(e => {
               if (lines.indexOf(e) == -1) {
                 lines.push(e)
               }
             })
           })
-          console.log('LINES', lines)
           let geo = await getSubwayLines(["A"])
-          console.log('GEO', geo)
 
           geo.forEach(([key, value]) => {
             value.forEach(e => {
@@ -1003,7 +993,6 @@ openToolBar = () => {
 }
 
   render() {
- //  console.log('map props', this.props)
     const apiIsLoaded = (map, maps, center) => {
       this.state.map = map
   //    if (!this.props.address.place.types.includes('establishment')) {

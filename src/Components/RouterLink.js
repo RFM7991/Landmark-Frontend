@@ -21,16 +21,13 @@ class RouterLink extends React.Component {
         // initialize ready to false for look up page
         await this.onUpdateReady(false)
         this.setState({firstUpdate: true})
-       console.log('Router Link will mount', this.props.ready)
     } 
  
     onUpdateReady(isReady) {
-        console.log('RL Update isReady')
         this.props.onUpdateReady(isReady)
     }
 
     render() {
-        console.log('ROUTER LINK', this.props)
         let link = <div></div>
         if (this.state.firstUpdate && this.props.ready) {
             let address = encodeURI(JSON.stringify(this.props.address))
@@ -39,7 +36,6 @@ class RouterLink extends React.Component {
             if (this.props.isCity) distance = 'walking'
             distance = encodeURI(distance)
             let url = '/' + address + '/' + business_type + '/' + distance
-            console.log('URL', url)
            link =  <Redirect push to = {url}/>
         }
         return (

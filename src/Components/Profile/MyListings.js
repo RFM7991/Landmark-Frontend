@@ -37,9 +37,8 @@ class RecentSearches extends React.Component {
     render() {
  
         return (
-            <div style={{display: 'block',  flexDirection: 'column', padding: '0.25em', width: '100%', height: '100%', backgroundColor: darkBg, overflow: 'auto'}}>
+            <div style={{display: 'block',  flexDirection: 'column', padding: '0.25em', width: '100%', height: '100%', backgroundColor: darkBg, overflow: 'auto', minWidth: '400px'}}>
               
-        
             {this.props.loading &&  <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: darkBg}}> <GridLoader color={"#0892d0"}/> </div>}
             {!this.props.loading && 
                   this.props.listings.map((listing, i) =>  {
@@ -53,31 +52,7 @@ class RecentSearches extends React.Component {
        )
     }
  }
- const SearchesRows = (props) => {
 
-    const getURL = (value) => {
-        return '"'+encodeURI(value.location.formatted) + '"/' + encodeURI(value.business_type.type) + '/' + encodeURI(value.distance)
-    }
-
-    let searches = [...props.searches].reverse()
-    return (
-       searches.map(([uid, value], i) => {
-            return (
-                <tr key={i} style={{ fontSize: 14}}>
-                    <td style={{ fontSize: 14}}>{(i+1)}</td>
-                    <td>
-                        <Link to={getURL(value)}>{value.location.formatted}</Link>
-                    </td>
-                    <td>
-                        <p>{value.business_type.type}</p>
-                    </td>
-                </tr>
-            )
-        }) 
-    )
-}
-
- 
  const mapStateToProps = createSelector(
      selectors.addressSelector,
      selectors.userSelector,

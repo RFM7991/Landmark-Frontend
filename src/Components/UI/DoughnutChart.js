@@ -15,13 +15,24 @@ class DoughnutChart extends Component {
 	constructor(props) {
 		super(props)
 
+		const { stats } = this.props
+
+		this.state = {
+			hasValidData : stats.tradezone === undefined && stats.zip === undefined
+		}
+
 		this.chartOptions = this.chartOptions.bind(this)
 		this.getDataPoints = this.getDataPoints.bind(this)
 		this.selectStats = this.selectStats.bind(this)
 	}
 
 	componentDidUpdate(prevProps) {
+		const { stats } = this.props
+		if (prevProps.stats !== stats) {
+			this.setState({ hasValidData:  stats.tradezone === undefined && stats.zip === undefined})
+		}
 	}
+
 
 	selectStats = () => {
 		switch (this.props.data_range) {
@@ -32,8 +43,10 @@ class DoughnutChart extends Component {
 			default: return undefined
 		}
 	}
+
 	getDataPoints = () => {
 		let stats = this.selectStats()
+
 		if (stats == undefined) return []	
 		let total = 0
 		switch (this.props.title) {
@@ -139,12 +152,15 @@ class DoughnutChart extends Component {
 		}
 	}
 	render() {
+		const { hasValidData } = this.state
+		const { data_range, stats, } = this.props
 		return (
 		<div className="doughnut_chart">
-			{this.props.data_range == ZIP && this.props.stats.zip != undefined && <CanvasJSChart options = {this.chartOptions()}/>}
-			{this.props.data_range == TRADE_ZONE && this.props.stats.tradezone != undefined && <CanvasJSChart options = {this.chartOptions()}/>}
-			{this.props.data_range == ZIP && this.props.stats.zip == undefined && <ClipLoader/>}
-			{this.props.data_range == TRADE_ZONE && this.props.stats.tradezone == undefined && <ClipLoader/>}
+			{data_range === ZIP && stats.zip !== undefined && <CanvasJSChart options = {this.chartOptions()}/>}
+			{!hasValidData && data_range === TRADE_ZONE && stats.tradezone !== undefined && <CanvasJSChart options = {this.chartOptions()}/>}
+			{!hasValidData && data_range === ZIP && stats.zip === undefined && <ClipLoader/>}
+			{!hasValidData && data_range === TRADE_ZONE && stats.tradezone === undefined && <ClipLoader/>}
+			{hasValidData && <></>}
 		</div>
 		);
 	}

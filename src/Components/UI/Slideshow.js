@@ -6,11 +6,6 @@ import '../../css/listingView.scss'
 const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 
 export default class Slideshow extends React.Component {
-
-    constructor(props) {
-        super(props)
-    }
-
  
 render() {
     return (
@@ -39,13 +34,3 @@ render() {
     )
     }
 }
-
-/**
- * <
-                        className="d-block w-100"
-                        src={S3_BASE + e}
-                        alt="First slide"
-                        fluid
-                        style={{ width: '100%', height : this.props.height}}
-                        />
- */

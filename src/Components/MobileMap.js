@@ -157,8 +157,6 @@ class SimpleMap extends Component {
   async componentDidMount() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 
-    console.log("MAP MOUNT")
-
     this.initCache()
     await this.loadListing()
 
@@ -247,7 +245,6 @@ class SimpleMap extends Component {
         defaultPlace = 'establishment'
         business_option = 'all'
       }
-      console.log("NEW_BUSINESS_TYPE", { business_type : type, business_option : business_option })
       await this.setState({ business_type : type, business_type_option : business_option })
       await this.clearMarkers()
       this.loadDefaultPlaces()
@@ -256,7 +253,6 @@ class SimpleMap extends Component {
 
   loadListing = async () => {
     let res = await getListingByPlaceId(this.props.address.place.place_id)
-    console.log("LOAD_LISTING", this.props.address, res )
     if (res === undefined) return;
     if (res.length > 0) {
       this.setState({ hasListing : true, listing: res[0] })
@@ -277,7 +273,6 @@ class SimpleMap extends Component {
         let range = 'driving'
         if (this.props.isCity) range = 'walking'
         let data = await getLoadedTradeZoneCartography(this.props.address.place.place_id, range)
-        console.log('LOADED CART', data)
         if (data.length == 0) { // if not found load new
           this.loadNewTradeZoneCart()
         } else {
@@ -286,7 +281,6 @@ class SimpleMap extends Component {
        //   mCartography.tradezone = data[0].cartography
          let collection = []
           data.forEach(e => {
-            console.log('HERE', e.cartography)
             e.cartography.forEach(featureSet => {collection.push(featureSet)})
           })
           mCartography.tradezone = collection
@@ -311,7 +305,7 @@ class SimpleMap extends Component {
       let range = 'driving'
       if (this.props.isCity) range = 'walking'
   //    let tzCartUploadResults = await createTradeZoneCartography(this.props.address.place.place_id, data, range)
-  //    console.log('tzCartUploadResults', tzCartUploadResults)
+
   }
 
   initCache() {
@@ -873,7 +867,6 @@ loadNearbySubways = async () => {
           Array.from(this.state.places_cache.get(type).entries()).map(([key, value], i) => {
             if ( i > 4) return;
             subwayCoords.push(value.geometry.location)
-            console.log('SUBWAYS_XXX', value.name, value.geometry.location)
           })
           
           let subway_data = await getSubwayTotals(subwayCoords)
@@ -922,16 +915,13 @@ loadNearbySubways = async () => {
           let lines = []
           Array.from(subwayMap.values()).forEach(value=> {
             let resLines = value.G_LINES.split('-')
-            console.log('RESLINES', resLines)
             resLines.forEach(e => {
               if (lines.indexOf(e) == -1) {
                 lines.push(e)
               }
             })
           })
-          console.log('LINES', lines)
           let geo = await getSubwayLines(["A"])
-          console.log('GEO', geo)
 
           geo.forEach(([key, value]) => {
             value.forEach(e => {
@@ -986,7 +976,6 @@ navigateToListing = () => {
   this.props.history.push(url)
 }
   render() {
- //  console.log('map props', this.props)
     const apiIsLoaded = (map, maps, center) => {
       this.state.map = map
   //    if (!this.props.address.place.types.includes('establishment')) {

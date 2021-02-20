@@ -1,7 +1,6 @@
 import { showError } from '../Actions/user-actions'
 import { API } from '../Constants'
 
-
 export async function getSubwayTotals(coords) {
 
     var formBody = {
@@ -16,7 +15,10 @@ export async function getSubwayTotals(coords) {
         },
         body : JSON.stringify(formBody)
     })
-        .then(response => response.json())
+        .then(response => {
+            console.log("subways/totals", response)
+            return response.json()
+        })
         .catch(error => {
             showError()
             console.error('Subway Error:', error)

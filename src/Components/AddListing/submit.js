@@ -40,7 +40,6 @@ class AddListing extends React.Component {
         this.props.photos.cover_photos.forEach(e => formData.append("cover_photos", e))
 
         let res = await setListingPhotos(formData).catch(e => { error = true; errormessage = e })
-        console.log("UPLOAD_PHOTO", res)
 
         if (error) {
             this.setState({ loading : false, errror : true, errorMessage: errormessage })
@@ -56,7 +55,6 @@ class AddListing extends React.Component {
         let data = {...this.props.formData, user_id : this.props.user._id }  // userid
     
         let res = await createListing(data).catch(e => { error = true; errormessage = e })
-        console.log("UPLOAD_LISTING", res)
 
         if (error) {
             this.setState({ loading : false, errror : true, errorMessage: errormessage })
@@ -72,7 +70,6 @@ class AddListing extends React.Component {
     }
 
     render() {
-        console.log("SUBMIT_PROPS", this.props.photos)
         return (
             <div style={{ display: 'flex', alignItems: 'flex-start',  flexDirection: 'column', padding: '20px' }}>
                 <div style={{ borderBottom: '1px solid rgb(31,33,48)', width: '25%', textAlign: 'left'}}>       

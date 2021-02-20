@@ -30,12 +30,6 @@ class ListingPreviews extends React.Component {
         }
     }
 
-    async componentDidMount() {
-     
-    }
-
-    
-
     navigateToListing = () => {
         this.props.history.push(this.getUrl())
     }
@@ -54,16 +48,16 @@ class ListingPreviews extends React.Component {
              
        
              <div style={{ height: '75%', width: '100%'}} onMouseOver={this.handleHover} > 
-             {this.props.listing.photos != undefined &&  
-                <Image 
-                    onClick={this.navigateToListing}
-                    className="listingCard"
-                    src={S3_BASE + this.props.listing.photos.cover_photos[0]}
-                    alt="First slide"
-                    fluid
-                    style={{  height: '90%', width: '98%'}}
-                />
-             }
+                {this.props.listing.photos != undefined &&  
+                    <Image 
+                        onClick={this.navigateToListing}
+                        className="listingCard"
+                        src={S3_BASE + this.props.listing.photos.cover_photos[0]}
+                        alt="First slide"
+                        fluid
+                        style={{  height: '90%', width: '98%'}}
+                    />
+                }
             </div>  
 
             <div style={{ color: 'white', fontSize : '1px',  }}>
@@ -76,23 +70,6 @@ class ListingPreviews extends React.Component {
        )
     }
  }
- /**
-  *   <Carousel.Item >
-                         
-                         <div className="d-block w-100" style={{backgroundColor : 'black', height : this.props.height}}> 
-                        
-                            <Image 
-                            id="noBlur"
-                            src={S3_BASE + e}
-                            alt="First slide"
-                            fluid
-                            />
-                         </div>
-                        <Carousel.Caption>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-  */
-
  
  const mapStateToProps = createSelector(
      selectors.addressSelector,

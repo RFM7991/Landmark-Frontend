@@ -74,11 +74,8 @@ class AddListing extends React.Component {
         let photosState = this.state.photos
         let removals = []
 
-        console.log("MASTER_PHOTOS_1", this.state.photos)
-
         for (let i=0; i < photosState[category].length; i++) {
             for (let j=0; j < photos.length; j++) {
-                console.log(i, j, photosState[category][i].name == photos[j].name, photosState[category][i].name, photos[j].name)
                 if (photosState[category][i].name == photos[j].name) {
                     removals.push(j)
                     break;
@@ -92,13 +89,11 @@ class AddListing extends React.Component {
         photosState[category] =  photosState[category].concat(photos)
        
         await this.setState({ photos : photosState, photo_update_key : -1*this.state.photo_update_key, locationDetailsIncomplete : photosState.cover_photos.length == 0 })
-        console.log("MASTER_PHOTOS_2", this.state.photos)
     }
 
     removePhoto = (category, index) => {
         let photosState = this.state.photos
         photosState[category].splice(index, 1)
-        console.log("REMOVE_PHOTOS", photosState)
 
         this.setState({ photos : photosState, photo_update_key : this.state.photo_update_key *-1,  locationDetailsIncomplete : photosState.cover_photos.length == 0  })
     }

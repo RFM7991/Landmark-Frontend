@@ -54,8 +54,6 @@ class Login extends React.Component {
 
     onUpdateUser = async (user) => {
         localStorage.clear()
-
-        console.log('777', user)
        
         // fetch user info and set searches in local storage
         if (user.recentSearches != undefined)
@@ -77,7 +75,7 @@ class Login extends React.Component {
 
                  // stop default for failed custom validation
                 let results = await loginUser(this.state.email.value, this.state.password.value)
-                console.log('LOGIN RESULTS', results)
+                
                 if (results.error != undefined) {
                     switch (results.error) {
                         case 'Email not found': 

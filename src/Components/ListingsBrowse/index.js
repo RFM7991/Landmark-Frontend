@@ -61,8 +61,6 @@ class ListingPreviews extends React.Component {
         if (res[0] != undefined) {
             this.setState({ browserZip :  res[0]["zip-code-tabulation-area"]})
         }
-
-        console.log("ZIP_RES", res)
     }
 
     handleFormChange = (e) => {
@@ -70,11 +68,8 @@ class ListingPreviews extends React.Component {
     }
 
     handleSearch = async () => {
-        console.log("FIRE")
         this.setState({ loading : true })
         let res = await getNearbyListings(this.state.zip, this.state.distance)
-
-        console.log("NEARBY", res)
 
         this.setState({ listings : res.results, loading : false })
 

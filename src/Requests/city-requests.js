@@ -2,6 +2,7 @@ import { showError } from '../Actions/user-actions'
 import { API } from '../Constants'
 
 export function getZipStats(lat, lng) {
+    console.log("ZIP_STATS", API + 'demo/stats/zip/' + lat + '/' + lng)
     return fetch(API + 'demo/stats/zip/' + lat + '/' + lng)
         .then(res => res.json())
         .catch(err => console.error(err))

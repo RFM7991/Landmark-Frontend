@@ -130,7 +130,6 @@ class LookUpForm extends React.Component {
             addressState.coords = geoCode
             addressState.place = place
 
-            console.log("ADDRESS_STATE", addressState)
             // handle no zip
             if (addressState.zip == undefined) {
                 this.setState({ error : true, errorMessage : "Address is too general, please try another"})
@@ -252,9 +251,7 @@ class LookUpForm extends React.Component {
         let results = await getLocation(address.place.place_id)
        /* 
         if (results.res.length <= 0) {
-            console.log('CREATE NEW PLACE')
             let createRes = await createLocation(address.place.place_id, address)
-            console.log('create res', createRes)
             address.isNewEntry = true
         } else {
             address.isNewEntry = false
@@ -315,9 +312,7 @@ class LookUpForm extends React.Component {
         return (
             <div className="navBar_search">
          
-            {/* <div className="navBar_search_container"> */}
-                <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress} fontSize="12px"/>
-            {/* </div> */}
+                <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress} fontSize="12px" marginTop="35px"/>
 
             <Form>
                 {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} 
@@ -334,60 +329,8 @@ class LookUpForm extends React.Component {
     }
 }
 
-const InfoButton = (props) => {
-    const [clicked, setClicked] = useState(false)
-    let color = 'white'
 
-    if (clicked) {
-     //   color = 'rgba(255,255,255,0.5'
-    }
-    else color = 'white'
-    
-    let style = {color: color, float: 'right'}
 
-    return (
-         <AiOutlineInfoCircle onClick={(e)=> [setClicked(!clicked), props.clickFunction()]} 
-         style={style}/>
-    ) 
-}
-
-const MyVerticallyCenteredModal = (props) => {
-    return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-           Location Search 
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h3 style={{fontSize: '20px'}}>
-            Start typing a street address* or the name of a business and select from the autofill results.
-          </h3>
-          <p>
-              <ul>
-                  <li><span><strong>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York USA</strong> </span> </li>
-                  <li><span> For intersections type the first street then '&amp;' or 'and' then the next street.</span><br></br> <span>
-            For example, '3rd Ave &amp; 11th St, New York, NY'
-            </span>   </li>
-              </ul>
-                  
-            
-          </p>
-          
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-  
 const mapStateToProps = createSelector(
     selectors.userSelector,
     selectors.businessTypeSelector,

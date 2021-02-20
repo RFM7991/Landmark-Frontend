@@ -114,7 +114,7 @@ const NavBarDropDown = props => {
         return (
             <NavDropdown title={title} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={props.goToSearches}>My Profile</NavDropdown.Item>
-                <NavDropdown.Item onClick={props.goToSearches}>Add listing</NavDropdown.Item>
+                <NavDropdown.Item onClick={props.goToAddListing}>Add listing</NavDropdown.Item>
                 {signIn}
             </NavDropdown> 
         )

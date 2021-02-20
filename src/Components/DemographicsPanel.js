@@ -57,7 +57,8 @@ class DemographicsPanel extends React.Component {
             zipHeader : "Zip - " + this.props.address.zip,
             accordianKeys :  { zip :  ['0', '0', '0', '0'], tradeZone : ['0', '0', '0', '0']},
             showModal : false,
-            business_type : business_type.replace(/_/g, ' ')
+            business_type : business_type.replace(/_/g, ' '),
+            hasValidTradeZone: true 
          }
 
         this.onUpdateDataRange = this.onUpdateDataRange.bind(this)
@@ -85,7 +86,6 @@ class DemographicsPanel extends React.Component {
    async componentDidUpdate(prevProps) {
 
        if (prevProps.tradeZone_bounds != this.props.tradeZone_bounds && !this.state.statsLoaded && this.state.tradeZoneStats == null) {
-       //   console.log('fetching Stats')
         //   await this.getTradeZoneData()
        }
    }
@@ -98,6 +98,7 @@ class DemographicsPanel extends React.Component {
     async getZipData() {
        let json = await Promise.all([getZipStats(this.props.lat, this.props.lng), getZipAgeStats(this.props.lat, this.props.lng)])
 
+       console.log("ZIP", json)
        // handle zip code with no poulation
        if (json[0] == undefined) {
         this.props.onUpdateDataRange(TRADE_ZONE)
@@ -125,6 +126,9 @@ class DemographicsPanel extends React.Component {
     }
 
     async getTradeZoneData() {
+        
+        if (this.hasValidTradeZone()) return;
+
        // load tz stats from db if not a new entry 
    //     if (this.props.address.isNewEntry) {
        if (true) {
@@ -212,7 +216,15 @@ class DemographicsPanel extends React.Component {
         this.props.onUpdateBusinessType(business_type)
     }
 
+    hasValidTradeZone = () => {
+        const { address } = this.props
+        const isValid = address.state !== 'NJ' && address.state !== 'NY'
+        this.setState({ hasValidTradeZone : isValid })
+        return isValid;
+    }
+
     render() {
+        const { hasValidTradeZone } = this.state
 
         var social_data =  {
             summary: {
@@ -302,14 +314,14 @@ class DemographicsPanel extends React.Component {
                   <Button disabled={this.state.zipDisabled} variant={this.state.zipVariant} className='map-control_button'  onClick={this.onUpdateDataRange} value= {'zip'} style={{ width: '50%', height: 35, padding: '0', fontWeight: 'bold'}}>
                     {this.state.zipHeader}
                 </Button>
-                <LoadingButton click={this.onUpdateDataRange} buffer={this.checkForTradeZone} buttonVariant={this.state.tzVariant}/>
+                <LoadingButton click={this.onUpdateDataRange} buffer={this.checkForTradeZone} buttonVariant={this.state.tzVariant} hasValidTradeZone={this.state.hasValidTradeZone}/>
                 </div>
             </div>
            
             <div style={{ flex: 1, overflowY: 'auto', backgroundColor: lightBg}}>
                <Accordion defaultActiveKey='0'>
                 <Card style={{backgroundColor: lightBg}}>
-                    <Accordion.Toggle as={Card.Header} eventKey="0" style={{color: 'whitesmoke', backgroundColor: darkBg, marginTop: '3px', fontWeight: 'bold'}}>
+                    <Accordion.Toggle as={Card.Header} eventKey="0" ref={ref => this.accordion = ref} style={{color: 'whitesmoke', backgroundColor: darkBg, marginTop: '3px', fontWeight: 'bold'}}>
                     General
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="0" >
@@ -333,23 +345,23 @@ class DemographicsPanel extends React.Component {
                              </tr>
                            <tr>
                             <td>Population</td><td>{social_data.summary.population != undefined && formatCommas(social_data.summary.population)}
-                                {social_data.summary.population == undefined && 'loading...'}
+                                {!hasValidTradeZone && social_data.summary.population == undefined && 'loading...'}
                             </td>
                                 </tr><tr>
                             <td>Median Age</td><td>{social_data.summary.median_age != undefined && social_data.summary.median_age + ' yrs'}
-                            {social_data.summary.median_age == undefined && 'loading...'}
+                            {!hasValidTradeZone && social_data.summary.median_age == undefined && 'loading...'}
                             </td>
                                 </tr><tr>
                             <td>Median Household Income</td><td>{income_data.median != undefined && '$'+formatCommas(income_data.median)}
-                            {income_data.median == undefined && 'loading...'}
+                            {!hasValidTradeZone && income_data.median == undefined && 'loading...'}
                             </td>
                             </tr><tr>
                             <td>Males</td><td>{social_data.summary.gender.males != undefined && formatCommas(social_data.summary.gender.males)}
-                            {social_data.summary.gender.males == undefined && 'loading...'}
+                            {!hasValidTradeZone && social_data.summary.gender.males == undefined && 'loading...'}
                             </td>
                              </tr><tr>
                             <td>Females</td><td>{social_data.summary.gender.females != undefined && formatCommas(social_data.summary.gender.females)}
-                            {social_data.summary.gender.females == undefined && 'loading...'}
+                            {!hasValidTradeZone && social_data.summary.gender.females == undefined && 'loading...'}
                             </td>
                              </tr>
                         </tbody>
@@ -469,15 +481,18 @@ const LoadingButton = (props) => {
         setLoading(true); 
     }
   
+    let label = (isLoading) ? 'Loading...' : 'Tradezone'
+    if (props.hasValidTradeZone) label += ' Unavailable'
+
     return (
       <Button
         style={{margin: 'auto', width: '50%', height: 35, padding: '0', fontWeight: 'bold'}}
         variant={props.buttonVariant}
-
+        disabled={props.hasValidTradeZone}
         value = {'tradeZone'} 
         onClick={!isLoading ? handleClick : null}
       >
-        {isLoading ? 'Loading…' : 'Tradezone'}
+        {label}
       </Button>
     );
   }

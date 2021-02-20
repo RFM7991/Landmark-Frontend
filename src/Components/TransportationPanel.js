@@ -19,13 +19,11 @@ class TransportationPanel extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            showSubways : false
+            showSubways : false,
+            isNYC : true 
         }
     }
 
-    componentDidMount() {
-
-    }
 
     componentDidUpdate(prevProps) {
         if (prevProps.transportation.subways != this.props.transportation.subways) {
@@ -52,6 +50,7 @@ class TransportationPanel extends React.Component {
     }
 
     render() {
+
         let header =  <thead>
             <tr>
                 <th>
@@ -66,6 +65,9 @@ class TransportationPanel extends React.Component {
                 <th colSpan='0'><Button onClick={this.handleSubwayClick}>Go</Button></th>
             </tr>
         </thead>
+
+    
+
         return (
             <div style={{flexDirection: 'column', alignItems: 'flex-start', padding: '1.5em', width: '100%', backgroundColor: lightBg, }}>
                 <h1 style={{color: 'whitesmoke', }}>Transportation</h1>
@@ -111,6 +113,7 @@ class TransportationPanel extends React.Component {
     }
  }
  const SubwaysRows = (props) => {
+
     if (props.transportation.subways == undefined || props.transportation.subways.length == 0)
         return<></>;
     return (

@@ -82,7 +82,6 @@ class ProfilePanel extends React.Component {
 
                  // stop default for failed custom validation
                 let results = await editUser(this.state, this.props.user._id )
-                console.log('EDIT RESULTS', results)
 
                 // email error
                 if (results.res.emailError == 'Email taken') {
@@ -118,7 +117,6 @@ class ProfilePanel extends React.Component {
     updateUser = async (user) => {
         localStorage.clear()
 
-        console.log('777', user)
         // change to _id on backend 
         let _id = user.uid
         delete user.uid
@@ -154,26 +152,22 @@ class ProfilePanel extends React.Component {
         formData.append("user_id", this.props.user_id)
     
         let res = await uploadProfilePic(formData).catch(e => { error = true; errormessage = e })
-        console.log("UPLOAD_PHOTO", res)
-
     }
 
     handleSetPhotos = (photos ) => {
-        console.log("PHOTOTS", photos)
         this.setState({ photos : photos })
     }
 
     render() {
         return (
-            <div style={{ width: '100%', height: '100vh',
-            display: 'columns', alignItems: 'center',  justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center',  justifyContent: 'center',  minWidth: '320px', marginBottom: "1rem" }}>
                 <div style={{ marginTop: '2em', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                   <img src={(this.state.photos.length > 0) ? URL.createObjectURL(this.state.photos[0]) : S3_BASE + "users/" + this.props.user_id+ "/profile.png"} 
                     width={100} height={100} style={{borderRadius: 45}}/>
 
-        {this.state.editMode &&  <PhotoUploader setPhotos={this.handleSetPhotos}/> }
+                 {this.state.editMode &&  <PhotoUploader setPhotos={this.handleSetPhotos}/> }
                 </div>
-                <div style={{ fontSize: 16, color: 'black',  width: '50%', margin: 'auto', marginTop: '2em'}}>
+                <div style={{ fontSize: 16, color: 'black',  width: '80%', margin: 'auto', marginTop: '2em'}}>
                 <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                <Row>
                     <Col>
@@ -290,7 +284,7 @@ class ProfilePanel extends React.Component {
                              {this.state.email.message}
                           </span>
                 </Form.Group>
-                <div style={{ display: 'flex', width: '100%', justifyContent: 'center'}}>
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '32px', marginBottom: '32px'}}>
                 {!this.state.editMode &&
                     <Button variant="primary" onClick={this.handleEdit} style={{ color: 'whitesmoke', fontSize: '20px'}}>
                         Edit

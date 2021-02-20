@@ -48,14 +48,14 @@ class AutoCompleteBar extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div style={{ flex: 1, zIndex: 1000}}>
-            <input style= {{width: '100%', borderRadius: 8, fontSize: (this.props.fontSize == undefined) ? 22 : this.props.fontSize}}
+          <div style={{ flex: 1, zIndex: 1000, width: '100%' }}>
+            <input style= {{width: '100%', height: '35px', borderRadius: 8, fontSize: (this.props.fontSize == undefined) ? 22 : this.props.fontSize}}
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <div style={{ position: 'absolute', marginTop: this.props.marginTop}}>
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
@@ -63,8 +63,8 @@ class AutoCompleteBar extends React.Component {
                   : 'suggestion-item';
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '100%' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer', width: '100%' };
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
