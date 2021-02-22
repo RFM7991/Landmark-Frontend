@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Fragment} from 'react';
 import Navbar from 'react-bootstrap/Navbar'
-import Form from 'react-bootstrap/Form'
-import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import Image from 'react-bootstrap/Image'
-import FormControl from 'react-bootstrap/FormControl'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser} from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom'
@@ -14,6 +14,7 @@ import { updateUser } from '../Actions/user-actions';
 import white_smaple from '../images/logo/white_sample.png'
 import NavLookUpForm from './NavLookUpForm'
 import MediaQuery from 'react-responsive'
+import { Dropdown } from 'react-bootstrap';
 
 const darkBg = 'rgb(26,28,41)'
 const navBg = 'linear-gradient(225deg, rgba(2,0,36,1) 0%, rgba(6,6,73,1) 63%, rgba(0,212,255,1) 100%)'
@@ -59,23 +60,19 @@ class NavigationBar extends React.Component {
         return (
             <Navbar className="navBar" expand="lg">
                     <div className="logo_container" onClick={this.navigateHome}>
-                        <div style={{ width: '30px', height: '100%'}}><Image src={white_smaple} style={{ width: '100%', height: '100%'}} fluid/></div>
-                        <MediaQuery minDeviceWidth={551}><Link to="/" style={{color: "whitesmoke", fontWeight: 'bold',  stroke: 'black', strokeWidth: 2, fontFamily: 'Tahoma, Geneva, sans-serif'}}>Landmark</Link></MediaQuery>
+                        <div className="fluid_image_logoContainer">
+                            <Image src={white_smaple} fluid className="fluid_image_logo"/>
+                        </div>
+                        <MediaQuery minDeviceWidth={551}>
+                            <Link to="/" className="logoLinkText">Landmark</Link>
+                        </MediaQuery>
                     </div>
                     {this.props.displaySearchBar &&
-                            <NavLookUpForm urlParams={this.props.urlParams}/>
+                        <NavLookUpForm urlParams={this.props.urlParams}/>
                     }
                 
                     <div className="user_tools">
-                        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="mr-auto">
-                            </Nav>
-                        </Navbar.Collapse> */}
-                        {/* {this.props.user._id != -1 && <Link to="/addlisting" style={{color: "whitesmoke",  stroke: 'black', strokeWidth: 2, marginRight: '0.5em', fontFamily: 'Tahoma, Geneva, sans-serif'}}>Add a Listing</Link>} */}
-                        <MediaQuery minDeviceWidth={551}>
-                            <NavBarDropDown user={this.props.user} logout={this.logout} login={this.login} goToSearches={this.goToSearches} goToAddListing={this.goToAddListing}/>
-                        </MediaQuery>
+                        <NavBarDropDown user={this.props.user} logout={this.logout} login={this.login} goToSearches={this.goToSearches} goToAddListing={this.goToAddListing}/>
                     </div>
             </Navbar>
         );
@@ -98,25 +95,36 @@ const NavBarDropDown = props => {
 
     let title, signIn;
 
-    if (props.user._id == -1) {
-        title = <span style={{ color: 'whitesmoke'}}>Sign in </span>
-        signIn = <NavDropdown.Item><Button  onClick={props.login} style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>Login</Button></NavDropdown.Item>
-
-        return (
-            <NavDropdown title={title} id="basic-nav-dropdown">
-                {signIn}
-            </NavDropdown> 
-        )
+    if (props.user._id === -1) {
+        return <Link  to="/login" style={{ color: 'whitesmoke'}}>Sign in</Link>
     } else {
         title = <span style={{ color: 'whitesmoke'}}>Welcome,  {props.user.first} </span>
         signIn = <NavDropdown.Item onClick={props.logout}>Sign Out</NavDropdown.Item>
 
         return (
-            <NavDropdown title={title} id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={props.goToSearches}>My Profile</NavDropdown.Item>
-                <NavDropdown.Item onClick={props.goToAddListing}>Add listing</NavDropdown.Item>
-                {signIn}
-            </NavDropdown> 
+            <Fragment>
+                <MediaQuery minDeviceWidth={551}>
+                    <NavDropdown title={title}>
+                        <NavDropdown.Item onClick={props.goToSearches}>My Profile</NavDropdown.Item>
+                        <NavDropdown.Item onClick={props.goToAddListing}>Add listing</NavDropdown.Item>
+                        {signIn}
+                    </NavDropdown> 
+                </MediaQuery>
+                <MediaQuery maxDeviceWidth={551} minDeviceWidth={370}>
+                    <DropdownButton menuAlign='right' id="mobileDropdown" title={<FontAwesomeIcon icon={faUser}/>}>
+                        <NavDropdown.Item onClick={props.goToSearches} >My Profile</NavDropdown.Item>
+                        <NavDropdown.Item onClick={props.goToAddListing}>Add listing</NavDropdown.Item>
+                        {signIn}
+                    </DropdownButton> 
+                </MediaQuery>
+                <MediaQuery maxDeviceWidth={370}>
+                    <DropdownButton menuAlign='right' id="mobileDropdown" >
+                        <NavDropdown.Item onClick={props.goToSearches} >My Profile</NavDropdown.Item>
+                        <NavDropdown.Item onClick={props.goToAddListing}>Add listing</NavDropdown.Item>
+                        {signIn}
+                    </DropdownButton> 
+                </MediaQuery>
+            </Fragment>
         )
     }
 }

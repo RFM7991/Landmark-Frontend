@@ -48,10 +48,15 @@ const allStoreEnhancers = compose(
 //    window.devToolsExtension && window.devToolsExtension()
 );
 
+const localStorageUser = JSON.parse(localStorage.getItem('user'))
+const user = (localStorageUser._id === undefined)
+     ? {_id: -1, username: 'guest', is_admin: false}
+     : localStorageUser
+
 const store = createStore(
     rootReducer, 
     {
-    user: '',
+    user: user,
     address: undefined,
     places: [],
     business_type: 'restaurant',

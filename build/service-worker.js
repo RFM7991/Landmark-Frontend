@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/Landmark-Frontend/precache-manifest.bf1de7a137c9a4e2fc208adc34f44529.js"
+  "/Landmark-Frontend/precache-manifest.d1a68c5b5b752994f1905347030f3a05.js"
 );
 
 self.addEventListener('message', (event) => {

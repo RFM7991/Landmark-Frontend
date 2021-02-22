@@ -21,26 +21,28 @@ function ListingsBrowse() {
     })
     const setSize = (isMobile) ? 1 : 3
 
-    useEffect(async () => {
-
-        let data = await getRecents()
-        let triplets = [[]]
-        let tripletIndex = 0
-
-        if (data === undefined) return;
-
-        //set at 9 most recent
-        for (let i=0; i < 9; i++) {
-            if (triplets[tripletIndex].length === setSize) {
-                tripletIndex += 1
-                triplets.push([])
+    useEffect(() => {
+        const init = async () => {
+            let data = await getRecents()
+            let triplets = [[]]
+            let tripletIndex = 0
+    
+            if (data === undefined) return;
+    
+            //set at 9 most recent
+            for (let i=0; i < 9; i++) {
+                if (triplets[tripletIndex].length === setSize) {
+                    tripletIndex += 1
+                    triplets.push([])
+                }
+    
+                triplets[tripletIndex].push(data[i])   
             }
-
-            triplets[tripletIndex].push(data[i])   
+    
+            setListings(triplets)
         }
-
-        setListings(triplets)
-
+        
+        init()
     }, [])
 
 

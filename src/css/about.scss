@@ -5,16 +5,20 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(1,1,1,0.55);
+    color: white;
 }
 
 .introContainer {
     flex: 1;
+    padding: 2em;
 
     h1 {
         font-weight: bold; 
         font-size: 52px;
-        padding: 1em;
         color: whitesmoke;
+    }
+    p {
+        padding: 1em;
     }
 }
 

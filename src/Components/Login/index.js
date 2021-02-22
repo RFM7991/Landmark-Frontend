@@ -107,54 +107,54 @@ class Login extends React.Component {
     render() {
  
         return (
-            <div style={{ zIndex: 2, 
-                width: '30%'}}>
-                <h1 style={{marginBottom: '1em'}}>Login</h1>
-            <div style={{ zIndex: 2, 
-            border: '2px solid ' + lightBg,
-            borderRadius: '10px',
-            backgroundColor: 'rgba(225,225,225, 0.7)',
-            padding: '2em'}}>
+            <div className="loginPage">
+                <h1>Login</h1>
+            <div className="loginFormContainer">
                <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
-                <Form.Group controlId="formBasicEmail" >
-                    <Form.Label style={{float: 'left', color: lightBg}}>Email</Form.Label>
-                    <Form.Control 
-                    type="email" 
-                    placeholder="Enter email" 
-                    autoFocus
-                    required
-                    name="email"
-                    value={this.state.email.value}
-                    onChange={this.onFormChange}
-                    />
-                    <Form.Text className="text-muted" style={{}}>
-                    </Form.Text>
-                    <span type="invalid" style={{fontSize: '16px', color: 'red' }}>
-                             {this.state.email.message}
-                          </span>
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label  style={{float: 'left', color: lightBg}}>Password</Form.Label>
-                    <Form.Control 
-                    name="password"
-                    required
-                    value={this.state.password.value}
-                    type="password" 
-                    placeholder="Password" 
-                    onChange={this.onFormChange}/>
-                    <span type="invalid" style={{fontSize: '16px', color: 'red' }}>
-                             {this.state.password.message}
-                          </span>
-                </Form.Group>
-                <a style={{fontSize: '16px', float: 'left'}} href=''>Forgot Password?</a>
-                <br></br>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-                <br></br>
-                <span style={{fontSize: '20px', color: lightBg}}>New User?	&nbsp;</span>
-                <Link style={{fontSize: '20px'}} to="/register">Create an Account</Link> 
+               <Form.Row>
+                    <Form.Group controlId="formBasicEmail" >
+                        <Form.Label className="formLabels">Email</Form.Label>
+                        <Form.Control 
+                            type="email" 
+                            placeholder="Enter email" 
+                            autoFocus
+                            required
+                            name="email"
+                            value={this.state.email.value}
+                            onChange={this.onFormChange}
+                        />
+                        <Form.Text className="text-muted">
+                        </Form.Text>
+                            <span type="invalid" className="errorText">
+                                {this.state.email.message}
+                            </span>
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label className="formLabels">Password</Form.Label>
+                        <Form.Control 
+                            name="password"
+                            required
+                            value={this.state.password.value}
+                            type="password" 
+                            placeholder="Password" 
+                            onChange={this.onFormChange}/>
+                            <span type="invalid" className="errorText">
+                                {this.state.password.message}
+                            </span>
+                    </Form.Group>
+                </Form.Row>
+           
+                <Form.Row>
+                    <a className="forgotPassword" href=''>Forgot Password?</a>
+                </Form.Row>
+                
+                <Form.Row className="submitContainer">
+                    <Button variant="primary" type="submit">Submit</Button>
+                </Form.Row>
+                <span className="bottomText">New User?	&nbsp;</span>
+                <Link className="bottomLink" to="/register">Create an Account</Link> 
             </Form>
             </div>
           

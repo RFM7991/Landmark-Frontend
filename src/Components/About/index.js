@@ -1,6 +1,7 @@
 import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
+import Button from 'react-bootstrap/Button'
 import * as selectors from '../../Reducers/selectors'
 import '../../css/listingView.scss';
 import { Link, withRouter } from 'react-router-dom'
@@ -29,30 +30,22 @@ class AboutSection extends React.Component {
             limit : 20
         }
     }
+
+
+    handleAddListing = () => {
+        this.props.history.push('/addlisting')
+    }
+
     render() {
       
         return (
             <div className="aboutContainer">
                 <div className="introContainer"> 
-                    <h1>We're Here for Your Journey</h1>
-                </div>
-          
-                <div className="splitContainer">
-                    <div className="splitCell">
-                        <h3>Small Businesses</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscingelit.
-                            </p>
+                    <h1>Add a listing</h1>
+                        <p>Do you have a site for sale or rent? Click below, and get started! </p>
+               
+                        <Button onClick={this.handleAddListing}>Add Listing</Button>
                     </div>
-                    
-                    <div className="splitCell">
-                        <h3>Brokers</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            </p>
-                    </div>
-                </div>
-
                 <div className="iconContainer">
                     <InfoPanel title="Universal" subtitle="Explore any location not just listings. (In available regions)" icon={faGlobe}/> 
                     <InfoPanel title="Custom" subtitle="Utilize custom generated Retail Trade Zones" icon={faCog}/>

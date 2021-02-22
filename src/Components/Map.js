@@ -1124,7 +1124,9 @@ openToolBar = () => {
 
           {this.state.hasListing && 
             <button className="listingBanner" onClick={this.navigateToListing}>
-              <div><span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span></div>
+              <div>
+                <span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span>
+              </div>
             </button>
           }
 

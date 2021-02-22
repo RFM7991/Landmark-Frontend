@@ -1,0 +1,31 @@
+
+.lookUpContainer {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 2em;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2;
+
+    div {
+        width: 50px;
+        display: flex;
+    }
+}
+
+.titleLogo {
+    width: 100%;
+    margin-bottom: .5em;
+}
+
+.lookupWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

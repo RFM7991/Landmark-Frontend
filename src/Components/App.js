@@ -8,19 +8,16 @@ import PlacesList from './PlacesList'
 import * as selectors from '../Reducers/selectors'
 import { createSelector } from 'reselect';
 import ChartsPanel from './ChartsPanel'
-import { BrowserRouter as Router, Route, Link, Switch,  Redirect,  } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Login from './Login'
 import Register from './Login/Register'
 import CommentsPanel from './CommentsPanel'
 import { updateAddress } from '../Actions/address-actions';
 import TransportationPanel from './TransportationPanel'
 import Footer from './Footer'
-import skylineBackground from '../images/modern-skyline.jpg'
-import cityscape from '../images/backgrounds/cityscape_night1.jpg'
 import white_smaple from '../images/logo/white_sample.png'
 import Image from 'react-bootstrap/Image'
-import Joyride, { CallBackProps, STATUS, Step, StoreHelpers } from 'react-joyride';
-import Button from 'react-bootstrap/Button';
+import Joyride, {  STATUS }  from 'react-joyride';
 import { updateUser } from '../Actions/user-actions';
 import { setRecentSearches, getUserInfo } from '../Requests/users-requests' 
 import Profile from './Profile'
@@ -34,11 +31,7 @@ import MediaQuery from 'react-responsive'
 import { steps } from './JoyRideSteps'
 import { hasSubways } from '../Helpers/Subways'
 
-
-
 const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 const cookies = new Cookies();
 
 class App extends React.Component { 
@@ -55,14 +48,11 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-  //  localStorage.clear()
+  //  localStorage.clear() for testing
+    const { user } = this.props
     let userInfo;
-    let user = JSON.parse(localStorage.getItem('user'))
 
-    if (user == undefined ) { //user == undefined
-       user = {_id: -1, username: 'guest', is_admin: false}
-    } 
-    else if (user._id != -1) {
+    if (user._id !== -1) {
       // get user from local storage
       userInfo = await getUserInfo(user._id)
       if (userInfo.res[0].recentSearches.length > 0) {
@@ -70,10 +60,6 @@ class App extends React.Component {
         localStorage.setItem('recentSearches', JSON.stringify(userInfo.res[0].recentSearches))
       }
     }
-
-    // check/set cookie 
-   // cookies.remove('myCat')
-
     if (cookies.get('hasLoggedIn') == undefined && user._id == -1 ) {
       this.setState({ isFirstTimeUser : true  })
       cookies.set('hasLoggedIn', 1, { path: '/', expires : new Date('2200-12-1T03:24:00')})
@@ -81,9 +67,6 @@ class App extends React.Component {
      else {
       this.setState({ isFirstTimeUser : false  })
      }
-
-    // update user in redux
-    this.onUpdateUser(user)
 
     // check if local storage has changes and update server on interval
     setInterval(async () => {
@@ -109,6 +92,7 @@ class App extends React.Component {
   }
 
   onUpdateUser = (user) => {
+    console.log("INIT_USER", user)
     this.props.onUpdateUser(user)
   }
 
@@ -144,9 +128,8 @@ class App extends React.Component {
     if (this.props.ready) {
     
       var map = <div>
-        <div className="results-container">
-          
-          <div style={{width: '25%', height: '80vh'}}>
+        <div className="results-container">   
+          <div className="demographicsWrappper">
             <DemographicsPanel 
               business_type={this.props.business_type} 
               street = {this.props.address.street}
@@ -169,23 +152,21 @@ class App extends React.Component {
             isFirstTimeUser={this.state.isFirstTimeUser}
             updateIsFirstTime={this.updateIsFirstTime}
             />
-          <div style={{width: '25%', height: '80vh'}}>
+          <div className="placesListWrapper">
             <PlacesList/>
           </div>
           </div>          <br></br>
           <ChartsPanel/>
-          <div style={{ width: '100%'}}>
+          <div className="transportationWrapper">
             {hasSubways(address.zip) && <TransportationPanel/> }
           </div>
-          
-          <div style={{ width: '40%'}}>
+          <div className="commentsWrapper">
             <CommentsPanel/>
           </div>
          
         </div>
 
         var mobile_map = <div className="mob_map_dashboard">
-          {/* <h1>{availHeight}</h1> */}
           <Map 
             runJoyRideTutorial={this.runJoyRideTutorial} 
             height={availHeight}
@@ -196,28 +177,6 @@ class App extends React.Component {
             isFirstTimeUser={this.state.isFirstTimeUser}
             updateIsFirstTime={this.updateIsFirstTime}
             />
-            {/* <DemographicsPanel 
-             business_type={this.props.business_type} 
-             street = {this.props.address.street}
-             city = {this.props.address.city}
-             state = {this.props.address.state}
-             zip = {this.props.address.zip}
-             lat = {this.props.address.coords.lat}
-             lng = {this.props.address.coords.lng}
-             getHelpers={this.getHelpers}
-             orientation = {"demographics-list-vertical "}>
-           </DemographicsPanel>
-              
-           */}
-           {/* <div style={{ width: '100%', height: '100%'}}>
-            <PlacesList/>
-           </div> */}
-          {/* </div>
-          <br></br>
-          <ChartsPanel/>
-          <TransportationPanel/>
-          <CommentsPanel/> */}
-    
          </div>
     }
     return (
@@ -229,20 +188,10 @@ class App extends React.Component {
             return <div>
                 <NavigationBar urlParams={match.params}/>
                 <div className="App">
-                <header className="App-header" style={{
-                  backgroundImage: `url(${skylineBackground})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '100%', 
-                  backgroundPositionY: '100%', 
-                  opacity: '1',
-                  backgroundColor: 'rgb(130, 208, 220'
-                }}>
-                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
-
-                    <Login/>
+                <header className="App-header">
+                  <Login/>
                 </header>
               </div>
-              <Footer/>
             </div>
           })}>
         </Route>
@@ -252,72 +201,23 @@ class App extends React.Component {
             return <div>
                 <NavigationBar urlParams={match.params}/>
                 <div className="App">
-                <header className="App-header" style={{
-                  backgroundImage: `url(${skylineBackground})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '100%', 
-                  backgroundPositionY: '100%', 
-                  opacity: '1',
-                  backgroundColor: 'rgb(130, 208, 220'
-                }}>
-                  <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'rgba(26,28,41, 0)', zIndex: 1}}></div>
-
-                    <Register/>
+                <header className="App-header">
+                  <Register/>
                 </header>
               </div>
-              <Footer/>
             </div>
           })}>
         </Route>
-        {/* <div className="App" >
-                <header className="App-header" style={{
-                  backgroundImage: `url(${skylineBackground})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '100%', 
-                  backgroundPositionY: '100%', 
-                  opacity: '1',
-                  backgroundColor: 'rgb(130, 208, 220'
-                }}>
-                <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '2em' }}>
-                    <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-                       <div style={{ zIndex: 2, width: '50px', height: '100%', display: 'flex',}}>
-                          <Image src={white_smaple} style={{ width: '100%', height: '100%', marginBottom: '.5em' }} fluid/>
-                        </div>
-                        <h1>landmark</h1>
-                    </div> 
-                  
-                        <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
-                        <div style={{  display: 'flex', width: '100%', justifyContent: 'center' }}>
-                          <LookUpForm/>
-                        </div>
-                  </div>
-                             
-                </header>
-                      <div style={{zIndex: 200}}>
-                        <ListingsPreviews />
-                      </div>
-                      
-           
-                  <About/>
-              </div> */}
         <Route
             path={'/profile'}
           render={(({match}) => {
             return <div>
                 <NavigationBar urlParams={match.params}/>
                 <div className="App">
-                <header className="App-header" style={{
-                  backgroundImage: `url(${skylineBackground})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '100%', 
-                  backgroundPositionY: '100%', 
-                  opacity: '1',
-                  backgroundColor: 'rgb(130, 208, 220'
-                }}>
+                <header className="App-header">
                   <Profile />
                 </header>
               </div>
-              <Footer/>
             </div>
           })}>
         </Route>
@@ -329,7 +229,6 @@ class App extends React.Component {
                 <div className="App">
                   <ListingsBrowse />
               </div>
-              <Footer/>
             </div>
           })}>
         </Route>
@@ -341,7 +240,6 @@ class App extends React.Component {
                 <div className="App">
                   <ListingView  urlParams={match.params}/>
                 </div>
-              <Footer/>
             </div>
           })}>
         </Route>
@@ -353,7 +251,6 @@ class App extends React.Component {
                 <div className="App">
                   <AddListing />
               </div>
-              <Footer/>
             </div>
           })}>
         </Route>
@@ -379,15 +276,6 @@ class App extends React.Component {
              />
               <MediaQuery minDeviceWidth={551} ><>{map}</></MediaQuery> 
               <MediaQuery maxDeviceWidth={550}><>{mobile_map}</></MediaQuery> 
-
-              {/* <div className="App">
-                <header className="App-header" style={{backgroundColor: darkBg}}>
-                <div style={{  display: 'flex', width: '100%', justifyContent: 'center', }}>
-    
-                        </div>
-                </header>
-            </div> */}
-            <Footer/>
           </div>
         })}>
         </Route>
@@ -397,41 +285,28 @@ class App extends React.Component {
             return <div>
                 <NavigationBar urlParams={match.params}/>
                 <div className="App" >
-                <header className="App-header" style={{
-                  backgroundImage: `url(${skylineBackground})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '100%', 
-                  backgroundPositionY: '100%', 
-                  opacity: '1',
-                  backgroundColor: 'rgb(130, 208, 220'
-                }}>
-                <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '2em' }}>
-                    <div style={{ zIndex: 2, display: 'flex', justifyContent: 'center', alignItems: 'flex-end'}}>
-                       <div style={{ zIndex: 2, width: '50px', height: '100%', display: 'flex',}}>
-                          <Image src={white_smaple} style={{ width: '100%', height: '100%', marginBottom: '.5em' }} fluid/>
+                <header className="App-header">
+                <div className="lookUpContainer">
+                    <div className="titleContainer">
+                       <div>
+                          <Image src={white_smaple} className="titleLogo" fluid/>
                         </div>
                         <h1>landmark</h1>
                     </div> 
-                  
-                        <h3 style={{zIndex: 2}}>Commercial Real Estate Consultation for All</h3>
-                        <div style={{  display: 'flex', width: '100%', justifyContent: 'center' }}>
+                        <h3>Commercial Real Estate Consultation for All</h3>
+                        <div className="lookupWrapper">
                           <LookUpForm/>
                         </div>
-                  </div>
-                             
+                  </div>    
                 </header>
-                      <div style={{zIndex: 200}}>
-                        <ListingsPreviews />
-                      </div>
-                      
-           
-                  <About/>
+                <ListingsPreviews />
+                <About/>
               </div>
-              <Footer/>
             </div>
           })}>
         </Route>
       </Switch>
+      <Footer/>
       </div>
     );
   }

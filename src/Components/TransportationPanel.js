@@ -9,10 +9,7 @@ import ReactTableContainer from "react-table-container";
 import ReactImageMagnify from 'react-image-magnify';
 import Button from 'react-bootstrap/Button'
 import { updateTransportation } from '../Actions/transportation-actions';
-
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
+import MediaQuery from 'react-responsive'
 
 class TransportationPanel extends React.Component {
 
@@ -67,47 +64,54 @@ class TransportationPanel extends React.Component {
         </thead>
 
     
+    const subwaysMap =
+        <ReactImageMagnify {...{
+            largeImage: {
+                src: nySubwayMap,
+                width: 2000,
+                height: 2500
+            }, 
+            smallImage: {
+                src: nySubwayMap,
+                width: 320,
+                height: 500
+            },
+            
+            }} //2700 × 3314
+            enlargedImageContainerStyle={{ zIndex: 1000, width: 2000, height: 2500}}
+            enlargedImagePosition='over'
+        />
+    
 
         return (
-            <div style={{flexDirection: 'column', alignItems: 'flex-start', padding: '1.5em', width: '100%', backgroundColor: lightBg, }}>
-                <h1 style={{color: 'whitesmoke', }}>Transportation</h1>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', overflowX: 'auto'}}>
-                {this.state.showSubways &&
-                <div style={{display: 'flex', flexDirection:'column',justifyContent: 'center', width: '100%', }}>
-              
-                    <ReactImageMagnify {...{
-                        largeImage: {
-                            src: nySubwayMap,
-                            width: 2000,
-                            height: 2500
-                        }, 
-                        smallImage: {
-                            src: nySubwayMap,
-                            width: 400,
-                            height: 500
+            <div className="transportationPage" size="sm">
+                <h1>Transportation</h1>
+                <MediaQuery minDeviceWidth={880}>
+                    <div className="transportationContainer">
+                        {subwaysMap}
+                        <Table striped hover variant="dark" id="subwaysTable">
+                            {header}
+                            <tbody>
+                                <SubwaysRows transportation={this.props.transportation}/>
+                            </tbody>
+                            {(this.props.transportation.subways == undefined || this.props.transportation.subways.length == 0) && 
+                                <tr></tr>
+                            }
+                        </Table>  
+                    </div>
+                </MediaQuery>
 
-                        },
-                        
-                    }} //2700 × 3314
-                    enlargedImageContainerStyle={{ zIndex: 1000, width: 2000, height: 2500}}
-                    enlargedImagePosition='over'
-                     />
-                       <a  style={{  marginRight: 'auto', marginLeft: 'auto', width: 100, height: 20}} href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Official_New_York_City_Subway_Map_vc.jpg" target="_blank" >See full size</a>
-                     </div>
-                }
-                <ReactTableContainer  height={this.state.tableHeight} width='100%' customHeader={[header]}>
-                    <Table striped hover variant="dark">
-                        {header}
-                        <tbody>
-                            <SubwaysRows transportation={this.props.transportation}/>
-                        </tbody>
-                        {(this.props.transportation.subways == undefined || this.props.transportation.subways.length == 0) && 
-                            <tr></tr>
-                        }
-                    </Table>
-                </ReactTableContainer>
-                
-                </div>
+                <MediaQuery maxDeviceWidth={880}>
+                        <Table responsive striped hover variant="dark" id="subwaysTable">
+                            {header}
+                            <tbody>
+                                <SubwaysRows transportation={this.props.transportation}/>
+                            </tbody>
+                            {(this.props.transportation.subways == undefined || this.props.transportation.subways.length == 0) && 
+                                <tr></tr>
+                            }
+                        </Table>  
+                </MediaQuery>
             </div>    
        )
     }

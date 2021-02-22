@@ -9,7 +9,7 @@ import SelectLocation from './SelectLocation'
 import Submit from './submit'
 import Button from 'react-bootstrap/Button';
 import skylineBackground from '../../images/skyline_background.png'
-import { join } from 'path';
+import { withRouter } from 'react-router-dom'
 
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
@@ -21,7 +21,6 @@ class AddListing extends React.Component {
         super(props)
        
         this.state = {
-            searches: [],
             body: '',
             index : 0,
             formData :  { contactInfo : {}, locationDetails: {}, pricingInfo : {} },
@@ -32,15 +31,17 @@ class AddListing extends React.Component {
             locationDetailsIncomplete : true,
             pricingInfoIncomplete : true,
             photo_update_key : -1 // needed for [][] to descend to children 
-            
-
         }
     }
 
-    async componentDidMount() {
-        let searches = localStorage.getItem('recentSearches')
-        if (searches != null) {
-            this.setState({ searches : JSON.parse(searches)})
+    componentDidMount() {
+       this.verifyUser()
+    }
+
+    verifyUser = () => {
+        const { user } = this.props
+        if (user._id === -1) {
+            this.props.history.push('/login')
         }
     }
 
@@ -62,7 +63,7 @@ class AddListing extends React.Component {
     addFormInfo = async (data, category )=> {
         await this.setState({ formData : {...this.state.formData, [category] : data }})
         
-        this.setState({ contactInfoIncomplete : this.state.formData.contactInfo.forSale == undefined || this.state.formData.contactInfo.forLease == undefined || this.state.formData.contactInfo.relationship == undefined })
+        this.setState({ contactInfoIncomplete : this.state.formData.contactInfo.forSale === undefined || this.state.formData.contactInfo.forLease == undefined || this.state.formData.contactInfo.relationship === undefined })
     }
 
     handleNext = () => {
@@ -76,7 +77,7 @@ class AddListing extends React.Component {
 
         for (let i=0; i < photosState[category].length; i++) {
             for (let j=0; j < photos.length; j++) {
-                if (photosState[category][i].name == photos[j].name) {
+                if (photosState[category][i].name === photos[j].name) {
                     removals.push(j)
                     break;
                 }
@@ -180,4 +181,4 @@ class AddListing extends React.Component {
  )
 
 
- export default connect(mapStateToProps)(AddListing)
+ export default withRouter(connect(mapStateToProps)(AddListing))

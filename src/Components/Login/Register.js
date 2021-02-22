@@ -141,51 +141,42 @@ class Register extends React.Component {
     render() {
    
         return (
-            <div style={{ zIndex: 2, 
-                width: '40%'}}>
-                <h1 style={{marginBottom: '1em'}}>Create an Account</h1>
-            <div style={{ zIndex: 2, 
-            border: '2px solid ' + lightBg,
-            backgroundColor: 'rgba(225,225,225, 0.7)',
-            padding: '2em',
-            overflowY: 'auto',
-            height: '80vh'}}>
+            <div className="loginPage">
+                <h1 >Create an Account</h1>
+            <div className="loginFormContainer">
                <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
-               <Row>
-                    <Col>
-                        <Form.Group controlId="firstName" >
-                            <Form.Label style={{float: 'left', color: lightBg, fontSize: '24px'}}>First Name</Form.Label>
-                            <Form.Control 
-                                required
-                                type="text" 
-                                name="first" 
-                                placeholder="First name" 
-                                autoFocus
-                                value={this.state.first.value}
-                                
-                                onChange={this.onFormChange} 
-                            />
-                            <Form.Text className="text-muted" style={{}}>
-                            </Form.Text>
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group controlId="lastName" >
-                            <Form.Label style={{float: 'left', color: lightBg, fontSize: '24px'}}>Last Name</Form.Label>
-                            <Form.Control 
-                                required
-                                type="text" 
-                                name="last" 
-                                placeholder="Last name" 
-                                value={this.state.last.value}
-                                onChange={this.onFormChange}/>
-                            <Form.Text className="text-muted" style={{}}>
-                            </Form.Text>
-                         </Form.Group>
-                    </Col>
-                </Row>
+               <Form.Row>
+                <Form.Group controlId="firstName" style={{ marginRight: '1em'}} >
+                    <Form.Label className="formLabels">First Name</Form.Label>
+                    <Form.Control 
+                        required
+                        type="text" 
+                        name="first" 
+                        placeholder="First name" 
+                        autoFocus
+                        value={this.state.first.value}
+                        onChange={this.onFormChange} 
+                    />
+                    <Form.Text className="text-muted">
+                    </Form.Text>
+                </Form.Group>
+        
+                <Form.Group controlId="lastName" >
+                    <Form.Label className="formLabels">Last Name</Form.Label>
+                    <Form.Control 
+                        required
+                        type="text" 
+                        name="last" 
+                        placeholder="Last name" 
+                        value={this.state.last.value}
+                        onChange={this.onFormChange}/>
+                    <Form.Text className="text-muted" style={{}}>
+                    </Form.Text>
+                </Form.Group>
+                </Form.Row>
+
                 <Form.Group controlId="username" >
-                    <Form.Label style={{float: 'left', color: lightBg, fontSize: '24px'}}>Username</Form.Label>
+                    <Form.Label className="formLabels">Username</Form.Label>
                     <Form.Control 
                         required
                         type="text"
@@ -194,14 +185,14 @@ class Register extends React.Component {
                         value={this.state.username.value}
                         onChange={this.onFormChange} 
                         />
-                    <Form.Text className="text-muted" style={{}}>
+                    <Form.Text className="text-muted">
                     </Form.Text>
-                    <span type="invalid" style={{fontSize: '16px', color: 'red' }}>
+                    <span type="invalid" className="errorText">
                              {this.state.username.message}
                           </span>
                 </Form.Group>
                 <Form.Group controlId="Username" >
-                    <Form.Label style={{float: 'left', color: lightBg, fontSize: '24px'}}>Email</Form.Label>
+                    <Form.Label className="formLabels">Email</Form.Label>
                     <Form.Control 
                         required
                         type="email" 
@@ -209,14 +200,14 @@ class Register extends React.Component {
                         placeholder="Enter email"
                         value={this.state.email.value}
                         onChange={this.onFormChange} />
-                    <Form.Text className="text-muted" style={{}}>
+                    <Form.Text className="text-muted">
                     </Form.Text>
-                    <span type="invalid" style={{fontSize: '16px', color: 'red' }}>
+                    <span type="invalid" className="errorText">
                              {this.state.email.message}
                           </span>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label  style={{float: 'left', color: lightBg, fontSize: '24px'}}>Password</Form.Label>
+                    <Form.Label className="formLabels">Password</Form.Label>
                     <Form.Control 
                         required
                         type="password" 
@@ -224,11 +215,10 @@ class Register extends React.Component {
                         placeholder="Password" 
                         value={this.state.password.value}
                         onChange={this.onFormChange}/>
-                        
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label  style={{float: 'left', color: lightBg, fontSize: '24px'}}> Confirm Password</Form.Label>
+                    <Form.Label className="formLabels"> Confirm Password</Form.Label>
                     <Form.Control 
                         required
                         type="password" 
@@ -236,12 +226,12 @@ class Register extends React.Component {
                         placeholder="Password"
                         value={this.state.password_confirm.value}
                         onChange={this.onFormChange}/>
-                         <span type="invalid" style={{fontSize: '16px', color: 'red' }}>
+                         <span type="invalid" className="errorText">
                              {this.state.password_confirm.message}
                           </span>
                 </Form.Group>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-                    <Form.Group style={{float: 'left', color: lightBg, fontSize: '20px'}}>
+                <div className="checkContainer">
+                    <Form.Group className="bottomText">
                         <Form.Check
                         required
                         label="Agree to terms and conditions"
@@ -249,13 +239,14 @@ class Register extends React.Component {
                         />
                     </Form.Group>
                 </div>
-                <Button variant="primary" type="submit" style={{ color: 'whitesmoke', fontSize: '20px'}}>
-                    Submit
-                </Button>
+                <Form.Row className="submitContainer">
+                    <Button variant="primary" type="submit">Submit</Button>
+                </Form.Row>
             </Form>
-                <span style={{fontSize: '20px', color: lightBg}}>Already have an account? &nbsp;</span>
-                <Link style={{fontSize: '20px'}} to="/login">Login here</Link> 
-
+                <div>
+                    <span className="bottomText">Already have an account? &nbsp;</span>
+                    <Link style={{fontSize: '20px'}} to="/login">Login here</Link> 
+                </div>
             </div>
           
             </div>
