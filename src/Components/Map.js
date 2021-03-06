@@ -859,87 +859,61 @@ onUpdateTransportation = async (transportation) => {
 
 loadNearbySubways = async () => {
   let type = 'subway_station'
-
-    getNearby(this.props.address, type, async (data, token) => {
-        // cache loaded places
-        for (let place of data) {
-       
-          if (!this.state.places_cache.get(type).has(place.place_id)) {
-            this.state.places_cache.get(type).set(place.place_id, place)
-          } 
-        }
-        
-          this.state.tokens_cache.set(type, token)
-           
-          let subwayCoords = []
-          Array.from(this.state.places_cache.get(type).entries()).map(([key, value], i) => {
-            if ( i > 4) return;
-            subwayCoords.push(value.geometry.location)
-          })
-          
-          
-          let subway_data = await getSubwayTotals(subwayCoords)
-          // Calculate distance //////
-          subway_data.forEach(e => {
-            let dist= distance(this.props.address.coords.lat, this.props.address.coords.lng,
-              e.data.G_LAT, e.data.G_LNG)
-              e.distance = dist
-          })
-
-          subway_data.sort((x, y) => {
-            if (x.distance < y.distance) {
-              return -1;
-            }
-            if (x.distance > y.distance) {
-              return 1;
-            }
-            return 0;
-          })
-          
-          /////////////////////////
-          let transportObj = JSON.parse(JSON.stringify(this.props.transportation))
-          if (transportObj == '') { transportObj = {}}
+  getNearby(this.props.address, type, async (data, token) => {
+      // cache loaded places
+      for (let place of data) {
+        if (!this.state.places_cache.get(type).has(place.place_id)) {
+          this.state.places_cache.get(type).set(place.place_id, place)
+        } 
+      }
+      this.state.tokens_cache.set(type, token)
+      let subwayCoords = []
+      Array.from(this.state.places_cache.get(type).entries()).map(([key, value], i) => {
+        if ( i > 4) return;
+        subwayCoords.push(value.geometry.location)
+      })
       
-          // clean up subway data
-          let subwayMap = new Map()
-          for (let i=0; i< subway_data.length; i++) {
-            if (!subwayMap.has(subway_data[i].name)) {
-              subwayMap.set(subway_data[i].name, subway_data[i].data)
-            } else {
-              // check if values are equal, if so arggregate to one location
-              if (subwayMap.get(subway_data[i].name).G_TOTAL_ENT == subway_data[i].data.G_TOTAL_ENT) {
-                subwayMap.set(subway_data[i].name, 
-                  {...subwayMap.get(subway_data[i].name), 
-                    G_LINES : subwayMap.get(subway_data[i].name).G_LINES +'-'+ subway_data[i].data.G_LINES 
-                  })
-              }
+      let subway_data = await getSubwayTotals(subwayCoords)
+      // Calculate distance //////
+      subway_data.forEach(e => {
+        let dist= distance(this.props.address.coords.lat, this.props.address.coords.lng,
+          e.data.G_LAT, e.data.G_LNG)
+          e.distance = dist
+      })
+
+      subway_data.sort((x, y) => {
+        if (x.distance < y.distance) {
+          return -1;
+        }
+        if (x.distance > y.distance) {
+          return 1;
+        }
+        return 0;
+      })
+      
+        let transportObj = JSON.parse(JSON.stringify(this.props.transportation))
+        if (transportObj == '') { transportObj = {}}
+    
+        // clean up subway data
+        let subwayMap = new Map()
+        for (let i=0; i< subway_data.length; i++) {
+          if (!subwayMap.has(subway_data[i].name)) {
+            subwayMap.set(subway_data[i].name, subway_data[i].data)
+          } else {
+            // check if values are equal, if so arggregate to one location
+            if (subwayMap.get(subway_data[i].name).G_TOTAL_ENT == subway_data[i].data.G_TOTAL_ENT) {
+              subwayMap.set(subway_data[i].name, 
+                {...subwayMap.get(subway_data[i].name), 
+                  G_LINES : subwayMap.get(subway_data[i].name).G_LINES +'-'+ subway_data[i].data.G_LINES 
+                })
             }
           }
+        }
+        transportObj.subways = subwayMap
+        await this.onUpdateTransportation(transportObj)
 
-          transportObj.subways = subwayMap
-
-          await this.onUpdateTransportation(transportObj)
-/*
-          // subway lines
-          let lines = []
-          Array.from(subwayMap.values()).forEach(value=> {
-            let resLines = value.G_LINES.split('-')
-            resLines.forEach(e => {
-              if (lines.indexOf(e) == -1) {
-                lines.push(e)
-              }
-            })
-          })
-          let geo = await getSubwayLines(["A"])
-
-          geo.forEach(([key, value]) => {
-            value.forEach(e => {
-              this.state.map.data.addGeoJson(e)
-            })
-            
-          })
-          */
-
+    })       
+}
 
 /* old distance matrix code
         let subway_data = await getDistancesFromMap(this.state.places_cache.get(type), this.props.center)
@@ -949,8 +923,6 @@ loadNearbySubways = async () => {
         transportObj.subways = subway_data
         await this.onUpdateTransportation(transportObj)
         */
-    })       
-}
 
 generateHeading = () => {
   var sv = new google.maps.StreetViewService();
