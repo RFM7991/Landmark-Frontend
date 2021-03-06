@@ -21,7 +21,6 @@ class TransportationPanel extends React.Component {
         }
     }
 
-
     componentDidUpdate(prevProps) {
         if (prevProps.transportation.subways != this.props.transportation.subways) {
             if (this.props.transportation.subways == undefined) {
@@ -47,8 +46,7 @@ class TransportationPanel extends React.Component {
     }
 
     render() {
-
-        let header =  <thead>
+        let header = <thead>
             <tr>
                 <th>
                     <div style={{display: 'inline-block'}}>
@@ -63,7 +61,6 @@ class TransportationPanel extends React.Component {
             </tr>
         </thead>
 
-    
     const subwaysMap =
         <ReactImageMagnify {...{
             largeImage: {
@@ -81,7 +78,6 @@ class TransportationPanel extends React.Component {
             enlargedImageContainerStyle={{ zIndex: 1000, width: 2000, height: 2500}}
             enlargedImagePosition='over'
         />
-    
 
         return (
             <div className="transportationPage" size="sm">
@@ -141,7 +137,6 @@ class TransportationPanel extends React.Component {
                     <td>{e.directions.duration.text}</td>
      */
 }
-
  
  const mapStateToProps = createSelector(
      selectors.transportationSelector,

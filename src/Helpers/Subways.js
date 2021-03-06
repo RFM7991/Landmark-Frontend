@@ -3,7 +3,7 @@ import { getSubwayTotals } from '../Requests/subway-requests'
 
 
 export const hasSubways = zip => {
-    return (Number(zip) >= 10001 && Number(zip) <= 10286)
+    return (Number(zip) >= 10001 && Number(zip) <= 11697)
 }
 
 export const getDistancesFromMap = async (placeMap, origin) => {

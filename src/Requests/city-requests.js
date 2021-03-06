@@ -1,15 +1,18 @@
 import { showError } from '../Actions/user-actions'
 import { API } from '../Constants'
 
-export function getZipStats(lat, lng) {
-    console.log("ZIP_STATS", API + 'demo/stats/zip/' + lat + '/' + lng)
-    return fetch(API + 'demo/stats/zip/' + lat + '/' + lng)
-        .then(res => res.json())
-        .catch(err => console.error(err))
+
+const getStateCode = (state) => {
+    switch (state) {
+        case "NJ": return 34;
+        case "NY": return 36;
+        default: return 36;
+    }
 }
 
-export function getZipAgeStats(lat, lng) {
-    return fetch(API + 'demo/stats/zip/age/' + lat + '/' + lng)
+export function getZipStats(category, state, zip) {
+
+    return fetch(API + 'demo/stats/zip/'+ category +'/'+ getStateCode(state) + '/' + zip)
         .then(res => res.json())
         .catch(err => console.error(err))
 }

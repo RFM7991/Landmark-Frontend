@@ -16,19 +16,12 @@ import AutoCompleteBar from './AutoCompleteBar'
 import * as selectors from '../Reducers/selectors'
 import { updateAddress} from '../Actions/address-actions'
 import { Link, withRouter } from 'react-router-dom'
-import {AiOutlineInfoCircle} from 'react-icons/ai'
-import ReactTooltip from 'react-tooltip'
-import Modal from 'react-bootstrap/Modal'
 import  {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { getLocation, createLocation } from '../Requests/locations-requests';
+import { getLocation } from '../Requests/locations-requests';
 const ZIP = 'zip code tabulation area'
-const TRADE_ZONE = 'tradeZone'
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 
 class LookUpForm extends React.Component {
 
@@ -47,6 +40,7 @@ class LookUpForm extends React.Component {
         this.getAddress = this.getAddress.bind(this)
 
         this.state = {
+            address: {},
             priceLevel : 1,
             business_type : 'restaurant',
             distance: 'Driving',
@@ -59,11 +53,9 @@ class LookUpForm extends React.Component {
     }
 
     async componentDidMount() {
-        
         if (this.props.urlParams) {
             let type = this.props.urlParams.business_type
             if (type == 'lodging') type = 'hotels /lodging'
-
 
             let business = {
                 type: this.props.urlParams.business_type,
@@ -74,18 +66,8 @@ class LookUpForm extends React.Component {
                 this.onUpdateBusinessType(business),
                 this.setState({business_type: this.props.urlParams.business_type.replace(/_/g, ' ')}),
             ]
-/*
-            if (this.props.urlParams.distance.toLowerCase() == 'driving') {
-                promises.push(this.onUpdateIsCity(false))
-                promises.push(this.setState({distance: 'Driving'}))
-            }
-            else  {
-                promises.push(this.onUpdateIsCity(true))
-                promises.push(this.setState({distance: 'Walking'}))
-            }
-            */
-            let res = await Promise.all(promises)
-            await this.onUpdateAddress()
+            await Promise.all(promises)
+            await this.onUpdateAddress(this.state.address)
             this.onUpdateReady(true)
         }
     }
@@ -164,12 +146,9 @@ class LookUpForm extends React.Component {
                 if (!alreadyInAddress2)
                     addressState.city = secondPart
             }
-
-        
             await this.setState({address: addressState })
             resolve(addressState)
         })
-
     }
     
     onUpdateBusinessType(business_type) {
@@ -245,11 +224,11 @@ class LookUpForm extends React.Component {
         }
     }
 
-    onUpdateAddress = async () => {
-        let address = this.state.address
+    onUpdateAddress = async (address) => {
+    /* to-do watch for address to be undefined
         // check for location from db 
         let results = await getLocation(address.place.place_id)
-       /* 
+    
         if (results.res.length <= 0) {
             let createRes = await createLocation(address.place.place_id, address)
             address.isNewEntry = true
@@ -258,7 +237,6 @@ class LookUpForm extends React.Component {
         }
         */
        address.isNewEntry = true
-       let countyRes = await 
        this.props.onUpdateAddress(address)
     }
 

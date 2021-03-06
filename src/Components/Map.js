@@ -21,7 +21,6 @@ import Button from 'react-bootstrap/Button';
 import { updateTradeZoneBounds } from '../Actions/tradeZoneBoundaries-actions'
 import { getCounty } from '../Requests/tradezone-requests'
 import ReactStreetview from 'react-streetview';
-import { getDistancesFromMap } from '../Helpers/Subways'
 import { updateTransportation} from '../Actions/transportation-actions'
 import { createTradeZoneCartography } from '../Requests/locations-requests'
 import FadeLoader from './UI/FadeLoader'
@@ -345,14 +344,11 @@ class SimpleMap extends Component {
          setTimeout(() => this.renderCartography(), 100)
        }
     }
-    
-  }
+}
 
    async loadCartography() {
-   //  getZipCartography(this.props.address.state.toString().toLowerCase(), this.props.address.zip).then(async (data) => {
-
-   if (this.props.address.zip == undefined) return;
-   let mCartography = Object.assign({}, this.state.cartography)
+    if (this.props.address.zip == undefined) return;
+    let mCartography = Object.assign({}, this.state.cartography)
 
        let data = await getZipCartography(this.props.address.state, this.props.address.zip)
 
@@ -382,17 +378,19 @@ class SimpleMap extends Component {
         } 
       }
       this.state.tokens_cache.set(this.state.business_type, token)
-        if (this.props.address.place.types.includes('establishment')) {
-          this.getPlaceDetails(this.state.map, this.props.address.place.place_id, async (details) => {
-            let place = this.props.address.place
-            place.icon = details.icon
-            place.name = details.name
-            place.id = details.id
-            this.state.place_details.set(place.id, details)
-            await this.setState({ addressPlace : place})
-            this.onUpdatePlaces(data)
-          })
-        } else this.onUpdatePlaces(data)
+      if (this.props.address.place.types.includes('establishment')) {  // get and set place for address if applicable 
+        this.getPlaceDetails(this.state.map, this.props.address.place.place_id, async (details) => {
+          let place = this.props.address.place
+          place.icon = details.icon
+          place.name = details.name
+          place.place_id = details.id
+          this.state.place_details.set(place.id, details)
+          await this.setState({ addressPlace : place})
+          this.onUpdatePlaces(data)
+        })
+      } else {
+        this.onUpdatePlaces(data)
+      }
       this.setState({ places_count : 20 })
     })     
   }
@@ -593,11 +591,11 @@ class SimpleMap extends Component {
   }
 
   onUpdatePlaces(data) {
-    if (this.props.address.place.types.includes('establishment')) {
+    if (this.props.address.place.types.includes('establishment')) { // check not to add two markers id address contains place
       let updatedData = [this.state.addressPlace]
       data.map(e => {
         if (e.place_id === undefined) return
-        if (e.place_id != this.state.addressPlace.place_id)
+        if (e.place_id !== this.state.addressPlace.place_id)
           updatedData.push(e)
       })
       this.props.onUpdatePlaces(updatedData)

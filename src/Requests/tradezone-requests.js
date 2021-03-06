@@ -14,11 +14,10 @@ export function getCounty(center) {
     .catch(error => console.error('TZ error', error))
 }
 
-export async function getTradeZoneBounds(isCity, center, geoUnit) {
-
+export async function getTradeZoneBounds(isCity, center) {
     let lat = center.lat
     let lng = center.lng
-    return fetch (API + 'bounds/tradezone/' + isCity + '/' + lat + '/' + lng + '/' + geoUnit,
+    return fetch (API + 'bounds/tradezone/' + isCity + '/' + lat + '/' + lng,
     {
         method : 'GET',
         credentials: "same-origin", //include, same-origin

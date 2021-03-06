@@ -7,8 +7,8 @@ import { updateBusinessType} from '../Actions/business-actions'
 import { BUSINESS_TYPES } from '../Constants'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Card from 'react-bootstrap/Card'
-import { getAge, getIncome, getSocial, getZipStats, getZipAgeStats  } from '../Requests/city-requests' 
-import { getTradeZoneStats, getLoadedTradeZoneStats, getTradeZoneBounds, getTradeZoneBlockStats, getZipTradeZoneBounds, getTradeZoneZipStats } from '../Requests/tradezone-requests'
+import {  getZipStats,  } from '../Requests/city-requests' 
+import { getTradeZoneStats, getLoadedTradeZoneStats, getTradeZoneBounds } from '../Requests/tradezone-requests'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import { updateDataRange } from '../Actions/dataRange-actions'
@@ -96,7 +96,8 @@ class DemographicsPanel extends React.Component {
     }
 
     async getZipData() {
-       let json = await Promise.all([getZipStats(this.props.lat, this.props.lng), getZipAgeStats(this.props.lat, this.props.lng)])
+       console.log("getZipData", this.props)
+       let json = await Promise.all([getZipStats('zip', this.props.address.state, this.props.address.zip), getZipStats('age', this.props.address.state, this.props.address.zip)])
 
        console.log("ZIP", json)
        // handle zip code with no poulation
@@ -155,7 +156,7 @@ class DemographicsPanel extends React.Component {
     }
 
     loadNewTradeZoneStats = async () => {
-        let bounds = await getTradeZoneBounds(this.props.isCity, this.props.address.coords, this.props.geo_unit)
+        let bounds = await getTradeZoneBounds(this.props.isCity, this.props.address.coords)
         this.onUpdateTradeZoneBounds(bounds)
         let data = await getTradeZoneStats(this.props.address.coords, bounds)
 
