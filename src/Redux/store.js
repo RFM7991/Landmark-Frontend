@@ -49,7 +49,7 @@ const allStoreEnhancers = compose(
 );
 
 const localStorageUser = JSON.parse(localStorage.getItem('user'))
-const user = (localStorageUser._id === undefined)
+const user = (localStorageUser === null)
      ? {_id: -1, username: 'guest', is_admin: false}
      : localStorageUser
 

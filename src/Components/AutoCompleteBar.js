@@ -55,7 +55,7 @@ class AutoCompleteBar extends React.Component {
                 className: 'location-search-input',
               })}
             />
-            <div style={{ position: 'absolute', marginTop: this.props.marginTop}}>
+            <div style={{ position: 'absolute', marginTop: this.props.marginTop, color: 'black'}}>
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
@@ -63,8 +63,8 @@ class AutoCompleteBar extends React.Component {
                   : 'suggestion-item';
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '100%' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer', width: '100%' };
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '100%', color: 'black' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer', width: '100%', color: 'black' };
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
@@ -72,7 +72,7 @@ class AutoCompleteBar extends React.Component {
                       style,
                     })}
                   >
-                    <span>{suggestion.description}</span>
+                    <span style={{ color: 'black'}}>{suggestion.description}</span>
                   </div>
                 );
               })}

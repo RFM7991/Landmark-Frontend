@@ -870,6 +870,7 @@ loadNearbySubways = async () => {
       let subwayCoords = []
       Array.from(this.state.places_cache.get(type).entries()).map(([key, value], i) => {
         if ( i > 4) return;
+        console.log("SUBWAYS", value)
         subwayCoords.push(value.geometry.location)
       })
       

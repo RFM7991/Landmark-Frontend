@@ -163,7 +163,6 @@ class App extends React.Component {
           <div className="commentsWrapper">
             <CommentsPanel/>
           </div>
-         
         </div>
 
         var mobile_map = <div className="mob_map_dashboard">

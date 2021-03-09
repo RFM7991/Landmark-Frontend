@@ -37,32 +37,30 @@ class AddListing extends React.Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', alignItems: 'flex-start',  flexDirection: 'column', padding: '20px' }}>
-                            
-                <h3 style={{}}>1. Owner/Broker Contact Info</h3>
-                <div style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', marginLeft: '24px', marginTop: '10px' }}>
-                    <form>
-                        <strong>Is the property for sale? <span style={{ color: 'red'}}>*</span></strong>
+            <div className="formPage">
+                <h3>1. Owner/Broker Contact Info</h3>
+                    <form style={{ padding: '16px'}}>
+                        <strong>Is the property for sale? <span>*</span></strong>
                         <div className="inputGroup">
                             <label>yes<input type="checkbox" checked={this.state.forSale =="yes" } name="forSale" value={'yes'} onChange={this.handleChange} /></label>
                             <label>no<input type="checkbox" checked={this.state.forSale == "no" } name="forSale" value={'no'} onChange={this.handleChange} /></label>
                         </div>
 
-                        <strong>Is the property for lease? <span style={{ color: 'red'}}>*</span></strong>
+                        <strong>Is the property for lease? <span>*</span></strong>
                         <div className="inputGroup">
                             <label>yes<input type="checkbox" checked={ this.state.forLease == "yes" } name="forLease" value={'yes'} onChange={this.handleChange} /></label>
                             <label>no<input type="checkbox" checked={this.state.forLease == "no" } name="forLease" value={'no'} onChange={this.handleChange} /></label>
                         </div>
 
-                        <strong>What is your relationship to this property? <span style={{ color: 'red'}}>*</span></strong>
-                        <div className="inputGroup" style={{ width: '100%'}}>
+                        <strong>What is your relationship to this property? <span>*</span></strong>
+                        <div className="inputGroup" >
                             <label>I am the broker<input type="checkbox" name="relationship" checked={this.state.relationship == 'broker'} value={'broker'} onChange={this.handleChange} /></label>
                             <label>I am the landlord<input type="checkbox" name="relationship"checked={this.state.relationship == 'landlord'} value={'landlord'} onChange={this.handleChange} /></label>
                             <label>other<input type="checkbox" name="relationship" checked={this.state.relationship == 'other'} value={'other'} onChange={this.handleChange} /></label>
                         </div>
 
                         <strong>Additional info</strong>
-                        <div className="inputGroup" style={{width: '100%'}}>
+                        <div className="inputGroup">
                             <textarea maxLength="240" style={{ marginLeft: '0em', width: '100%', height: '100px', padding: '0.25em', fontSize: '14px'}}
                                 type="text" 
                                 multiline
@@ -73,7 +71,6 @@ class AddListing extends React.Component {
                         <p style={{ fontSize: '12px'}}>240 characters max</p>
 
                         <strong>Upload a photo of yourself</strong>
-                        <br></br>
                         <div>
                             {this.props.photos.map((e, i) => {
                                 return (
@@ -89,7 +86,6 @@ class AddListing extends React.Component {
                             <PhotoUploader setPhotos={this.handleSetPhotos}/>
                         </div>
                     </form>
-                </div>
 
                 <Button variant="primary" onClick={this.props.handleNext} 
                     disabled={this.state.forSale == undefined || this.state.forLease == undefined || this.state.relationship == undefined}

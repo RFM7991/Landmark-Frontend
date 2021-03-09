@@ -159,6 +159,7 @@ class DemographicsPanel extends React.Component {
         let bounds = await getTradeZoneBounds(this.props.isCity, this.props.address.coords)
         this.onUpdateTradeZoneBounds(bounds)
         let data = await getTradeZoneStats(this.props.address.coords, bounds)
+        console.log("TZ_STATS", data)
 
         // set internal state
         this.setState({tradeZoneStats : data, statsLoaded : true,  
@@ -174,7 +175,6 @@ class DemographicsPanel extends React.Component {
         let range = 'driving'
         if (this.props.isCity) range = 'walking'
         let res = await createTradeZoneStats(this.props.address.place.place_id, data, range)
-
     }
 
     checkForTradeZone = () => {
@@ -273,7 +273,6 @@ class DemographicsPanel extends React.Component {
                         <Table striped bordered hover variant="dark" >
                         <tbody>
                             {
-                                
                                 Object.entries(data).map((data, i) => {
                                 let entry = data[0].replace(/_/g, ' ')
 

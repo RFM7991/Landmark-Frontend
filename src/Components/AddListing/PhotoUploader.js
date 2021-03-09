@@ -19,7 +19,7 @@ export default class PhotoUploader extends React.Component {
  
     render() {
         return (
-            <div style={{ width:'20em'}}>
+            <div className="fileUploadContainer">
                 <ImageUploader
                     withIcon={true}
                     buttonText='Choose images'

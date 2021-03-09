@@ -320,7 +320,7 @@ class LookUpForm extends React.Component {
                 <div className="searchHeader">
                     <div className="addressText">Address</div>
                     <div className="howToContainer">
-                        <span>How to use</span>
+                        <span style={{ color: 'white'}}>How to use</span>
                         <InfoButton  clickFunction={()=>this.setModalShow(true)}/>    
                     </div>
                 </div>
@@ -374,7 +374,6 @@ const MyVerticallyCenteredModal = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -387,13 +386,11 @@ const MyVerticallyCenteredModal = (props) => {
           </h3>
           <p>
               <ul>
-                  <li><span><strong>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York USA</strong> </span> </li>
-                  <li><span> For intersections type the first street then '&amp;' or 'and' then the next street.</span><br></br> <span>
+                  <li><span><strong>*Current locations support New Jersey, the 5 boroughs of New York City, and Long Island, New York, USA</strong> </span> </li>
+                  <li><span> For intersections type the first Street/Avenue/Road then '&amp;' or 'and' then the next Street/Avenue/Road.</span><br></br> <span>
             For example, '3rd Ave &amp; 11th St, New York, NY'
             </span>   </li>
               </ul>
-                  
-            
           </p>
           
         </Modal.Body>

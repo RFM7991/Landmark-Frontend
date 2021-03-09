@@ -7,6 +7,7 @@ export async function getSubwayTotals(coords) {
         'coords': coords,
     };
     
+    console.log("GET_SUBWAYS", formBody)
     return fetch(API + 'subways/totals',
     {
         method : 'POST',
