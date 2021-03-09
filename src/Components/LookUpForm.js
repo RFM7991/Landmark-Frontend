@@ -329,7 +329,7 @@ class LookUpForm extends React.Component {
                     <div className="searchContainer">
                         <AutoCompleteBar urlParams={this.props.urlParams} addressFunction={this.getAddress}/>
                     </div>
-                    <Form style={{ flexDirection : 'row', justifyContent: 'flex-start', marginLeft: '.25em'}}>
+                    <Form style={{ flexDirection : 'row', justifyContent: 'flex-start', marginLeft: '.75em'}}>
                             {this.state.address != undefined && <Button  disabled={this.state.error} variant="primary" onClick={this.onHandleSubmit} 
                                 style={{backgroundColor:'#00d4ff', fontWeight: 'bold'}}>
                                 Go</Button>
