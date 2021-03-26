@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
@@ -8,11 +8,8 @@ import PricingInfo from './PricingInfo'
 import SelectLocation from './SelectLocation'
 import Submit from './submit'
 import Button from 'react-bootstrap/Button';
-import skylineBackground from '../../images/skyline_background.png'
 import { withRouter } from 'react-router-dom'
-
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
+import { getListingById } from "../../Requests/listings-requests"
 
 class AddListing extends React.Component {
 
@@ -21,19 +18,23 @@ class AddListing extends React.Component {
        
         this.state = {
             body: '',
-            index : 1,
-            formData :  //{ contactInfo : {}, locationDetails: {}, pricingInfo : {} },
-            {"_id":{"$oid":"5eb5a860c1a797ac66c79d31"},"location":{"formatted":"Ippudo NY, 4th Avenue, New York, NY, USA","street":"65 4th Ave","city":"New York","state":"NY","zip":"10003","coords":{"lat":40.730948,"lng":-73.990287},"place":{"access_points":[],"address_components":[{"long_name":"65","short_name":"65","types":["street_number"]},{"long_name":"4th Avenue","short_name":"4th Ave","types":["route"]},{"long_name":"Manhattan","short_name":"Manhattan","types":["political","sublocality","sublocality_level_1"]},{"long_name":"New York","short_name":"New York","types":["locality","political"]},{"long_name":"New York County","short_name":"New York County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]},{"long_name":"10003","short_name":"10003","types":["postal_code"]}],"formatted_address":"65 4th Ave, New York, NY 10003, USA","geometry":{"location":{"lat":40.730948,"lng":-73.990287},"location_type":"ROOFTOP","viewport":{"south":40.7295990197085,"west":-73.9916359802915,"north":40.7322969802915,"east":-73.98893801970848}},"place_id":"ChIJWUOc55tZwokR9q_g5l051rk","plus_code":{"compound_code":"P2J5+9V New York, United States","global_code":"87G8P2J5+9V"},"types":["establishment","food","point_of_interest","restaurant"]}},"contactInfo":{"forSale":"yes","forLease":"no","relationship":"broker","ownershipDetails":"Shane Inman discusses his commitment to excellence in customer service as well as his depth of experience in the real estate industry. Inman’s occupational pride is evident, as is his devotion to the company’s design expertise. Call (973) xxx-xxxx for details"},"locationDetails":{"sizeDetails":"12334","dimensionDetails":"123434","position":"in-line","tenantMixDetails":"aSas","parkingSpaceDetails":"12233","designatedParkingDetails":"yes","underConstruction":"no","ingressInfo":"asdasd","hasOccupancyCert":"yes","hasZoning":"yes"},"pricingInfo":{"askingPrice":"1234","leasePricePerSquareFoot":"1233","leaseTermDetails":"2 years","maintainenceCostPerSquareFoot":"123","insuranceCostPerSquareFoot":"1222","isAssignment":"no","isSublet":"no"},"listingId":280085022,"photos":{"contact_photos":["listings/280085022/contact_photos/upload1.png"],"site_photos":["listings/280085022/site_photos/upload1.jpg","listings/280085022/site_photos/upload2.jpg","listings/280085022/site_photos/upload3.jpg"],"cover_photos":["listings/280085022/site_photos/upload3.jpg"]}},
+            index : 0,
+            formData :  { contactInfo : {}, locationDetails: {}, pricingInfo : {} },
+         //   {"_id":{"$oid":"5eb5a860c1a797ac66c79d31"},"location":{"formatted":"Ippudo NY, 4th Avenue, New York, NY, USA","street":"65 4th Ave","city":"New York","state":"NY","zip":"10003","coords":{"lat":40.730948,"lng":-73.990287},"place":{"access_points":[],"address_components":[{"long_name":"65","short_name":"65","types":["street_number"]},{"long_name":"4th Avenue","short_name":"4th Ave","types":["route"]},{"long_name":"Manhattan","short_name":"Manhattan","types":["political","sublocality","sublocality_level_1"]},{"long_name":"New York","short_name":"New York","types":["locality","political"]},{"long_name":"New York County","short_name":"New York County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]},{"long_name":"10003","short_name":"10003","types":["postal_code"]}],"formatted_address":"65 4th Ave, New York, NY 10003, USA","geometry":{"location":{"lat":40.730948,"lng":-73.990287},"location_type":"ROOFTOP","viewport":{"south":40.7295990197085,"west":-73.9916359802915,"north":40.7322969802915,"east":-73.98893801970848}},"place_id":"ChIJWUOc55tZwokR9q_g5l051rk","plus_code":{"compound_code":"P2J5+9V New York, United States","global_code":"87G8P2J5+9V"},"types":["establishment","food","point_of_interest","restaurant"]}},"contactInfo":{"forSale":"yes","forLease":"no","relationship":"broker","ownershipDetails":"Shane Inman discusses his commitment to excellence in customer service as well as his depth of experience in the real estate industry. Inman’s occupational pride is evident, as is his devotion to the company’s design expertise. Call (973) xxx-xxxx for details"},"locationDetails":{"sizeDetails":"12334","dimensionDetails":"123434","position":"in-line","tenantMixDetails":"aSas","parkingSpaceDetails":"12233","designatedParkingDetails":"yes","underConstruction":"no","ingressInfo":"asdasd","hasOccupancyCert":"yes","hasZoning":"yes"},"pricingInfo":{"askingPrice":"1234","leasePricePerSquareFoot":"1233","leaseTermDetails":"2 years","maintainenceCostPerSquareFoot":"123","insuranceCostPerSquareFoot":"1222","isAssignment":"no","isSublet":"no"},"listingId":280085022,"photos":{"contact_photos":["listings/280085022/contact_photos/upload1.png"],"site_photos":["listings/280085022/site_photos/upload1.jpg","listings/280085022/site_photos/upload2.jpg","listings/280085022/site_photos/upload3.jpg"],"cover_photos":["listings/280085022/site_photos/upload3.jpg"]}},
             photos : { cover_photos : [], contact_photos : [], site_photos : []},
             contactInfoIncomplete : true,
             locationDetailsIncomplete : true,
             pricingInfoIncomplete : true,
+            updateInfo: {},
+            isUpdate: false,
             photo_update_key : -1 // needed for [][] to descend to children 
+
         }
     }
 
     componentDidMount() {
        this.verifyUser()
+       this.handleUpdateParams()
     }
 
     verifyUser = () => {
@@ -41,6 +42,22 @@ class AddListing extends React.Component {
         if (user._id === -1) {
             this.props.history.push('/login')
         }
+    }
+
+    handleUpdateParams = async () => {
+        const { urlParams } = this.props
+        if (!urlParams.listingId) return
+
+        let res = await getListingById(urlParams.listingId)
+        this.setState({ 
+            index: 1,
+            formData: res[0], 
+            location: res[0].location,
+            contactInfoIncomplete: false,
+            locationDetailsIncomplete: false,
+            pricingInfoIncomplete: false,
+            isUpdate: true
+        })
     }
 
     setLocation = (location) => {
@@ -105,7 +122,7 @@ class AddListing extends React.Component {
                     </div> 
                 </div>
                 <div className="toolbarContainer">  
-                    <Button className="tabItem" onClick={() => this.handleTabPress(0)}>
+                    <Button className="tabItem" disabled={this.state.isUpdate} onClick={() => this.handleTabPress(0)}>
                       <span>Location</span>
                     </Button>
                     <Button className="tabItem" onClick={() => this.handleTabPress(1)} disabled={this.state.location === undefined}>
@@ -115,7 +132,7 @@ class AddListing extends React.Component {
                         <span>Location Details</span>
                     </Button>
                     <Button className="tabItem" onClick={() => this.handleTabPress(3)} disabled={this.state.locationDetailsIncomplete}>
-                        <span>Pricing and terms</span>
+                        <span>Pricing/terms</span>
                     </Button>
                     <Button className="tabItem" onClick={() => this.handleTabPress(4)} disabled={this.state.locationDetailsIncomplete}>
                         <span>Submit</span>
@@ -132,6 +149,8 @@ class AddListing extends React.Component {
                             photos={this.state.photos.contact_photos} 
                             handleRemovePhoto={this.removePhoto} 
                             photoKey={this.state.photo_update_key}
+                            updateInfo={this.state.formData.contactInfo}
+                            isUpdate={this.state.isUpdate}
                         />
                     </div>
                     <div style={(this.state.index === 2) ? {} : { display : 'none'}}> 
@@ -142,13 +161,26 @@ class AddListing extends React.Component {
                             photos={this.state.photos} 
                             photo_update_key={this.state.photo_update_key}
                             handleRemovePhoto={this.removePhoto} 
+                            updateInfo={this.state.formData.locationDetails}
+                            isUpdate={this.state.isUpdate}
                         />
                     </div>
                     <div style={(this.state.index === 3) ? {} : { display : 'none'}}> 
-                        <PricingInfo addFormInfo={this.addFormInfo}  handleNext={this.handleNext} photoKey={this.state.photo_update_key}/>
+                        <PricingInfo 
+                            addFormInfo={this.addFormInfo}  
+                            handleNext={this.handleNext} 
+                            photoKey={this.state.photo_update_key}
+                            updateInfo={this.state.formData.pricingInfo}
+                            isUpdate={this.state.isUpdate}
+                        />
                     </div>
                     <div style={(this.state.index === 4) ? {} : { display : 'none'}}> 
-                         <Submit formData={this.state.formData} photos={this.state.photos} photoKey={this.state.photo_update_key}/>
+                         <Submit 
+                            formData={this.state.formData} 
+                            photos={this.state.photos} 
+                            photoKey={this.state.photo_update_key}
+                            isUpdate={this.state.isUpdate}
+                        />
                     </div>
                 </div>
             </div>

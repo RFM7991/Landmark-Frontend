@@ -5,7 +5,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Image from 'react-bootstrap/Image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser} from '@fortawesome/free-solid-svg-icons'
-import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom'
 import * as selectors from '../Reducers/selectors'
@@ -14,12 +13,6 @@ import { updateUser } from '../Actions/user-actions';
 import white_smaple from '../images/logo/white_sample.png'
 import NavLookUpForm from './NavLookUpForm'
 import MediaQuery from 'react-responsive'
-import { Dropdown } from 'react-bootstrap';
-
-const darkBg = 'rgb(26,28,41)'
-const navBg = 'linear-gradient(225deg, rgba(2,0,36,1) 0%, rgba(6,6,73,1) 63%, rgba(0,212,255,1) 100%)'
-const textPrimary = 'whitesmoke'
-
 
 class NavigationBar extends React.Component {
 

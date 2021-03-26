@@ -639,14 +639,15 @@ class SimpleMap extends Component {
                     counter+=1
                 }
   
-          points.forEach((e, i) => {
-         //   renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
-          })
+          // render TZ pins 
+          // points.forEach((e, i) => {
+          //   renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
+          // })
         
-          let outerRing = getPoints(this.state.center, 8, 80)
-          outerRing.forEach((e,i) => {
-         //  renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
-          })
+          // let outerRing = getPoints(this.state.center, 8, 80)
+          // outerRing.forEach((e,i) => {
+          //  renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
+          // })
         return;
     }
    
@@ -870,7 +871,6 @@ loadNearbySubways = async () => {
       let subwayCoords = []
       Array.from(this.state.places_cache.get(type).entries()).map(([key, value], i) => {
         if ( i > 4) return;
-        console.log("SUBWAYS", value)
         subwayCoords.push(value.geometry.location)
       })
       
@@ -1096,7 +1096,7 @@ openToolBar = () => {
           {this.state.hasListing && 
             <button className="listingBanner" onClick={this.navigateToListing}>
               <div>
-                <span>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span> for details</span>
+                <span style={{ color: 'black'}}>This location has a listing, click </span> <span style={{ color : "blue"}}>here</span> <span style={{ color: 'black'}}> for details</span>
               </div>
             </button>
           }

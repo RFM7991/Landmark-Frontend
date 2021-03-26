@@ -4,18 +4,13 @@ import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
 import '../../css/listingView.scss';
 import { Link, withRouter } from 'react-router-dom'
-import { getListings, deleteListing} from "../../Requests/listings-requests"
+import { deleteListing} from "../../Requests/listings-requests"
 import Image from "react-bootstrap/Image"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-
 const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
-const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 
 class ListingItem extends React.Component {
 
@@ -28,10 +23,6 @@ class ListingItem extends React.Component {
             limit : 20,
             showModal : false,
         }
-    }
-
-    async componentDidMount() {
-
     }
 
     getUrl = () => {
@@ -51,23 +42,26 @@ class ListingItem extends React.Component {
     }
 
     handleDeleteListing = async () => {
-
-    
         let res = await deleteListing(this.props.listing.listingId)
 
         this.setState({ showModal : false })
         this.props.handleDeleteListing(this.props.listing.listingId)
     }
 
+    handleUpdate = () => {
+       const { history, listing} = this.props
+       history.push('/addlisting/' + listing.listingId)
+    }
+
     render() {
       
         return (
             <div className="listingItem" style={{ backgroundColor: lightBg, padding: '1em',  width: '100%', height: '175px',  display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                        <MyVerticallyCenteredModal
-                                show={this.state.showModal}
-                                onHide={() => this.setState({showModal:false})}
-                                handleAction={this.handleDeleteListing}
-                        />          
+                    <MyVerticallyCenteredModal
+                            show={this.state.showModal}
+                            onHide={() => this.setState({showModal:false})}
+                            handleAction={this.handleDeleteListing}
+                    />          
                 <div style={{ width: '120px', height: '100px', backgroundColor : 'rgba(1,1,1,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <Image 
                         onClick={this.navigateToListing}
@@ -80,15 +74,19 @@ class ListingItem extends React.Component {
 
                 <div style={{ height: '100%', width: '66%', color: 'white',  alignItems: 'center', display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                 <Link style={{   textDecorationLine: 'underline', color: 'white', fontSize: '18px', fontWeight: 'bold', padding: '0 1em 0 1em'}}to={this.getUrl}>
-                <span style={{ fontSize: '16px', }}>{this.props.listing.location.formatted}</span></Link>
+                <span style={{ fontSize: '16px', color: 'white'}}>{this.props.listing.location.formatted}</span></Link>
            
+                </div>
+                <div style={{ height: '100%',  display: 'flex', alignItems: 'center', marginRight: '0.5em'}}>
+                    <Button variant="primary" onClick={this.handleUpdate}>
+                        Update
+                    </Button>
                 </div>
                 <div style={{ height: '100%',  display: 'flex', alignItems: 'center'}}>
                     <Button variant="danger" onClick={() => this.setState({ showModal : true })}>
                         Remove
                     </Button>
-                </div>
-                
+                </div>           
             </div>
        )
     }

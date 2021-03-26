@@ -122,7 +122,6 @@ export function getListingByUserId(user_id) {
     .catch(err => console.log("Get Listings by user_id error", err))
 }
 
-// delete lisitng
 export async function deleteListing(listingId) {
 
     let body = {
@@ -143,17 +142,18 @@ export async function deleteListing(listingId) {
         })
 }
 
-/**
- *     locked = true 
-    let data = undefined
-    let error = undefined
+export async function updateListing(data) {
 
-    let didItWork = await fetch("https://www.hypeapi.info/video/upload",
+    return fetch(API + 'listings/update',
     {
-        method: 'POST',
+        method : 'PUT',
         headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json'
         },
-        body: formData
+        body : JSON.stringify(data)
     })
- */
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Update listing error:', error)
+        })
+}

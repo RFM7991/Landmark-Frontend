@@ -2,18 +2,12 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import Image from 'react-bootstrap/Image'
-import ReactTableContainer from "react-table-container";
-import Form from 'react-bootstrap/Form'
-import { Link, withRouter } from 'react-router-dom'
-import { createListing,  setListingPhotos} from "../../Requests/listings-requests"
+import { Link } from 'react-router-dom'
+import { createListing,  setListingPhotos, updateListing} from "../../Requests/listings-requests"
 import Button from 'react-bootstrap/Button'
 import PropogateLoader from '../UI/ProppgateLoader'
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 
 class AddListing extends React.Component {
 
@@ -53,15 +47,15 @@ class AddListing extends React.Component {
         let errormessage = ""
         this.setState({ loading : true })
         let data = {...this.props.formData, user_id : this.props.user._id }  // userid
+        let listingAction = (this.props.isUpdate) ? updateListing : createListing
     
-        let res = await createListing(data).catch(e => { error = true; errormessage = e })
+        let res = await listingAction(data).catch(e => { error = true; errormessage = e })
 
         if (error) {
             this.setState({ loading : false, errror : true, errorMessage: errormessage })
             return
         }
 
-        // upload photos
         if (res.listingId != undefined) {
             await this.handleUploadPhotos(res.listingId)
         }
@@ -71,16 +65,14 @@ class AddListing extends React.Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', alignItems: 'flex-start',  flexDirection: 'column', padding: '20px' }}>
+            <div className="formPage">
                 <div style={{ borderBottom: '1px solid rgb(31,33,48)', width: '25%', textAlign: 'left'}}>       
                     <h3>Review and Submit</h3>
                 </div> 
                 <br></br>
-                
                 <div style={{ borderBottom: '1px solid rgb(31,33,48)', width: '20%', textAlign: 'left', marginTop: '3em' }}>       
                     <h3 style={{ fontSize: '24px' }}>1. Contact Info</h3>
                 </div> 
-               
                     {
                         <Table striped bordered hover  className="listingDataTable">
                             <tbody>
@@ -135,11 +127,8 @@ class AddListing extends React.Component {
                             )
                         })
                         }
-                        
                     </div>
                 }
-
-
             <h3 style={{ fontSize: '18px', marginBottom: '0.5em', marginTop: '1em'}}>Site Photos: {this.props.photos.site_photos.length == 0 && <span style={{ color: 'red', fontSize: '16px'}}>No photos provided</span>}</h3>
                 {
                     <div style={{ display: 'flex',  height: '270px', width: '100%',  overflowX: 'auto', flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgb(242,242,242)' }}>

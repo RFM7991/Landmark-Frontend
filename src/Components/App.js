@@ -243,12 +243,12 @@ class App extends React.Component {
           })}>
         </Route>
         <Route
-            path={'/addlisting'}
+            path={'/addlisting/:listingId?'}
           render={(({match}) => {
             return <div>
                 <NavigationBar urlParams={match.params}/>
-                <div className="App">
-                  <AddListing />
+                <div className="App" >
+                  <AddListing urlParams={match.params} />
               </div>
             </div>
           })}>

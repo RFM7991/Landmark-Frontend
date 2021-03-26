@@ -2,14 +2,8 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import Table from 'react-bootstrap/Table'
-import ReactTableContainer from "react-table-container";
-import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import PhotoUploader from './PhotoUploader'
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 
 class AddListing extends React.Component {
 
@@ -18,6 +12,13 @@ class AddListing extends React.Component {
        
         this.state = {
             
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { updateInfo, isUpdate } = this.props
+        if (prevProps.isUpdate !== isUpdate && JSON.stringify(updateInfo) !== JSON.stringify(this.state)) {
+            this.setState({...updateInfo})
         }
     }
 
@@ -45,29 +46,26 @@ class AddListing extends React.Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', alignItems: 'flex-start',  flexDirection: 'column', padding: '20px' }}>            
+            <div className="formPage">            
                 <h3>2. Location Details</h3>
-                <div style={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', marginLeft: '24px', marginTop: '10px' }}>
-                    <form>
+                    <form style={{ padding: '16px'}}>
                     <p><strong>Upload Cover Photos</strong> <span style={{ color: 'red'}}>* requires at least one photo</span></p>
                     <p>These will be the first photos users see for your listing</p>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {this.props.photos.cover_photos.map((e, i) => {
                                 return (
-                                    <div key={e +'_'+i} style={{display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em'}}>
-                                        <Button variant="danger" onClick={() => this.removeCoverPhoto(i)} 
-                                            style={{ alignSelf: 'center', fontSize: 12 }}>
+                                    <div key={e +'_'+i} className="photoMapContainer">
+                                        <Button variant="danger" onClick={() => this.removeCoverPhoto(i)} className="photoDeleteButton">
                                            X
                                         </Button>
-                                        <div style={{ textAlign: 'center', alignSelf: 'center', marginLeft: '1em', fontSize: 12}}>{e.name}</div>
+                                        <div>{e.name}</div>
                                     </div>
                                 )
                             })}
-                                <PhotoUploader setPhotos={this.handleSetCoverPhotos}/>
-                        </div>
-                    <strong>Size of location</strong>
+                            <PhotoUploader setPhotos={this.handleSetCoverPhotos}/>
+                  
+                        <strong>Size of location</strong>
                         <div className="inputGroup"  >
-                            <textarea maxLength="120" style={{ marginLeft: '0em', width: '100%', height: '50px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="120" className="textArea"
                                 type="text" 
                                 name="sizeDetails"
                                 multiline
@@ -77,7 +75,7 @@ class AddListing extends React.Component {
                         <p style={{ fontSize: '12px'}}>120 characters max</p>
                     <strong>Dimensions</strong>
                     <div className="inputGroup" >
-                        <textarea maxLength="120" style={{ marginLeft: '0em', width: '100%', height: '50px', padding: '0.25em', fontSize: '14px'}}
+                        <textarea maxLength="120" className="textArea"
                             type="text" 
                             name="dimensionDetails"
                             multiline
@@ -91,17 +89,15 @@ class AddListing extends React.Component {
                     <p>This can include site plans, and other relevant photos to the site's dimensions</p>
                             {this.props.photos.site_photos.map((e, i) => {
                                 return (
-                                    <div key={e +'_'+i} style={{display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em'}}>
-                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} 
-                                            style={{ alignSelf: 'center', fontSize: 12 }}>
+                                    <div key={e +'_'+i} className={"photoMapContainer"}>
+                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} className="photoDeleteButton">
                                            X
                                         </Button>
-                                        <div style={{ textAlign: 'center', alignSelf: 'center', marginLeft: '1em', fontSize: 12}}>{e.name}</div>
+                                        <div>{e.name}</div>
                                     </div>
                                 )
                             })}
                             <PhotoUploader setPhotos={this.handleSetPhotos}/>
-                      
                     
                         <strong>Position of space</strong>
                         <div className="inputGroup" style={{ width: '100%'}}>
@@ -115,29 +111,28 @@ class AddListing extends React.Component {
 
                         <strong>Tenant mix</strong>
                         <div className="inputGroup">
-                            <textarea maxLength="240" style={{ marginLeft: '0em', width: '100%', height: '100px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="500" className="textArea"
                                 type="text" 
                                 multiline
                                 name="tenantMixDetails"
                                 placeholder="Enter any additional information that is relevant to this listing"
                                 value={this.state.tenantMix} onChange={this.handleChange} />
                         </div>
-                        <p style={{ fontSize: '12px'}}>240 characters max</p>
+                        <p style={{ fontSize: '12px'}}>500 characters max</p>
 
                         <strong>Number of parking spaces available, if applicable? </strong>
-                        <div className="inputGroup" >
-                            <textarea maxLength="240" style={{ marginLeft: '0em', width: '100%', height: '100px', padding: '0.25em', fontSize: '14px'}}
+                        <div className="inputGroup"  style={{ width: '60px'}}>
+                            <textarea maxLength="240" className="textArea"
                                 type="text" 
                                 multiline
                                 name="parkingSpaceDetails"
-                                placeholder="Enter any additional information that is relevant to this listing"
+                                placeholder=""
                                 value={this.state.parkingSpaceDetails} onChange={this.handleChange} />
                         </div>
-                        <p style={{ fontSize: '12px'}}>240 characters max</p>
 
                         <strong>Designated Parking? </strong>
                         <div className="inputGroup" >
-                            <textarea maxLength="240" style={{ marginLeft: '0em', width: '100%', height: '100px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="240" className="textArea"
                                 type="text" 
                                 multiline
                                 name="designatedParkingDetails"
@@ -152,7 +147,7 @@ class AddListing extends React.Component {
                         </div>
                         <strong>If yes, estimated completion date? </strong>
                         <div className="inputGroup" style={{ width: '70%'}}>
-                            <textarea maxLength="120" style={{ marginLeft: '0em', width: '100%', height: '50px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="120" className="textArea"
                                 type="text" 
                                 multiline
                                 name="estimatedCompletionDate"
@@ -166,21 +161,19 @@ class AddListing extends React.Component {
                             <p>If relevant, uplaod photos of the what the location will like look once its completed</p>
                             {this.props.photos.site_photos.map((e, i) => {
                                 return (
-                                    <div key={e +'_'+i} style={{display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em'}}>
-                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} 
-                                            style={{ alignSelf: 'center', fontSize: 12 }}>
+                                    <div key={e +'_'+i} className="photoMapContainer">
+                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} className="photoDeleteButton">
                                            X
                                         </Button>
-                                        <div style={{ textAlign: 'center', alignSelf: 'center', marginLeft: '1em', fontSize: 12}}>{e.name}</div>
+                                        <div>{e.name}</div>
                                     </div>
                                 )
                             })}
                             <PhotoUploader setPhotos={this.handleSetPhotos}/>
-                       
 
                         <strong>If existing structure, what date was it built, if available? </strong>
                         <div className="inputGroup" style={{ width: '70%'}}>
-                            <textarea maxLength="120" style={{ marginLeft: '0em', width: '100%', height: '50px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="120" className="textArea"
                                 type="text" 
                                 multiline
                                 name="dateOfConstruction"
@@ -200,10 +193,9 @@ class AddListing extends React.Component {
                         </div>
                         <p style={{ fontSize: '12px'}}>240 characters max</p>
 
-              
                         <strong>Number of Access Points?</strong>
-                        <div className="inputGroup" style={{ width: '10%'}}>
-                            <textarea maxLength="120" style={{ marginLeft: '0em', width: '100%', lineHeight: '8px',   padding: '5px', fontSize: '14px'}}
+                        <div className="inputGroup" style={{ width: '60px'}}>
+                            <textarea maxLength="120" className="textArea"
                                 type="text" 
                                 multiline
                                 name="dateOfConstruction"
@@ -215,12 +207,11 @@ class AddListing extends React.Component {
                             <p>Use these photos to visually diagram means of ingress and egress</p>
                             {this.props.photos.site_photos.map((e, i) => {
                                 return (
-                                    <div key={e +'_'+i} style={{display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em'}}>
-                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} 
-                                            style={{ alignSelf: 'center', fontSize: 12 }}>
+                                    <div key={e +'_'+i} className="photoMapContainer">
+                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} className="photoDeleteButton">
                                            X
                                         </Button>
-                                        <div style={{ textAlign: 'center', alignSelf: 'center', marginLeft: '1em', fontSize: 12}}>{e.name}</div>
+                                        <div>{e.name}</div>
                                     </div>
                                 )
                             })}
@@ -240,7 +231,7 @@ class AddListing extends React.Component {
                         </div>
 
                         <div className="inputGroup" style={{ width: '70%'}}>
-                            <textarea maxLength="240" style={{ marginLeft: '0em', width: '100%', height: '100px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="240" className="textArea"
                                 type="text" 
                                 multiline
                                 name="zoningDetails"
@@ -252,21 +243,20 @@ class AddListing extends React.Component {
                         <strong>Upload Zoning Ordinance Map</strong>
                             {this.props.photos.site_photos.map((e, i) => {
                                 return (
-                                    <div key={e +'_'+i} style={{display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em'}}>
+                                    <div key={e +'_'+i} className="photoMapContainer">
                                         <Button variant="danger" onClick={() => this.removeSitePhoto(i)} 
-                                            style={{ alignSelf: 'center', fontSize: 12 }} disabled={this.state.photos}>
+                                            className="photoDeleteButton" disabled={this.state.photos}>
                                            X
                                         </Button>
-                                        <div style={{ textAlign: 'center', alignSelf: 'center', marginLeft: '1em', fontSize: 12}}>{e.name}</div>
+                                        <div>{e.name}</div>
                                     </div>
                                 )
                             })}
                             <PhotoUploader setPhotos={this.handleSetPhotos}/>
              
-
                         <strong>Type and dimensions of sign/signs permitted?</strong>
                         <div className="inputGroup" style={{ width: '70%'}}>
-                            <textarea maxLength="240" style={{ marginLeft: '0em', width: '100%', height: '100px', padding: '0.25em', fontSize: '14px'}}
+                            <textarea maxLength="240" className="textArea"
                                 type="text" 
                                 multiline
                                 name="signDetails"
@@ -278,20 +268,19 @@ class AddListing extends React.Component {
                         <strong>Upload Photo of Current Sign</strong>
                             {this.props.photos.site_photos.map((e, i) => {
                                 return (
-                                    <div key={e +'_'+i} style={{display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5em'}}>
-                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} 
-                                            style={{ alignSelf: 'center', fontSize: 12 }}>
+                                    <div key={e +'_'+i} className="photoMapContainer">
+                                        <Button variant="danger" onClick={() => this.removeSitePhoto(i)} className="photoDeleteButton">
                                            X
                                         </Button>
-                                        <div style={{ textAlign: 'center', alignSelf: 'center', marginLeft: '1em', fontSize: 12}}>{e.name}</div>
+                                        <div>{e.name}</div>
                                     </div>
                                 )
                             })}
                             <PhotoUploader setPhotos={this.handleSetPhotos}/>
                     </form>
-                </div>
+  
                 <Button variant="primary" onClick={this.props.handleNext} disabled={this.props.photos.cover_photos.length == 0}
-                    style={{backgroundColor:'#00d4ff', fontWeight: 'bold', alignSelf: 'center', marginRight: '1em', marginBottom : '1em' }}>
+                    className="nextButton">
                     Next
                 </Button>
             </div>

@@ -98,13 +98,13 @@ class CommentsPanel extends React.Component {
                                     <img src={(e.user.hasProfile) ? S3_BASE + 'users/' + e.user._id + '/profile.png' : "https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png" } 
                                     width={45} height={45} style={{borderRadius: 30, marginLeft: '1em'}}/>
                                 </div>
-                                <p style={{marginLeft: '1em'}}>
-                                    <span style={{fontWeight: 'bold'}}> {e.user.username}</span>
+                                <p style={{marginLeft: '1em', textAlign: 'left'}}>
+                                    <span style={{fontWeight: 'bold', color: 'black', }}> {e.user.username}</span>
                                     <br></br>
-                                    <span style={{ opacity : 0.7}}>{getDateDisplay(e.date)}</span>
+                                    <span style={{ opacity : 0.7, color: 'black'}}>{getDateDisplay(e.date)}</span>
                                 </p>
                             </div>
-                            <p style={{ marginLeft: '1em'}}>{e.body}</p>
+                            <p style={{ marginLeft: '1em', textAlign: 'left'}}>{e.body}</p>
                         </div>
                     </td>
                     </tr>

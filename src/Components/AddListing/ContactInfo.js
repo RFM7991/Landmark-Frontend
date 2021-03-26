@@ -2,15 +2,8 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
-import ReactTableContainer from "react-table-container";
-import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import PhotoUploader from './PhotoUploader'
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 
 class AddListing extends React.Component {
 
@@ -21,11 +14,17 @@ class AddListing extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { updateInfo, isUpdate } = this.props
+        if (prevProps.isUpdate !== isUpdate && JSON.stringify(updateInfo) !== JSON.stringify(this.state)) {
+            this.setState({...updateInfo})
+        }
+    }
+
     handleChange = async event => {
         await this.setState({[event.target.name]: event.target.value })
         this.props.addFormInfo(this.state, "contactInfo")
     }
-
 
     handleSetPhotos = photos => {
         this.props.handleSetPhotos('contact_photos', photos)
@@ -89,7 +88,7 @@ class AddListing extends React.Component {
 
                 <Button variant="primary" onClick={this.props.handleNext} 
                     disabled={this.state.forSale == undefined || this.state.forLease == undefined || this.state.relationship == undefined}
-                    style={{backgroundColor:'#00d4ff', fontWeight: 'bold', alignSelf: 'center', marginRight: '1em', marginBottom : '1em' }}>
+                    className="nextButton">
                     Next
                 </Button>
             </div>

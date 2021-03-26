@@ -13,6 +13,7 @@
  width: 80%;
  height: 10%;
  background-color: rgb(75,75,72);
+ min-width: 375px;
 }
 
 .bannerHeader {
@@ -21,6 +22,7 @@
     background-color: $darkBg;
     opacity: 0.7;
     flex-direction: column;
+    
 }
 
 .bannerImage {
@@ -33,6 +35,7 @@
     background-image: url(../images/skyline_background.png);
     background-repeat: no-repeat;
     background-size: cover;
+
 }
 
 .bannerText {
@@ -48,7 +51,7 @@
     align-items: center;
     flex-direction: row;
     width: 80%;
-    min-width: 320px;
+    min-width: 375px;
 }
 
 .formPageContainer {
@@ -57,7 +60,9 @@
     width: 80%;
     height: 100%;
     background: white;
-    min-width: 320px;
+    min-width: 375px;
+    
+
 }
 
 .formPage {
@@ -66,7 +71,21 @@
     flex-direction: column;
     padding: 20px;
 
+
     h3 {
         text-align: left;
     }
+
+    p {
+
+        text-align: left;
+    }
+}
+
+.nextButton {
+    background-color: '#00d4ff';
+    font-weight: bold;
+    align-self: center;
+    margin-right: 1em;
+    margin-bottom: 1em;
 }
