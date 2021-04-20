@@ -1,23 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "47eabf1effc2b6f4737153c73b937209",
+    "revision": "94641264ec49728920921d0e211306fb",
     "url": "/Landmark-Frontend/index.html"
   },
   {
-    "revision": "a0745d912d69b6df75cc",
-    "url": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css"
+    "revision": "85f6d9afb8b9657e1daf",
+    "url": "/Landmark-Frontend/static/css/main.79e300ca.chunk.css"
   },
   {
-    "revision": "5e747c3653ce56a16f06",
-    "url": "/Landmark-Frontend/static/css/main.f832f76d.chunk.css"
+    "revision": "83fd148537305aca12ce",
+    "url": "/Landmark-Frontend/static/js/2.6f2b3974.chunk.js"
   },
   {
-    "revision": "a0745d912d69b6df75cc",
-    "url": "/Landmark-Frontend/static/js/2.5cb08f59.chunk.js"
-  },
-  {
-    "revision": "5e747c3653ce56a16f06",
-    "url": "/Landmark-Frontend/static/js/main.45f677cf.chunk.js"
+    "revision": "85f6d9afb8b9657e1daf",
+    "url": "/Landmark-Frontend/static/js/main.224a9da9.chunk.js"
   },
   {
     "revision": "b78dacf903343343309f",
@@ -26,10 +22,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "1cedb6e919bfed6a2c1ec00b5d8ee620",
     "url": "/Landmark-Frontend/static/media/UploadIcon.1cedb6e9.svg"
-  },
-  {
-    "revision": "eb3ffdb31494566c6cf3a1f6a51a965c",
-    "url": "/Landmark-Frontend/static/media/hipsters.eb3ffdb3.jpg"
   },
   {
     "revision": "c06bf52fe899ab8b9833594358634792",
@@ -50,9 +42,5 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "bffdedb05ca100ccad2fb063c2e6c23b",
     "url": "/Landmark-Frontend/static/media/white_sample.bffdedb0.png"
-  },
-  {
-    "revision": "764426e8c1e224e6da4033a21ea40c36",
-    "url": "/Landmark-Frontend/static/media/woman.764426e8.jpg"
   }
 ]);
