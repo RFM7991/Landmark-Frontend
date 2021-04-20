@@ -8,9 +8,8 @@ import { deleteListing} from "../../Requests/listings-requests"
 import Image from "react-bootstrap/Image"
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-
-const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
-const lightBg = 'rgb(31,33,48)'
+import { S3_BASE } from "../../Constants"
+import PublishedStatus from "../Listings/PublishStatus"
 
 class ListingItem extends React.Component {
 
@@ -54,39 +53,39 @@ class ListingItem extends React.Component {
     }
 
     render() {
-      
+      const { listing } = this.props;
+
         return (
-            <div className="listingItem" style={{ backgroundColor: lightBg, padding: '1em',  width: '100%', height: '175px',  display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                    <MyVerticallyCenteredModal
-                            show={this.state.showModal}
-                            onHide={() => this.setState({showModal:false})}
-                            handleAction={this.handleDeleteListing}
-                    />          
-                <div style={{ width: '120px', height: '100px', backgroundColor : 'rgba(1,1,1,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div className="my-listing-item" >
+                <MyVerticallyCenteredModal
+                    show={this.state.showModal}
+                    onHide={() => this.setState({showModal:false})}
+                    handleAction={this.handleDeleteListing}
+                />          
+                <div className="my-listing-photo">
                     <Image 
                         onClick={this.navigateToListing}
                         className="listingCard"
-                        src={S3_BASE + this.props.listing.photos.cover_photos[0]}
+                        src={S3_BASE + listing.photos.cover_photos[0]}
                         style={{ width: '100%', height: '100%'}}
                         fluid
                     />
                 </div>
 
-                <div style={{ height: '100%', width: '66%', color: 'white',  alignItems: 'center', display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
-                <Link style={{   textDecorationLine: 'underline', color: 'white', fontSize: '18px', fontWeight: 'bold', padding: '0 1em 0 1em'}}to={this.getUrl}>
-                <span style={{ fontSize: '16px', color: 'white'}}>{this.props.listing.location.formatted}</span></Link>
-           
+                <div className="my-listing-links">
+                    <Link to={this.getUrl}>
+                        <span className="my-listing-link">{listing.location.formatted}</span>
+                    </Link>
+                    <div>
+                        <Button variant="primary" onClick={this.handleUpdate} style={{ marginRight: '0.5em'}}>
+                            Update
+                        </Button>
+                        <Button variant="danger" onClick={() => this.setState({ showModal : true })}>
+                            Remove
+                        </Button>
+                    </div>
                 </div>
-                <div style={{ height: '100%',  display: 'flex', alignItems: 'center', marginRight: '0.5em'}}>
-                    <Button variant="primary" onClick={this.handleUpdate}>
-                        Update
-                    </Button>
-                </div>
-                <div style={{ height: '100%',  display: 'flex', alignItems: 'center'}}>
-                    <Button variant="danger" onClick={() => this.setState({ showModal : true })}>
-                        Remove
-                    </Button>
-                </div>           
+               <PublishedStatus published={listing.published}/>
             </div>
        )
     }

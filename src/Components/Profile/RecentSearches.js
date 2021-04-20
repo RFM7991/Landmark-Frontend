@@ -37,19 +37,14 @@ class RecentSearches extends React.Component {
                 } 
             }, 300 )
         }
-
-
     }
-
 
     render() {
         let header =  <thead>
          
         </thead>
         return (
-            <div style={{display: 'block',  flexDirection: 'column',  width: '100%', height: '100%', backgroundColor: 'rgba(1,1,1,0.1)'}}>
-              
-        
+            <div  className="my-listings-container">     
                 <ReactTableContainer height='100vh'  width='100%' customHeader={[header]}>
                     <Table striped hover variant="dark">
                         {header}

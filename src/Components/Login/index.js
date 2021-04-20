@@ -12,9 +12,6 @@ import { createSelector } from 'reselect';
 import { Link, withRouter } from 'react-router-dom'
 import { getUserInfo } from '../../Requests/users-requests'
 
-const darkBg = 'rgb(26,28,41)'
-const lightBg = 'rgb(31,33,48)'
-const textPrimary = 'whitesmoke'
 
 class Login extends React.Component {
 
@@ -144,10 +141,6 @@ class Login extends React.Component {
                                 {this.state.password.message}
                             </span>
                     </Form.Group>
-                </Form.Row>
-           
-                <Form.Row>
-                    <a className="forgotPassword" href=''>Forgot Password?</a>
                 </Form.Row>
                 
                 <Form.Row className="submitContainer">

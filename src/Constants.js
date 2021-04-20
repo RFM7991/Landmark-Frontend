@@ -1,12 +1,14 @@
 export const API ='https://www.landmark-express.com/'
 //export const API = 'http://localhost:8080/'
-
- export const GOOGLE_KEY = 'AIzaSyCC8oXxa6U55nY-CBmCgQ8PDdYexcpGg3U' // 'AIzaSyDTz-MY1p0ZWQ1NAMquwhklde8dV-hy2mY'; ////AIzaSyA1pIYVWQVgnMzierQOHw0PDe17A9kF3ls 
+export const GOOGLE_KEY = 'AIzaSyCC8oXxa6U55nY-CBmCgQ8PDdYexcpGg3U' // 'AIzaSyDTz-MY1p0ZWQ1NAMquwhklde8dV-hy2mY'; ////AIzaSyA1pIYVWQVgnMzierQOHw0PDe17A9kF3ls 
  // 'AIzaSyDc1QhQx9sfS2E-ZdM0cDQuVtM_NlQhdSU' - good 
  export const google = window.google;
  export const GOOGLE_SECRET = 'lpkXmFKRjuqOM9YXgLIrGRlPWIA=';
 //export const URL = 'http://localhost:3000/#/'
 export const URL = 'https://rfm7991.github.io'
+
+export const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
+
  export const mapOptions =  {
     streetViewControl: true,
     scaleControl: true, 
@@ -130,15 +132,5 @@ export const POI_TYPES = [
   'transit_station',
   'university',
   'zoo'
-
-
-
-
-
-
-
-
-
-
 
 ]

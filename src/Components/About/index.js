@@ -9,12 +9,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe} from '@fortawesome/free-solid-svg-icons'
 import { faCog} from '@fortawesome/free-solid-svg-icons'
 import { faUsers} from '@fortawesome/free-solid-svg-icons'
-import hipsters from '../../images/backgrounds/hipsters.jpg'
-import woman from '../../images/backgrounds/woman.jpg'
 import '../../css/App.scss'
 // <i class="fas fa-globe"></i>
 
-const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'

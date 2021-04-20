@@ -42,9 +42,20 @@
 }
 
 .listingCard {
-
     opacity: 1;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
 }
+
+.listingCardImgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72.5%;
+    background-color: black;
+}
+// style={{ height: '75%', width: '100%'}}
 
 #previewHeader {
     border-bottom: 1px solid rgba(250,250,250,0.5);
@@ -56,4 +67,26 @@
 .listingItem {
     border-bottom: 1px solid rgba(250,250,250,0.5);;
     border-top: 1px solid rgba(250,250,250,0.5);;
+}
+
+.contactPhoto {
+    display: block;
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+ //   border-radius: 50%;
+}
+
+.slideShowImgContainer {
+    background-color: black;
+}
+
+.listingImage {
+    display: block;
+    max-width:1200px;
+    max-height:400px;
+    width: auto;
+    height: auto;
+    margin: auto;
 }

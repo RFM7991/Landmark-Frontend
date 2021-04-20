@@ -1,8 +1,5 @@
 import React from 'react';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import { updateAddress} from '../Actions/address-actions'
 import { updateBusinessType} from '../Actions/business-actions'
 import { updateZip } from '../Actions/zip-actions'
@@ -10,14 +7,12 @@ import { updateState } from '../Actions/state-actions'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../Reducers/selectors'
-import { GOOGLE_KEY } from '../Constants';
-
 
 class AutoCompleteBar extends React.Component {
   constructor(props) {
     super(props);
     let address = ''
-  
+
     if (this.props.urlParams != undefined) {
        address = JSON.parse(this.props.urlParams.address)
     }
@@ -41,6 +36,16 @@ class AutoCompleteBar extends React.Component {
   }
 
   render() {
+
+    const customStyle= { 
+      position: this.props.position, 
+      width: '100%',
+      height: '50px',
+      marginTop: this.props.marginTop, 
+      color: 'black', 
+      zIndex: 999999,
+    }
+
     return (
       <PlacesAutocomplete
         value={this.state.address}
@@ -48,23 +53,26 @@ class AutoCompleteBar extends React.Component {
         onSelect={this.handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div style={{ flex: 1, zIndex: 1000, width: '100%' }}>
-            <input style= {{width: '100%', height: '35px', borderRadius: 8, fontSize: (this.props.fontSize == undefined) ? 22 : this.props.fontSize}}
+          <div className="autoCompleteContainer">
+            <input className="autoCompleteInput" style= {{  width: '100%', height: '35px', borderRadius: 8, fontSize: (this.props.fontSize == undefined) ? 22 : this.props.fontSize}}
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',
               })}
             />
-            <div style={{ position: 'absolute', marginTop: this.props.marginTop, color: 'black'}}>
+            {suggestions.length > 0 && <div style={customStyle}>
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
                   : 'suggestion-item';
+
                 // inline style for demonstration purpose
+                const defaultStyle = {cursor: 'pointer', width: '100%', marginLeft: '.5em', color: 'black' }
                 const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer', width: '100%', color: 'black' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer', width: '100%', color: 'black' };
+                  ? {...defaultStyle, backgroundColor: 'whitesmoke'  }
+                  : {...defaultStyle, backgroundColor: '#fafafa' };
+                  
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
@@ -76,7 +84,7 @@ class AutoCompleteBar extends React.Component {
                   </div>
                 );
               })}
-            </div>
+            </div> }
           </div>
         )}
       </PlacesAutocomplete>

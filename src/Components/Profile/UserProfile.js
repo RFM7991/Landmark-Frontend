@@ -2,26 +2,19 @@ import React  from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect';
 import * as selectors from '../../Reducers/selectors'
-import SubwayIcon from '../../images/subway.png'
-import Table from 'react-bootstrap/Table'
-import ReactTableContainer from "react-table-container";
 import Button from 'react-bootstrap/Button'
-import { getComments, createComment } from '../../Requests/locations-requests'
-import UserProfile from './UserProfile'
-import { Link, withRouter } from 'react-router-dom'
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import {editUser} from '../../Requests/users-requests'
 import { updateUser } from '../../Actions/user-actions';
 import { uploadProfilePic } from '../../Requests/users-requests'
-import PhotoUploader from "../AddListing/PhotoUploader"
+import PhotoUploader from "../Listings/AddListing/PhotoUploader"
+import { S3_BASE } from "../../Constants"
 
-const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
 const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'
-
 
 class ProfilePanel extends React.Component {
 
@@ -41,19 +34,10 @@ class ProfilePanel extends React.Component {
         }
     }
 
-    async componentDidMount() {
-    }
-
-    handleSubmit = async () => {
-    }
-
     handleChange = e => {
         this.setState({body: e.target.value})
     }
 
-    componentDidUpdate(prevProps) {
-    }
-    
     onFormChange = (e) => {
         let update = { ...this.state[e.target.name]}
 

@@ -1,5 +1,22 @@
 import { API } from '../Constants'
 
+export async function downloadListingImage(uri) {
+
+    const data = { uri : uri } 
+    return fetch(API + 'listings/download',
+    {
+        method : 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify(data)
+    })
+        .then(response => response.blob())
+        .catch(error => {
+            console.error('Download Image error:', error)
+        })
+}
+
 export async function createListing(data) {
 
     return fetch(API + 'listings/create',
@@ -41,9 +58,13 @@ export async function getListingById(listingId) {
         })
 }
 
-export async function getListingByPlaceId(place_id) {
+export async function getListingByPlaceId(place_id, includeDrafts) {
 
-    let body = { "place_id" : place_id }
+    let body = { 
+        "place_id": place_id,
+        "includeDrafts": includeDrafts
+    }
+    
     return fetch(API + 'listings/place_id',
     {
         method : 'POST',
@@ -59,6 +80,7 @@ export async function getListingByPlaceId(place_id) {
 }
 
 export function getRecents() {
+  
     return fetch(API + 'listings/recent',
         {
             method : 'GET',

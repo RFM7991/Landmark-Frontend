@@ -1,9 +1,7 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import Image from 'react-bootstrap/Image'
 import '../../css/listingView.scss'
- 
-const S3_BASE = "https://landmarkbucket2.s3.amazonaws.com/"
+import { S3_BASE } from "../../Constants" 
 
 export default class Slideshow extends React.Component {
  
@@ -13,16 +11,8 @@ render() {
             {this.props.photos.map((e, i) => {
                 return (
                     <Carousel.Item >
-                         
-                         <div className="d-block w-100" style={{backgroundColor : 'black', height : this.props.height}}> 
-                        
-                            <Image 
-                            id="noBlur"
-                            src={S3_BASE + e}
-                            alt="First slide"
-                            fluid
-                            style={{  height: '100%', width: '100%'}}
-                            />
+                         <div className="slideShowImgContainer" style={{ height : this.props.height}}> 
+                            <img className="listingImage" src={S3_BASE + e}/>
                          </div>
                         <Carousel.Caption>
                         </Carousel.Caption>

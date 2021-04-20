@@ -3,7 +3,7 @@ import CanvasJSReact from '../../Assets/canvasjs.react'
 import { connect } from 'react-redux'
 import { dataRangeSelector, statsSelector } from '../../Reducers/selectors'
 import { createSelector } from 'reselect';
-import { ZIP, TRADE_ZONE} from '../DemographicsPanel'
+import { ZIP, TRADE_ZONE} from '../Map/Panels/DemographicsPanel'
 import ClipLoader from './ClipLoader'
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const GENDER = 'Gender'
