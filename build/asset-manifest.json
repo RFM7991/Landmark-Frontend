@@ -1,24 +1,20 @@
 {
   "files": {
-    "main.css": "/Landmark-Frontend/static/css/main.f832f76d.chunk.css",
-    "main.js": "/Landmark-Frontend/static/js/main.45f677cf.chunk.js",
-    "main.js.map": "/Landmark-Frontend/static/js/main.45f677cf.chunk.js.map",
+    "main.css": "/Landmark-Frontend/static/css/main.79e300ca.chunk.css",
+    "main.js": "/Landmark-Frontend/static/js/main.224a9da9.chunk.js",
+    "main.js.map": "/Landmark-Frontend/static/js/main.224a9da9.chunk.js.map",
     "runtime~main.js": "/Landmark-Frontend/static/js/runtime~main.33812542.js",
     "runtime~main.js.map": "/Landmark-Frontend/static/js/runtime~main.33812542.js.map",
-    "static/css/2.2ce93ba3.chunk.css": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css",
-    "static/js/2.5cb08f59.chunk.js": "/Landmark-Frontend/static/js/2.5cb08f59.chunk.js",
-    "static/js/2.5cb08f59.chunk.js.map": "/Landmark-Frontend/static/js/2.5cb08f59.chunk.js.map",
+    "static/js/2.6f2b3974.chunk.js": "/Landmark-Frontend/static/js/2.6f2b3974.chunk.js",
+    "static/js/2.6f2b3974.chunk.js.map": "/Landmark-Frontend/static/js/2.6f2b3974.chunk.js.map",
     "index.html": "/Landmark-Frontend/index.html",
-    "precache-manifest.054600b2ff14aad16122b47aec4b0611.js": "/Landmark-Frontend/precache-manifest.054600b2ff14aad16122b47aec4b0611.js",
+    "precache-manifest.2947845a140a341d3571b96ea7612ac2.js": "/Landmark-Frontend/precache-manifest.2947845a140a341d3571b96ea7612ac2.js",
     "service-worker.js": "/Landmark-Frontend/service-worker.js",
-    "static/css/2.2ce93ba3.chunk.css.map": "/Landmark-Frontend/static/css/2.2ce93ba3.chunk.css.map",
-    "static/css/main.f832f76d.chunk.css.map": "/Landmark-Frontend/static/css/main.f832f76d.chunk.css.map",
+    "static/css/main.79e300ca.chunk.css.map": "/Landmark-Frontend/static/css/main.79e300ca.chunk.css.map",
     "static/media/UploadIcon.svg": "/Landmark-Frontend/static/media/UploadIcon.1cedb6e9.svg",
-    "static/media/hipsters.jpg": "/Landmark-Frontend/static/media/hipsters.eb3ffdb3.jpg",
     "static/media/index.scss": "/Landmark-Frontend/static/media/skyline_background.d79dad4c.png",
     "static/media/subway.png": "/Landmark-Frontend/static/media/subway.8915c788.png",
     "static/media/subway_map.jpg": "/Landmark-Frontend/static/media/subway_map.7c764473.jpg",
-    "static/media/white_sample.png": "/Landmark-Frontend/static/media/white_sample.bffdedb0.png",
-    "static/media/woman.jpg": "/Landmark-Frontend/static/media/woman.764426e8.jpg"
+    "static/media/white_sample.png": "/Landmark-Frontend/static/media/white_sample.bffdedb0.png"
   }
 }
