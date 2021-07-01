@@ -39,11 +39,11 @@ class ListingView extends React.Component {
 
             if (this.props.urlParams.listingId != undefined) {
                 let listing = await getListingById(this.props.urlParams.listingId)
-
+   
                 if (listing.length > 0) {
                     this.setState({ listingData : listing[0]})
                     // check ownership
-                    if (!listing.published && listing[0].user_id !== this.props.user._id) {
+                    if (!listing[0].published && listing[0].user_id !== this.props.user._id) {
                         this.setState({ unauthorized : true })
                     }
                 }
