@@ -31,7 +31,7 @@ import MediaQuery from 'react-responsive'
 import Toolbar from '../Mobile/Toolbar'
 import PlacesList from './Panels/PlacesList'
 import ChartsPanel from './Panels/ChartsPanel'
-import CommentsPanel from './Panels/CommentsPanel'
+// import CommentsPanel from './Panels/CommentsPanel'
 import TransportationPanel from './Panels/TransportationPanel'
 
 const infoWindow =  new google.maps.InfoWindow()
@@ -50,14 +50,14 @@ class SimpleMap extends Component {
     this.myRef = React.createRef();
     this.streetView = React.createRef();
     this.serice = new google.maps.StreetViewService;
-    let defaultPlace = this.props.business_type.type
-    let type = this.props.business_type.type
-    let business_option = type.replace(/_/g, ' ')
-    if (type == 'lodging') type = 'hotels /lodging'
-    else if (defaultPlace == 'residential') {
-      defaultPlace = 'establishment'
-      business_option = 'all'
-    }
+    // let defaultPlace = this.props.business_type.type
+    // let type = this.props.business_type.type
+    // let business_option = type.replace(/_/g, ' ')
+    // if (type == 'lodging') type = 'hotels /lodging'
+    // else if (defaultPlace == 'residential') {
+    //   defaultPlace = 'establishment'
+    //   business_option = 'all'
+    // }
 
     this.state = {
       center: this.props.center,
@@ -72,10 +72,10 @@ class SimpleMap extends Component {
       boundaries : getPoints(this.props.center, 0.804, 1),
       cartography : {},
       display_cartography: true,
-      business_type: defaultPlace,
+      business_type: '', //defaultPlace,
       cartographyLoaded : false,
       poi : 'none',
-      business_type_option: business_option,
+      business_type_option: '', //business_option,
       aerial : true,
       zoom : this.props.zoom,
       siteView: false,
@@ -213,6 +213,7 @@ class SimpleMap extends Component {
         this.updateMarkers(this.state.map, markers_to_keep)
       }
     }
+
     // update geojson
     if (this.state.map !== undefined) {
       if (this.props.data_range !== prevProps.data_range) {
@@ -230,7 +231,8 @@ class SimpleMap extends Component {
 
     // show subways on transportation change
     if (prevProps.transportation.showSubways != this.props.transportation.showSubways) {
-          this.updatePlacesFromRedux('subway_station', 'subway station', 15)
+      await this.loadNearbySubways()
+      this.updatePlacesFromRedux('subway_station', 'subway station', 4)
     }
 
     // updated tz bounds from demo panel
@@ -251,7 +253,7 @@ class SimpleMap extends Component {
         defaultPlace = 'establishment'
         business_option = 'all'
       }
-      await this.setState({ business_type : type, business_type_option : business_option })
+    //  await this.setState({ business_type : type, business_type_option : business_option })
       await this.clearMarkers()
       this.loadDefaultPlaces()
     }
@@ -326,6 +328,7 @@ class SimpleMap extends Component {
       this.state.map.data.remove(feature)
     })
   }
+
   renderCartography() {
     // clear data layer 
       this.clearCartography()
@@ -367,40 +370,55 @@ class SimpleMap extends Component {
   }
     
   async loadDefaultPlaces() {
+    
+    // TO-DO: get placeId with address or from autofill
+    console.log("PLACE", this.props.address)
+    if (this.props.address.place.types.includes('establishment')) {  // get and set place for address if applicable 
+      this.getPlaceDetails(this.state.map, this.props.address.place.place_id, async (details) => {
+        let place = this.props.address.place
+        place.icon = details.icon
+        place.name = details.name
+        place.place_id = details.id
+        this.state.place_details.set(place.id, details)
+        await this.setState({ addressPlace : place})
+      })
+    } 
+
+    // await getNearby(this.props.address, this.state.business_type, (data, token) => {
    
-    await getNearby(this.props.address, this.state.business_type, (data, token) => {
-   
-      var morePlaces = this.props.places.concat(data)
-      this.setState({places: morePlaces})
-      for (let place of morePlaces) {
-        if (!this.state.places_cache.get(this.state.business_type).has(place.place_id)) {
-          this.state.places_cache.get(this.state.business_type).set(place.place_id, place)
-        } 
-      }
-      this.state.tokens_cache.set(this.state.business_type, token)
-      if (this.props.address.place.types.includes('establishment')) {  // get and set place for address if applicable 
-        this.getPlaceDetails(this.state.map, this.props.address.place.place_id, async (details) => {
-          let place = this.props.address.place
-          place.icon = details.icon
-          place.name = details.name
-          place.place_id = details.id
-          this.state.place_details.set(place.id, details)
-          await this.setState({ addressPlace : place})
-          this.onUpdatePlaces(data)
-        })
-      } else {
-        this.onUpdatePlaces(data)
-      }
-      this.setState({ places_count : 20 })
-    })     
+    //   var morePlaces = this.props.places.concat(data)
+    //   this.setState({places: morePlaces})
+    //   for (let place of morePlaces) {
+    //     if (!this.state.places_cache.get(this.state.business_type).has(place.place_id)) {
+    //       this.state.places_cache.get(this.state.business_type).set(place.place_id, place)
+    //     } 
+    //   }
+    //   this.state.tokens_cache.set(this.state.business_type, token)
+    //   if (this.props.address.place.types.includes('establishment')) {  // get and set place for address if applicable 
+    //     this.getPlaceDetails(this.state.map, this.props.address.place.place_id, async (details) => {
+    //       let place = this.props.address.place
+    //       place.icon = details.icon
+    //       place.name = details.name
+    //       place.place_id = details.id
+    //       this.state.place_details.set(place.id, details)
+    //       await this.setState({ addressPlace : place})
+    //       this.onUpdatePlaces(data)
+    //     })
+    //   } else {
+    //     this.onUpdatePlaces(data)
+    //   }
+    //   this.setState({ places_count : 20 })
+    // })     
   }
 
   loadPlaceType(type, index) {
+
     let cached_places = Array.from(this.state.places_cache.get(type).values())
     if (cached_places.length == 0) {
       // if not cached load places
       getNearby(this.props.address, type, (data, token) => {
    //     var morePlaces = this.props.places.concat(data)
+
         this.setState({places: data})
 
         // cache loaded places
@@ -489,7 +507,7 @@ class SimpleMap extends Component {
         poi : 'none'
       })
       this.clearMarkers()
-      await this.loadPlaceType(type)
+      await this.loadPlaceType(type, 0)
     }
   }
 
@@ -594,6 +612,7 @@ class SimpleMap extends Component {
     if (this.props.address.place.types.includes('establishment')) { // check not to add two markers id address contains place
       let updatedData = [this.state.addressPlace]
       data.map(e => {
+        console.log("DATA_CHECK", e.place_id, this.state.addressPlace.place_id)
         if (e.place_id === undefined) return
         if (e.place_id !== this.state.addressPlace.place_id)
           updatedData.push(e)
@@ -640,14 +659,14 @@ class SimpleMap extends Component {
                 }
   
           // render TZ pins 
-          // points.forEach((e, i) => {
-          //   renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
-          // })
+          points.forEach((e, i) => {
+  //          renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
+          })
         
-          // let outerRing = getPoints(this.state.center, 8, 80)
-          // outerRing.forEach((e,i) => {
-          //  renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
-          // })
+          let outerRing = getPoints(this.state.center, 8, 80)
+          outerRing.forEach((e,i) => {
+   //        renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
+          })
         return;
     }
    
@@ -674,12 +693,12 @@ class SimpleMap extends Component {
         }
                 
         points.forEach((e, i) => {
-       //     renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
+  //          renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
         })
 
         let outerRing = getPoints(this.state.center, .800, 50)
         outerRing.forEach((e,i) => {
-       //     renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
+  //          renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
         })
       
       } else  {
@@ -699,6 +718,7 @@ class SimpleMap extends Component {
         let counter = 1
         let divisor = 5;
         let increment = 0.8/ divisor //4.828 = exact 3 miles 0.804672
+        //  0.804672km = 0.5miles
         
         for (let i=1; i <= divisor; i++) {
             points = points.concat(getPoints(this.state.center, i*increment, counter*8))
@@ -706,12 +726,12 @@ class SimpleMap extends Component {
         }
 
         points.forEach((e, i) => {
-       //   renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
+   //       renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, GREEN_MARKER)
         })
       
-        let outerRing = getPoints(this.state.center, 8, 80)
+        let outerRing = getPoints(this.state.center, 4.828, 80)
         outerRing.forEach((e,i) => {
-     //    renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
+       //  renderMarker(i, e, this.state.map, e.lat + ', ' + e.lng, RED_MARKER)
         })
     }
   }
@@ -750,7 +770,7 @@ class SimpleMap extends Component {
     })
   this.setState({ markers : markerMap})
   this.updateInfoWindow(map)
-}
+};
 
 updateInfoWindow = (map) => Array.from(this.state.markers, ([key, value]) =>  {
 
@@ -763,7 +783,7 @@ updateInfoWindow = (map) => Array.from(this.state.markers, ([key, value]) =>  {
           infoWindow.open(map, value.marker) 
         });
        })
-})
+});
 
 updatePlaceDetails(callback) {
 
@@ -787,13 +807,13 @@ updatePlaceDetails(callback) {
   } else {
     callback()
   }
-}
+};
 
 getPlaceDetails = (map, place_id, callback) => {
   var service = new google.maps.places.PlacesService(map);
   var request = {
     placeId: place_id,
-    fields: ['id', 'name', 'icon', 'formatted_address', 'opening_hours', 'website', 'price_level']
+    fields: ['id', 'name', 'icon', 'formatted_address', 'website']
   };
   
      // get details
@@ -804,7 +824,7 @@ getPlaceDetails = (map, place_id, callback) => {
         console.error('error', status)
       }
     });
-  }
+};
 
 getOpen = (opening_hours) => {
   if (opening_hours === undefined)
@@ -813,7 +833,8 @@ getOpen = (opening_hours) => {
     let answer = (opening_hours.is_open) ? "Yes" : "No"
     return answer
   }
-}
+};
+
 updateMarker = (marker) => {
   if (marker == undefined) 
     return; 
@@ -830,7 +851,7 @@ updateMarker = (marker) => {
     img = YELLOW_MARKER
   }
   marker.marker.setIcon(img)
-}
+};
 
 handleSwitch = (checked) => {
   if (checked) {
@@ -838,7 +859,7 @@ handleSwitch = (checked) => {
   } else {
     this.clearCartography()
   }
-}
+};
 
 onHandleSite = (checked) => {
   if (checked) {
@@ -846,17 +867,16 @@ onHandleSite = (checked) => {
   } else {
     this.setState({ siteView : false})
   }
-}
-
+};
 
 handleChange = (event) => {
   this.setState({ center : event.center})
-}
+};
 
 // subways 
 onUpdateTransportation = async (transportation) => {
   this.props.onUpdateTransportation(transportation)
-}
+};
 
 loadNearbySubways = async () => {
   let type = 'subway_station'
@@ -914,16 +934,7 @@ loadNearbySubways = async () => {
         await this.onUpdateTransportation(transportObj)
 
     })       
-}
-
-/* old distance matrix code
-        let subway_data = await getDistancesFromMap(this.state.places_cache.get(type), this.props.center)
-        let transportObj = JSON.parse(JSON.stringify(this.props.transportation))
-        if (transportObj == '') { transportObj = {}}
-    
-        transportObj.subways = subway_data
-        await this.onUpdateTransportation(transportObj)
-        */
+};
 
 generateHeading = () => {
   var sv = new google.maps.StreetViewService();
@@ -958,7 +969,6 @@ navigateToListing = () => {
   this.props.history.push(url)
 }
 
-
 openToolBar = () => {
   this.setState({ toolsOpen : !this.state.toolsOpen })
 }
@@ -969,7 +979,8 @@ openToolBar = () => {
   //    if (!this.props.address.place.types.includes('establishment')) {
         let yourBusinessMarker = renderMarker('your_business', center, map, 'Your Business', BLUE_MARKER)
         yourBusinessMarker.setZIndex(9999)
-        var content ='<h3>Your ' + this.props.business_type.type.toString() +'</h3>'
+        const content = '<h3>Your Location</h3>'
+   //     var content ='<h3>Your ' + this.props.business_type.type.toString() +'</h3>'
           yourBusinessMarker.addListener('click', () => {
             infoWindow.setContent(content)
             infoWindow.open(map, yourBusinessMarker)
@@ -980,17 +991,17 @@ openToolBar = () => {
       this.loadCartography()  
       this.generateHeading()
       this.loadDefaultPlaces()
-      this.loadNearbySubways()
+     // this.loadNearbySubways()
     }
 
-    const resultsDropDown = <div>
-      <span style={{ color: 'whitesmoke'}}> Results</span>
-      <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange}>
-                    <option>20</option>
-                    <option>40</option>
-                    <option>60</option>
-      </Form.Control>
-    </div>
+    // const resultsDropDown = <div>
+    //   <span style={{ color: 'whitesmoke'}}> Results</span>
+    //   <Form.Control value={this.state.places_count} as="select" name="places_count" onChange={this.onPlacesCountChange}>
+    //                 <option>20</option>
+    //                 <option>40</option>
+    //                 <option>60</option>
+    //   </Form.Control>
+    // </div>
 
   const MapButtons = () => 
     
@@ -1007,9 +1018,9 @@ openToolBar = () => {
           <span>Overlay</span>
           <SliderSwitch checked={true} switchFunction={this.handleSwitch}></SliderSwitch>
         </div>
-        <MediaQuery maxDeviceWidth={550}>
+        {/* <MediaQuery maxDeviceWidth={550}>
           {resultsDropDown}
-        </MediaQuery>
+        </MediaQuery> */}
       </div>
         <div className="place_dropdown_container">
           <div>
@@ -1034,28 +1045,30 @@ openToolBar = () => {
                         })}
             </Form.Control>
           </div>
-          <MediaQuery minDeviceWidth={551}>
+          {/* <MediaQuery minDeviceWidth={551}>
             {resultsDropDown}
-          </MediaQuery>
+          </MediaQuery> */}
         </div>
     </div>
 
 
     // init street view only after heading is calculated
-    let streetView = <></>
+    let streetViewContainer = <></>
+    const streetView =  <ReactStreetview
+    ref={this.streetView}
+    apiKey={GOOGLE_KEY}
+    streetViewPanoramaOptions={{
+      position: {lat: this.props.center.lat, lng: this.props.center.lng},
+      pov: {heading: this.state.heading, pitch: 0},
+      zoom: 1,
+      source: google.maps.StreetViewSource.OUTDOOR
+    }}
+    width={'400px'}
+    height={'400px'}
+  />;
+
     if (this.state.heading != undefined) {
-      streetView = <ReactStreetview
-      ref={this.streetView}
-      apiKey={GOOGLE_KEY}
-      streetViewPanoramaOptions={{
-        position: {lat: this.props.center.lat, lng: this.props.center.lng},
-        pov: {heading: this.state.heading, pitch: 0},
-        zoom: 1,
-        source: google.maps.StreetViewSource.OUTDOOR
-      }}
-      width={'400px'}
-      height={'400px'}
-    />
+      streetViewContainer = streetView;
   }
 
   const MapBundle = <div className="googleMap_container">
@@ -1074,7 +1087,7 @@ openToolBar = () => {
           />
         {this.state.siteView && 
         <div className="streetView_container">
-          {streetView}
+          {streetViewContainer}
         </div>}
         {this.state.loadingCart[this.props.data_range] == true && 
           <div className="fade_container">
@@ -1136,7 +1149,7 @@ openToolBar = () => {
            <ChartsPanel />
           <div className="extrasContainer">
             <TransportationPanel/>
-            <CommentsPanel/>
+            {/* <CommentsPanel/> */}
           </div>
         </MediaQuery>
       </div>

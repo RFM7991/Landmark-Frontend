@@ -28,7 +28,7 @@ class AddListing extends React.Component {
         return (
             <div className="formPage">
                             
-                <h3 style={{}}>3. Pricing Info</h3>
+                <h3>2. Pricing Info</h3>
                     <form>
 
                     <strong>Asking price, if for sale?</strong>

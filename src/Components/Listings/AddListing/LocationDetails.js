@@ -48,7 +48,7 @@ class AddListing extends React.Component {
     render() {
         return (
             <div className="formPage">
-                <h3>2. Location Details</h3>
+                <h3>1. Location Details</h3>
                 <form style={{ padding: '16px' }}>
                     <p><strong>Upload Cover Photos</strong> <span style={{ color: 'red' }}>* requires at least one photo</span></p>
                     <p>These will be the first photos users see for your listing</p>

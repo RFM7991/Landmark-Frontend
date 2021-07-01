@@ -176,15 +176,15 @@ class AddListing extends React.Component {
                       <span>Location</span>
                     </Button>
                     <Button className="tabItem" onClick={() => this.handleTabPress(1)} disabled={location === undefined}>
-                      <span>Contact Info</span>
-                    </Button>
-                    <Button className="tabItem" onClick={() => this.handleTabPress(2)} disabled={contactInfoIncomplete}>
                         <span>Location Details</span>
                     </Button>
-                    <Button className="tabItem" onClick={() => this.handleTabPress(3)} disabled={locationDetailsIncomplete}>
+                    <Button className="tabItem" onClick={() => this.handleTabPress(2)} disabled={locationDetailsIncomplete}>
                         <span>Pricing {"&"} terms</span>
                     </Button>
-                    <Button className="tabItem" onClick={() => this.handleTabPress(4)} disabled={locationDetailsIncomplete}>
+                    <Button className="tabItem" onClick={() => this.handleTabPress(3)} disabled={locationDetailsIncomplete}>
+                      <span>Contact Info</span>
+                    </Button>
+                    <Button className="tabItem" onClick={() => this.handleTabPress(4)} disabled={contactInfoIncomplete}>
                         <span>Submit</span>
                     </Button>
                 </div>
@@ -193,18 +193,8 @@ class AddListing extends React.Component {
                     <div style={(index === 0) ? {} : { display : 'none'} }> 
                       <SelectLocation setLocation={this.setLocation}/>
                     </div>
-                    <div style={(index === 1) ? {} : { display : 'none'} }> 
-                        <ContactInfo addFormInfo={this.addFormInfo} 
-                            handleNext={this.handleNext} 
-                            handleSetPhotos={this.handleSetPhotos} 
-                            photos={photos.contact_photos} 
-                            handleRemovePhoto={this.removePhoto} 
-                            photoKey={photo_update_key}
-                            updateInfo={formData.contactInfo}
-                            isUpdate={isUpdate}
-                        />
-                    </div>
-                    <div style={(index === 2) ? {} : { display : 'none'}}> 
+             
+                    <div style={(index === 1) ? {} : { display : 'none'}}> 
                         <LocationDetails 
                             addFormInfo={this.addFormInfo}  
                             handleNext={this.handleNext}
@@ -216,12 +206,23 @@ class AddListing extends React.Component {
                             isUpdate={isUpdate}
                         />
                     </div>
-                    <div style={(index === 3) ? {} : { display : 'none'}}> 
+                    <div style={(index === 2) ? {} : { display : 'none'}}> 
                         <PricingInfo 
                             addFormInfo={this.addFormInfo}  
                             handleNext={this.handleNext} 
                             photoKey={photo_update_key}
                             updateInfo={formData.pricingInfo}
+                            isUpdate={isUpdate}
+                        />
+                    </div>
+                    <div style={(index === 3) ? {} : { display : 'none'} }> 
+                        <ContactInfo addFormInfo={this.addFormInfo} 
+                            handleNext={this.handleNext} 
+                            handleSetPhotos={this.handleSetPhotos} 
+                            photos={photos.contact_photos} 
+                            handleRemovePhoto={this.removePhoto} 
+                            photoKey={photo_update_key}
+                            updateInfo={formData.contactInfo}
                             isUpdate={isUpdate}
                         />
                     </div>

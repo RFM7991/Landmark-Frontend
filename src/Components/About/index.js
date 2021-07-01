@@ -43,11 +43,11 @@ class AboutSection extends React.Component {
                
                         <Button onClick={this.handleAddListing}>Add Listing</Button>
                     </div>
-                <div className="iconContainer">
+                {/* <div className="iconContainer">
                     <InfoPanel title="Universal" subtitle="Explore any location not just listings. (In available regions)" icon={faGlobe}/> 
                     <InfoPanel title="Custom" subtitle="Utilize custom generated Retail Trade Zones" icon={faCog}/>
                     <InfoPanel title="Collaborative" subtitle="Get the community's opionion on any location" icon={faUsers}/>
-                </div>
+                </div> */}
             </div>
        )
     }

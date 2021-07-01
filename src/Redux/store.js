@@ -59,7 +59,7 @@ const store = createStore(
     user: user,
     address: undefined,
     places: [],
-    business_type: 'restaurant',
+    business_type: 'none',
     active_place: undefined,
     state: undefined,
     zip: undefined,

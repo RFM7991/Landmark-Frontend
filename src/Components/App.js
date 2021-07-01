@@ -30,6 +30,7 @@ import About from './About'
 import MediaQuery from 'react-responsive'
 import { steps } from './Map/JoyRideSteps'
 import { hasSubways } from '../Helpers/Subways'
+import ShareModal from './ShareModal'
 
 const darkBg = 'rgb(26,28,41)'
 const cookies = new Cookies();
@@ -51,6 +52,8 @@ class App extends React.Component {
   //  localStorage.clear() for testing
     const { user } = this.props
     let userInfo;
+
+    console.log("USER", user)
 
     if (user._id !== -1) {
       // get user from local storage
@@ -160,9 +163,9 @@ class App extends React.Component {
           <div className="transportationWrapper">
             {hasSubways(address.zip) && <TransportationPanel/> }
           </div>
-          <div className="commentsWrapper">
+          {/* <div className="commentsWrapper">
             <CommentsPanel/>
-          </div>
+          </div> */}
         </div>
 
         var mobile_map = <div className="mob_map_dashboard">
@@ -258,7 +261,7 @@ class App extends React.Component {
           render={(({match}) => {
             return <div className="App" style={{backgroundColor: darkBg}}>
               <NavigationBar displaySearchBar={true} urlParams={match.params}/>
-            
+              <ShareModal />
               <Joyride 
                 steps={steps} 
                 continuous={true}
@@ -283,7 +286,9 @@ class App extends React.Component {
           render={(({match}) => {
             return <div>
                 <NavigationBar urlParams={match.params}/>
+                <ShareModal />
                 <div className="App" >
+
                 <header className="App-header">
                 <div className="lookUpContainer">
                     <div className="titleContainer">
@@ -298,8 +303,9 @@ class App extends React.Component {
                         </div>
                   </div>    
                 </header>
-                <ListingsPreviews />
                 <About/>
+                <ListingsPreviews />
+        
               </div>
             </div>
           })}>

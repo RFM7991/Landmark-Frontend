@@ -39,7 +39,7 @@ class AddListing extends React.Component {
     render() {
         return (
             <div className="formPage">
-                <h3>1. Owner/Broker Contact Info</h3>
+                <h3>3. Owner/Broker Contact Info</h3>
                     <form style={{ padding: '16px'}}>
                         <strong>Is the property for sale? <span>*</span></strong>
                         <div className="inputGroup">
@@ -62,18 +62,27 @@ class AddListing extends React.Component {
 
                         <strong>Additional info</strong>
                         <div className="inputGroup">
-                            <textarea maxLength="240" className="textArea"
+                            <textarea className="textArea"
                                 type="text" 
                                 multiline
                                 name="ownershipDetails"
                                 placeholder="Enter any additional contact information that is relevant to this listing"
                                 value={this.state.ownershipDetails} onChange={this.handleChange} />
                         </div>
-                        <p style={{ fontSize: '12px'}}>240 characters max</p>
 
                         <strong>Upload a photo of yourself</strong>
                         <span>{this.state.photoError}</span>
                             <PhotoUploader setPhotos={this.handleSetPhotos} singleImage={true} photos={this.props.photos}/>
+
+                        <strong>User Feedback (This will not be shown on your listing)</strong>
+                        <div className="inputGroup">
+                            <textarea className="textArea"
+                                type="text" 
+                                multiline
+                                name="userFeedback"
+                                placeholder="Enter any feedback you might have so that we can deliver you the best experience possible"
+                                value={this.state.ownershipDetails} onChange={this.handleChange} />
+                        </div>
                     </form>
 
                 <Button variant="primary" onClick={this.props.handleNext} 

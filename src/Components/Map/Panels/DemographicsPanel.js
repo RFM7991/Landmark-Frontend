@@ -24,20 +24,20 @@ const darkBg = 'rgb(26,28,41)'
 const lightBg = 'rgb(31,33,48)'
 const textPrimary = 'whitesmoke'
 
-/**
- *     let type = this.props.urlParams.business_type
-            if (type == 'lodging') type = 'hotels /lodging'
 
-            let business = {
-                type: this.props.urlParams.business_type,
-                priceLevel : this.state.priceLevel
-            }
-            let promises= [
-                this.loadAddress(JSON.parse(this.props.urlParams.address)),
-                this.onUpdateBusinessType(business),
-                this.setState({business_type: this.props.urlParams.business_type.replace(/_/g, ' ')}),
-            ]
- */
+    //  let type = this.props.urlParams.business_type
+    //         if (type == 'lodging') type = 'hotels /lodging'
+
+    //         let business = {
+    //             type: this.props.urlParams.business_type,
+    //             priceLevel : this.state.priceLevel
+    //         }
+    //         let promises= [
+    //             this.loadAddress(JSON.parse(this.props.urlParams.address)),
+    //             this.onUpdateBusinessType(business),
+    //             this.setState({business_type: this.props.urlParams.business_type.replace(/_/g, ' ')}),
+    //         ]
+
 class DemographicsPanel extends React.Component {
     constructor(props) {
         super(props) 

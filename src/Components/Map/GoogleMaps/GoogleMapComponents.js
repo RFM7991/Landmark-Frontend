@@ -78,7 +78,7 @@ export function renderInfoContent(place) {
       <div id="bodyContent">
         <p style={{textAlign: 'center'}}><strong>{details.formatted_address}</strong></p>
         <p><a target="_blank" href={details.website}>{details.website}</a></p>
-        <p>
+        {/* <p>
           Price: {price}
           <br></br>
           Rating: {place.rating} / 5.0
@@ -86,7 +86,7 @@ export function renderInfoContent(place) {
           Total Ratings: {place.user_ratings_total}
           <br></br>
           Open Now: {this.getOpen(place.opening_hours)}
-        </p>
+        </p> */}
     </div>
   </div>
   )

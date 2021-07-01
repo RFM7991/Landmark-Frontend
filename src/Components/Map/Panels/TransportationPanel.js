@@ -38,11 +38,13 @@ class TransportationPanel extends React.Component {
             showSubways = this.props.transportation.showSubways*-1
         }
         await this.props.onUpdateTransportation({...this.props.transportation,  showSubways : showSubways})
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        })
+        // window.scrollTo({
+        //     top: 0,
+        //     behavior: 'smooth',
+        // })
     }
+
+
 
     render() {
         let header = <thead>
@@ -56,7 +58,7 @@ class TransportationPanel extends React.Component {
                 <th>Lines</th>
                 <th>Yearly Foot Traffic-In</th>
                 <th>Yearly Foot Traffic-Out</th>
-                <th colSpan='0'><Button onClick={this.handleSubwayClick}>Go</Button></th>
+                <th colSpan='0'><Button onClick={this.handleSubwayClick}>Get</Button></th>
             </tr>
         </thead>
 
@@ -84,7 +86,7 @@ class TransportationPanel extends React.Component {
                 <MediaQuery minDeviceWidth={880}>
                     <div className="transportationContainer">
                         {subwaysMap}
-                        <Table striped hover variant="dark" id="subwaysTable">
+                        <Table striped hover variant="dark" id="subwaysTable" style={{ display: 'block'}}>
                             {header}
                             <tbody>
                                 <SubwaysRows transportation={this.props.transportation}/>

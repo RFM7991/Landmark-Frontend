@@ -10,9 +10,6 @@
     z-index: 500;
 
     div {
-        padding-top: 1em;
-        padding-bottom: 1em;
-
         @media (min-width: 370px) {
             span {
                 font-size: 16x;
@@ -24,7 +21,6 @@
                 font-size: 14px;
             }
         }
-       
     }
 }
 
@@ -157,7 +153,6 @@
         top: 76px;
         left: 0;
     }
-  
 }
 
 .googleMap_container {

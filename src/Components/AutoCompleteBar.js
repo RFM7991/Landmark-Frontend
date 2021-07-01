@@ -50,7 +50,7 @@ class AutoCompleteBar extends React.Component {
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.handleChange}
-        onSelect={this.handleSelect}
+        onSelect={this.handleSelect}          
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div className="autoCompleteContainer">

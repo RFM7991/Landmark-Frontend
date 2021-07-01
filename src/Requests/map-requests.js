@@ -2,16 +2,16 @@ import { API, GOOGLE_KEY } from '../Constants'
 const GEO_CODE = 'https://maps.googleapis.com/maps/api/geocode/json?';
 const KEY = GOOGLE_KEY
 
-export function getGeoCode(street, city, state, callback) {
-    var f_street = street.replace(/ /g, '+')
-    var f_city = city.replace(/ /g, '+')
-    var f_state = state.replace(/ /g, '+')
-    let f_address = f_street + ',' + '+'+f_city + ',' + '+'+f_state
+// export function getGeoCode(street, city, state, callback) { 
+//     var f_street = street.replace(/ /g, '+')
+//     var f_city = city.replace(/ /g, '+')
+//     var f_state = state.replace(/ /g, '+')
+//     let f_address = f_street + ',' + '+'+f_city + ',' + '+'+f_state
 
-    fetch(GEO_CODE + 'address=' + f_address +'&key=' + KEY)
-        .then(response => response.json())
-        .then(data =>  callback(data));
-}
+//     fetch(GEO_CODE + 'address=' + f_address +'&key=' + KEY)
+//         .then(response => response.json())
+//         .then(data =>  callback(data));
+// }
 
 export function getNearby(address, type, callBack) {
     const lat = address.coords.lat
